@@ -242,7 +242,13 @@ box-shadow: 0 4px 15px rgba(0,0,0,0.05);
 </div>
 <table id="mainTable"><thead><tr><th onclick="sortTableCheck('regional')">REGIONAL ↕</th><th onclick="sortTableCheck('svc')">SVC ↕</th><th>TOTAL</th><th>NÃO CONSTA</th><th>REALIZADO</th><th>FALTANDO</th><th>%</th></tr></thead><tbody id="tableBody"></tbody></table>
 </div>
-<div class="pendentes-section"><h3 id="pendentesTitle" style="color:#c62828;">🚨 Placas Pendentes</h3><div id="pendentesGrid" class="pendentes-grid"></div></div>
+<div class="pendentes-section">
+<div style="display:flex; justify-content:space-between; align-items:center;">
+<h3 id="pendentesTitle" style="color:#c62828;">🚨 Placas Pendentes</h3>
+<button onclick="exportPendentesExcel()" class="btn-action btn-excel" style="height:35px; padding: 5px 15px; font-size: 14px;">📥 Excel (Placas)</button>
+</div>
+<div id="pendentesGrid" class="pendentes-grid"></div>
+</div>
 </div>
 </div>
 
@@ -260,18 +266,6 @@ box-shadow: 0 4px 15px rgba(0,0,0,0.05);
 <label style="font-size:12px; font-weight:bold; color:#555;">Filtro SVCs:</label>
 <button class="multi-select-btn" onclick="toggleDropdown('dd-svc-of')">🏢 Selecionar SVCs <i class="fas fa-chevron-down"></i></button>
 <div id="dd-svc-of" class="multi-select-dropdown"></div>
-</div>
-
-<div style="width: 100px;">
-<label style="font-size:12px; font-weight:bold; color:#555;">Semana:</label>
-<select id="of-week-select" class="filter-input" onchange="applyWeekFilter()">
-<option value="TODAS">Todas</option>
-<option value="1">Week 1</option>
-<option value="2">Week 2</option>
-<option value="3">Week 3</option>
-<option value="4">Week 4</option>
-<option value="5">Week 5</option>
-</select>
 </div>
 
 <div><label style="font-size:12px; font-weight:bold; color:#555;">Início:</label><br><input type="date" id="of-date-ini" class="filter-input" onchange="renderOfensores()"></div>
@@ -648,6 +642,7 @@ ${summary.seatbelt > 0 ? `
 </div>
 </div>
 </div>
+</div>
 <div class="prescriptive-footer">
 <span>ID ÚNICO: ${Math.floor(Math.random()*1000000)} • AUDITORIA DE SISTEMA ATIVA</span>
 </div>
@@ -882,10 +877,9 @@ else if(key === 'TIPO') idx = 5;
 else if(key === 'VALOR') idx = 6;
 }
 
-// Prioridade para valor bruto, mas PARA VEL prioriza o formatado (ex: "8%")
+// Prioridade para formatado em VEL e em VALOR/VALOR_PRINCIPAL
 if (r.c[idx]) {
-  // 🔥 FIX VEL: se a célula vier como percentual, .v costuma ser 0.08 e .f "8%"
-  if (key === 'VEL') {
+  if (key === 'VEL' || key === 'VALOR_PRINCIPAL' || key === 'VALOR') {
     return (r.c[idx].f !== undefined && r.c[idx].f !== null && r.c[idx].f !== '')
       ? r.c[idx].f
       : (r.c[idx].v !== undefined ? r.c[idx].v : '');
@@ -975,52 +969,6 @@ document.querySelectorAll('.view-mode-btn').forEach(btn => btn.classList.remove(
 if(mode === '3M') document.getElementById('btnMode3M').classList.add('active');
 if(mode === 'PERIODO') document.getElementById('btnModePeriodo').classList.add('active');
 if(mode === 'COMPARE') document.getElementById('btnModeCompare').classList.add('active');
-renderOfensores();
-}
-
-// 🔹 APLICAÇÃO DO FILTRO DE SEMANA
-function applyWeekFilter() {
-const sel = document.getElementById('of-week-select');
-const val = sel.value;
-
-if (val === 'TODAS') {
-document.getElementById('of-date-ini').value = '';
-document.getElementById('of-date-fim').value = '';
-} else {
-// Força visualização modo PERIODO para ver o resultado
-if(ofensoresViewMode !== 'PERIODO') changeViewMode('PERIODO');
-
-const weekNum = parseInt(val);
-const now = new Date();
-// 1º dia do mês atual
-const firstDay = new Date(now.getFullYear(), now.getMonth(), 1);
-
-// Encontrar o primeiro Domingo do mês (Start of Week 1)
-let current = new Date(firstDay);
-// Se já for domingo (0), mantém. Se não, avança até achar.
-while(current.getDay() !== 0) {
-current.setDate(current.getDate() + 1);
-}
-
-// Avança para a semana selecionada (Week 1 = +0 dias, Week 2 = +7 dias...)
-current.setDate(current.getDate() + (weekNum - 1) * 7);
-
-const ini = new Date(current);
-const fim = new Date(current);
-fim.setDate(fim.getDate() + 6); // Sábado
-
-// Formata para o input YYYY-MM-DD
-const fmt = d => {
-const y = d.getFullYear();
-const m = String(d.getMonth()+1).padStart(2,'0');
-const day = String(d.getDate()).padStart(2,'0');
-return `${y}-${m}-${day}`;
-};
-
-document.getElementById('of-date-ini').value = fmt(ini);
-document.getElementById('of-date-fim').value = fmt(fim);
-}
-
 renderOfensores();
 }
 
@@ -1446,7 +1394,34 @@ aplicarFiltrosTreino();
 }
 
 /* --- UTILITARIOS --- */
-function timeToSeconds(timeStr) { if(!timeStr || typeof timeStr !== 'string') return 0; const parts = timeStr.split(':'); return (+parts[0]) * 3600 + (+parts[1]) * 60 + (+parts[2]); }
+function timeToSeconds(timeStr) {
+if (timeStr === null || timeStr === undefined || timeStr === '') return 0;
+
+if (typeof timeStr === 'number') {
+return Math.round(timeStr * 86400);
+}
+
+const s = String(timeStr).trim();
+if (!s) return 0;
+
+const parts = s.split(':').map(p => p.trim());
+if (parts.some(p => p === '' || isNaN(Number(p)))) return 0;
+
+let h = 0, m = 0, sec = 0;
+
+if (parts.length === 3) {
+h = Number(parts[0]); m = Number(parts[1]); sec = Number(parts[2]);
+} else if (parts.length === 2) {
+m = Number(parts[0]); sec = Number(parts[1]);
+} else {
+return 0;
+}
+
+if (![h,m,sec].every(n => Number.isFinite(n) && n >= 0)) return 0;
+if (m >= 60 || sec >= 60) return 0;
+
+return (h * 3600) + (m * 60) + sec;
+}
 function secondsToTimeFormatted(secs) { if(!secs) return "00h 00m 00s"; const h = Math.floor(secs / 3600).toString().padStart(2, '0'); const m = Math.floor((secs % 3600) / 60).toString().padStart(2, '0'); const s = Math.floor(secs % 60).toString().padStart(2, '0'); return `${h}h ${m}m ${s}s`; }
 function getRecencyClass(dateString) { const today = new Date(); const eventDate = parseDateAny(dateString); const diffDays = Math.ceil(Math.abs(today - eventDate) / (1000 * 60 * 60 * 24)); if (diffDays <= 7) return { class: 'recency-urgent', label: '< 7d' }; if (diffDays <= 30) return { class: 'recency-warning', label: '8-30d' }; return { class: 'recency-history', label: '> 30d' }; }
 function setupMultiSelect(id, arr, callback) { const con = document.getElementById(id); con.innerHTML = `<label class="checkbox-item" onclick="selAll('${id}',true, ${callback.name})"><b>Todos</b></label><label class="checkbox-item" onclick="selAll('${id}',false, ${callback.name})"><b>Limpar</b></label><hr>`+arr.map(i=>`<label class="checkbox-item"><input type="checkbox" value="${i}" onchange="${callback.name}()"> ${i}</label>`).join(''); }
@@ -1463,6 +1438,19 @@ document.getElementById('filterRegional').value='TODOS';
 document.getElementById('filterStatus').value='TODOS';
 document.querySelectorAll('#dd-svc-checklist input').forEach(i => i.checked = false);
 updateCheckUI(dashData);
+}
+
+function exportPendentesExcel() {
+if(!dashData) return;
+const exportData = [];
+dashData.forEach(row => {
+if(row.pends && row.pends.length > 0) { row.pends.forEach(p => exportData.push({REGIONAL: row.regional, SVC: row.svc, PLACA: p, TIPO: 'PENDENTE'})); }
+if(row.nc_list && row.nc_list.length > 0) { row.nc_list.forEach(p => exportData.push({REGIONAL: row.regional, SVC: row.svc, PLACA: p, TIPO: 'NAO_CONSTA'})); }
+});
+if(exportData.length === 0) { alert('Nenhuma placa pendente.'); return; }
+const wb = XLSX.utils.book_new();
+XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(exportData), "Placas_Pendentes");
+XLSX.writeFile(wb, "Placas_Pendentes.xlsx");
 }
 </script>
 </body>
