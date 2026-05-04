@@ -60,7 +60,7 @@ td { padding: 12px; border-bottom: 1px solid #ddd; white-space: nowrap; }
 .pendentes-section { background: white; padding: 20px; border-radius: 12px; margin-top: 20px; }
 .pendentes-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 15px; margin-top: 15px; }
 .pendente-card { background: #fff3f3; border-left: 4px solid #f44336; padding: 15px; border-radius: 8px; }
-.placa-badge { display: inline-block; background: white; border: 1px solid #f44336; padding: 2px 8px; border-radius: 4px; font-size: 12px; color: #c62828; margin: 2px; }
+.placa-badge { display: inline-block; background: white; border: 1px solid #f44336; padding: 2px 8px; border-radius: 4px; font-size: 12px; color: #c62828; margin: 2px; font-weight: bold; }
 .placa-nao-consta { background: #e3f2fd; border-color: #2196f3; color: #1565c0; opacity: 0.8; }
 
 /* ================= ESTILOS TREINAMENTOS E OFENSORES ================= */
@@ -576,7 +576,6 @@ if (tipo === 'SCORECARD') {
 summary.accel += parseNum(d.ac);
 summary.brake += parseNum(d.fr);
 summary.corner += parseNum(d.cu);
-// 🔹 CORREÇÃO: Soma direta de VEL
 summary.speed += parseNum(d.ve);
 summary.seatbelt += parseNum(d.cin);
 }
@@ -598,7 +597,7 @@ const htmlContent = `
 <div class="facts-column">
 <div class="section-title">FATORES DE DISPARO (3 MESES)</div>
 <ul class="fact-list">
-<li><span>Velocidade (>8%):</span> <strong>${summary.speed}</strong></li>
+<li><span>Violação de Velocidade:</span> <strong>${summary.speed}</strong></li>
 <li><span>Aceleração:</span> <strong>${summary.accel}</strong></li>
 <li><span>Freada:</span> <strong>${summary.brake}</strong></li>
 <li><span>Uso Cinto (Violações):</span> <strong>${summary.seatbelt}</strong></li>
@@ -675,7 +674,12 @@ const now = new Date(); let dIni, dFim;
 if(now.getDate()<=15) { dIni=new Date(now.getFullYear(),now.getMonth(),1); dFim=new Date(now.getFullYear(),now.getMonth(),15,23,59,59); } else { dIni=new Date(now.getFullYear(),now.getMonth(),16); dFim=new Date(now.getFullYear(),now.getMonth()+1,0,23,59,59); }
 const grouped = {};
 data.forEach(row => {
-const reg = row.REGIONAL||'N/A', svc = row.SVC||'N/A', placa = row.Placa||'', consta = (row['CONSTA NA VEC']||'').toUpperCase();
+// CORREÇÃO CRÍTICA AQUI: Mapeamento defensivo para os nomes das colunas da planilha!
+const reg = row.REGIONAL || row.Regional || 'N/A';
+const svc = row.SVC || row.Svc || 'N/A';
+const placa = row.PLACA || row.Placa || row.placa || 'N/D';
+const consta = (row['CONSTA NA VEC'] || row['Consta na VEC'] || '').toUpperCase();
+
 const isNC = consta.includes('NO CONSTA')||consta.includes('NÃO CONSTA');
 const key = reg+'|'+svc;
 if(!grouped[key]) grouped[key]={regional:reg,svc:svc,total:0,nao_consta:0,validos:0,real:0,pends:[],nc_list:[]};
@@ -684,9 +688,7 @@ if(isNC) { grouped[key].nao_consta++; grouped[key].nc_list.push(placa); }
 else {
 grouped[key].validos++; let feito = false;
 if(row.REALIZADO) {
-// CheckList pode usar parseDateAny mas com cuidado se tiver horas
 const dt = parseDateAny(row.REALIZADO);
-// Se parseDateAny jogar para 12:00, comparação com dIni (00:00) e dFim (23:59) funciona bem
 if(dt && dt>=dIni && dt<=dFim) feito=true;
 }
 if(feito) grouped[key].real++; else grouped[key].pends.push(placa);
@@ -844,7 +846,6 @@ if(res.status === 'error') { alert('Erro Ofensores.'); document.getElementById('
 const cols = res.table.cols;
 const rows = res.table.rows;
 
-// 🔹 FIX: MAPEAMENTO DINÂMICO DE COLUNAS COM ALIAS
 const colMap = {};
 cols.forEach((c, i) => {
 if(c.label) {
@@ -854,11 +855,8 @@ colMap[label] = i;
 });
 
 let rawData = rows.map(r => {
-// Helper para buscar com segurança (f ?? v)
 const getV = (key) => {
 let idx = -1;
-// Fallback ROBUSTO de índice fixo conforme solicitação (A=0 ... M=12)
-// I=ACEL(8), J=FRE(9), K=CURVA(10), L=VEL(11), M=CINTO(12)
 if (key === 'ACEL') idx = colMap['ACEL'] ?? colMap['ACELERACAO'] ?? 8;
 else if (key === 'FRE') idx = colMap['FRE'] ?? colMap['FREADA'] ?? 9;
 else if (key === 'VEL') idx = colMap['VEL'] ?? colMap['VELOCIDADE'] ?? 11;
@@ -866,7 +864,6 @@ else if (key === 'CINTO') idx = colMap['CINTO'] ?? 12;
 else if (key === 'CURVA') idx = colMap['CURVA'] ?? 10;
 else idx = colMap[key];
 
-// Fallback de índice fixo caso colMap falhe
 if (idx === undefined) {
 if(key === 'DATA') idx = 0;
 else if(key === 'MOTORISTA') idx = 1;
@@ -877,14 +874,12 @@ else if(key === 'TIPO') idx = 5;
 else if(key === 'VALOR') idx = 6;
 }
 
-// Prioridade para formatado em VEL e em VALOR/VALOR_PRINCIPAL
 if (r.c[idx]) {
   if (key === 'VEL' || key === 'VALOR_PRINCIPAL' || key === 'VALOR') {
     return (r.c[idx].f !== undefined && r.c[idx].f !== null && r.c[idx].f !== '')
       ? r.c[idx].f
       : (r.c[idx].v !== undefined ? r.c[idx].v : '');
   }
-
   return r.c[idx].v !== undefined ? r.c[idx].v : (r.c[idx].f || '');
 }
 return '';
@@ -897,7 +892,7 @@ svc: getV('SVC'),
 reg: getV('REGIONAL'),
 placa: getV('PLACA'),
 tipo: getV('TIPO'),
-val: getV('VALOR_PRINCIPAL') || getV('VALOR'), // Tenta header especifico ou genérico
+val: getV('VALOR_PRINCIPAL') || getV('VALOR'), 
 ac: getV('ACEL'),
 fr: getV('FRE'),
 cu: getV('CURVA'),
@@ -907,7 +902,6 @@ cin: getV('CINTO')
 });
 
 const limitDate = new Date(); limitDate.setMonth(limitDate.getMonth() - 3);
-// Importante: parseDateAny agora retorna 12:00, então comparações funcionam
 dataOfensores = rawData.filter(d => {
 const dt = parseDateAny(d.dt);
 return dt && dt >= limitDate;
@@ -934,13 +928,11 @@ function updateOfensoresFilterIndicator(inputIni, inputFim) {
   const badge = document.getElementById('ofensores-filter-badge');
   if (!badge) return;
 
-  // Mostra apenas quando estiver em "Somente Período" ou "Comparar"
   if (ofensoresViewMode === '3M') {
     badge.style.display = 'none';
     return;
   }
 
-  // Se usuário não setou datas, o sistema usa default últimos 7 dias
   let iniDate, fimDate;
   if (inputIni && inputFim) {
     iniDate = parseDateAny(inputIni);
@@ -949,7 +941,6 @@ function updateOfensoresFilterIndicator(inputIni, inputFim) {
     const hoje = new Date();
     const passado = new Date();
     passado.setDate(hoje.getDate() - 7);
-    // Força meio-dia para consistência visual
     passado.setHours(12,0,0,0);
     hoje.setHours(12,0,0,0);
     iniDate = passado;
@@ -962,7 +953,6 @@ function updateOfensoresFilterIndicator(inputIni, inputFim) {
 }
 
 
-// Função para trocar modo de visualização
 function changeViewMode(mode) {
 ofensoresViewMode = mode;
 document.querySelectorAll('.view-mode-btn').forEach(btn => btn.classList.remove('active'));
@@ -972,7 +962,6 @@ if(mode === 'COMPARE') document.getElementById('btnModeCompare').classList.add('
 renderOfensores();
 }
 
-// 🔹 Função Helper para Agregação de Dados CORRIGIDA
 function aggregateDrivers(dataSet) {
 const map = {};
 dataSet.forEach(d => {
@@ -984,12 +973,11 @@ map[d.nome].count++; map[d.nome].hist.push(d.dt);
 const tipo = normalizeString(d.tipo);
 
 if(tipo === 'SCORECARD') {
-// Soma de eventos (CORRIGIDO: SOMA DIRETA)
 map[d.nome].infra.acel += parseNum(d.ac);
 map[d.nome].infra.fre  += parseNum(d.fr);
 map[d.nome].infra.cur  += parseNum(d.cu);
 map[d.nome].infra.cin  += parseNum(d.cin);
-map[d.nome].infra.vel  += parseNum(d.ve); // VEL é soma, não contador
+map[d.nome].infra.vel  += parseNum(d.ve); 
 }
 else if (tipo === 'PCML') { map[d.nome].pcml_secs += timeToSeconds(d.val); }
 });
@@ -999,61 +987,46 @@ return map;
 function renderOfensores() {
 if(!document.querySelector('.view-mode-btn.active')) changeViewMode(ofensoresViewMode);
 
-// 1. Definição de Datas (Usando chaves YYYYMMDD Inteiros para segurança absoluta)
 const inputIni = document.getElementById('of-date-ini').value;
 const inputFim = document.getElementById('of-date-fim').value;
 
 let iniKey, fimKey;
 
 if (inputIni && inputFim) {
-// input HTML5 retorna "yyyy-mm-dd". parseDateAny cuida de adicionar T12:00:00
 iniKey = ymdKey(parseDateAny(inputIni));
 fimKey = ymdKey(parseDateAny(inputFim));
 } else {
-// Default: Últimos 7 dias
 const hoje = new Date();
 const passado = new Date();
 passado.setDate(hoje.getDate() - 7);
-
 iniKey = ymdKey(passado);
 fimKey = ymdKey(hoje);
 }
 
-// Atualiza indicador do período filtrado (Somente Período / Comparar)
 updateOfensoresFilterIndicator(inputIni, inputFim);
 
-// 2. Filtros Comuns (Nome e SVC e ToggleChart) aplicados à Base 3 Meses PRIMEIRO
 const svcsManual = getSelectedValues('dd-svc-of');
 const nomeVal = document.getElementById('of-search').value.toLowerCase();
 
-// Dataset Base (3 Meses filtrado por Nome/SVC/Toggle)
 let baseData3M = dataOfensores.filter(d => {
-// Filtro Toggle Grafico (Prioridade)
 if (activeFilterSVC_Ofensores && d.svc !== activeFilterSVC_Ofensores) return false;
-// Filtro Manual (Multi-select)
 if (!activeFilterSVC_Ofensores && svcsManual.length > 0 && !svcsManual.includes(d.svc)) return false;
-// Filtro Nome
 if (nomeVal && !d.nome.toLowerCase().includes(nomeVal)) return false;
 return true;
 });
 
-// Dataset Período (Correção: Comparação Numérica)
 let periodData = baseData3M.filter(d => {
-const k = ymdKey(d.dt); // Converte data da linha para YYYYMMDD (Int)
-// Debug silencioso de chaves invalidas se precisar
+const k = ymdKey(d.dt); 
 if(!k) return false;
 return k >= iniKey && k <= fimKey;
 });
 
-// 3. Decidir qual dataset usar para KPIs e Gráficos
 let activeDataset = (ofensoresViewMode === '3M') ? baseData3M : periodData;
 
-// KPIs
 document.getElementById('of-total').innerText = activeDataset.length;
 const activePCML = activeDataset.filter(d=>normalizeString(d.tipo)==='PCML').length;
 document.getElementById('of-pcml-count').innerText = activePCML;
 
-// KPI INFRAÇÕES DE CONDUÇÃO (Soma Real do Dataset Ativo)
 const infraSum = activeDataset
 .filter(d => normalizeString(d.tipo) === 'SCORECARD')
 .reduce((acc, d) => {
@@ -1062,7 +1035,7 @@ sum += parseNum(d.ac);
 sum += parseNum(d.fr);
 sum += parseNum(d.cu);
 sum += parseNum(d.cin);
-sum += parseNum(d.ve); // VEL direto
+sum += parseNum(d.ve);
 return acc + sum;
 }, 0);
 document.getElementById('of-tele-count').innerText = infraSum;
@@ -1072,7 +1045,6 @@ document.getElementById('of-reinc-count').innerText = Object.values(tempMap).fil
 
 renderOfensoresCharts(activeDataset);
 
-// 4. Renderizar Tabela baseada no MODO
 const thead = document.querySelector('#tbl-ofensores thead');
 const tbody = document.querySelector('#tbl-ofensores tbody');
 tbody.innerHTML = '';
@@ -1088,7 +1060,7 @@ thead.innerHTML = `
 <th>SVC</th>
 <th>Recorrência e Recência</th>
 <th>Tempo PCML Total</th>
-<th style="color:#ff5252; border-bottom: 3px solid red; font-weight:900;">VELOCIDADE</th>
+<th style="color:#ff5252; border-bottom: 3px solid red; font-weight:900;">Violação Velocidade</th>
 <th>Aceleração</th>
 <th>Freada</th>
 <th>Curva</th>
@@ -1126,14 +1098,13 @@ thead.innerHTML = `
 <th>SVC</th>
 <th>Ocorrências (Período)</th>
 <th>PCML (Período)</th>
-<th>Velocidade (>8%)</th>
+<th>Violação Velocidade</th>
 <th>Aceleração</th>
 <th>Freada</th>
 <th>Curva</th>
 <th>Cinto</th>
 </tr>`;
 
-// CORREÇÃO CRÍTICA: USAR mapPeriod para a tabela de PERÍODO
 const lista = Object.values(mapPeriod).sort((a,b) => b.count - a.count);
 
 lista.slice(0, 100).forEach(m => {
