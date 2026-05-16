@@ -904,22 +904,59 @@ td { padding: 12px; border-bottom: 1px solid #ddd; white-space: nowrap; }
 
 
 /* ============================================================ */
-/* =============== NOVA ABA: DISPOSITIVO OFFILINE ============== */
+/* =============== NOVA ABA: DISPOSITIVO OFFLINE ============== */
 /* ============================================================ */
 .off-header { background: linear-gradient(135deg, #10242b 0%, #203a43 55%, #2c5364 100%); color: white; padding: 24px 30px; border-radius: 16px; margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; box-shadow: 0 8px 32px rgba(16,36,43,0.36); position: relative; overflow: hidden; }
 .off-header::after { content:''; position:absolute; top:-60px; right:70px; width:230px; height:230px; border-radius:50%; background:rgba(255,255,255,0.04); pointer-events:none; }
 .off-kpis-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 16px; margin-bottom: 22px; }
 .off-kpi { background: white; border-radius: 14px; padding: 18px 20px; box-shadow: 0 3px 14px rgba(0,0,0,0.08); border-top: 5px solid #607d8b; transition: transform .2s; }
 .off-kpi:hover { transform: translateY(-3px); }
-.off-kpi.red { border-top-color:#c62828; } .off-kpi.orange { border-top-color:#f57c00; } .off-kpi.blue { border-top-color:#1565c0; } .off-kpi.green { border-top-color:#2e7d32; } .off-kpi.purple { border-top-color:#8e24aa; }
+.off-kpi.red { border-top-color:#c62828; } .off-kpi.orange { border-top-color:#f57c00; } .off-kpi.blue { border-top-color:#1565c0; } .off-kpi.green { border-top-color:#2e7d32; } .off-kpi.purple { border-top-color:#8e24aa; } .off-kpi.gray { border-top-color:#455a64; }
 .off-kpi-val { font-size: 30px; font-weight: 900; color:#222; }
 .off-kpi-lbl { font-size: 11px; font-weight: 800; color:#777; text-transform: uppercase; letter-spacing: .8px; margin-top: 4px; }
 .off-kpi-sub { font-size: 12px; color:#aaa; margin-top: 3px; }
+.off-analysis { background:white; border-left:5px solid #c62828; border-radius:14px; padding:16px 20px; margin-bottom:20px; box-shadow:0 3px 14px rgba(0,0,0,.08); display:grid; grid-template-columns:1.5fr repeat(3, minmax(150px,1fr)); gap:14px; align-items:center; }
+.off-analysis-title { font-size:10px; letter-spacing:2px; text-transform:uppercase; color:#888; font-weight:900; margin-bottom:6px; }
+.off-analysis-main { font-size:18px; font-weight:900; color:#1a1a2e; line-height:1.25; }
+.off-analysis-text { font-size:12px; color:#555; line-height:1.45; font-weight:600; margin-top:6px; }
+.off-analysis-card { background:#fafafa; border-radius:12px; padding:12px 14px; border:1px solid #eee; }
+.off-analysis-card small { display:block; font-size:9px; color:#999; text-transform:uppercase; letter-spacing:1px; font-weight:900; margin-bottom:4px; }
+.off-analysis-card b { font-size:15px; color:#203a43; }
+@media(max-width: 1100px){ .off-analysis { grid-template-columns:1fr; } }
 .off-filters { background:white; padding: 16px 20px; border-radius: 12px; margin-bottom: 20px; box-shadow:0 2px 12px rgba(0,0,0,.07); border-left:5px solid #607d8b; display:flex; gap:14px; flex-wrap:wrap; align-items:flex-end; }
 .off-charts { display:grid; grid-template-columns: repeat(3, 1fr); gap:18px; margin-bottom:22px; }
 .off-charts.two { grid-template-columns: 1fr 1fr; }
 .off-chart-box { background:white; border-radius:14px; padding:20px; box-shadow:0 3px 14px rgba(0,0,0,.07); min-height: 300px; }
+.off-heatmap-wrap { position:relative; height:360px; border-radius:14px; overflow:hidden; background:linear-gradient(135deg,#eef7f8 0%,#ffffff 55%,#e8f5e9 100%); border:1px solid #d8e8ea; }
+.off-heatmap-grid { position:absolute; inset:0; background-image:linear-gradient(rgba(32,58,67,.08) 1px, transparent 1px), linear-gradient(90deg, rgba(32,58,67,.08) 1px, transparent 1px); background-size:42px 42px; }
+.off-heatmap-point { position:absolute; transform:translate(-50%,-50%); border-radius:999px; display:flex; align-items:center; justify-content:center; color:white; font-size:10px; font-weight:900; cursor:pointer; box-shadow:0 4px 18px rgba(198,40,40,.35); border:2px solid rgba(255,255,255,.85); transition:.18s; }
+.off-heatmap-point:hover { transform:translate(-50%,-50%) scale(1.14); z-index:20; }
+.off-heatmap-point.crit { background:rgba(198,40,40,.88); }
+.off-heatmap-point.att { background:rgba(245,124,0,.88); }
+.off-heatmap-point.ok { background:rgba(21,101,192,.78); }
+.off-heatmap-empty { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; text-align:center; padding:28px; color:#78909c; font-weight:800; }
+.off-heatmap-legend { display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-top:10px; font-size:11px; color:#607d8b; font-weight:700; }
+.off-heatmap-legend span { display:inline-flex; align-items:center; gap:5px; }
+.off-heatmap-dot { width:10px; height:10px; border-radius:50%; display:inline-block; }
+.off-map-summary { margin-top:12px; display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); gap:10px; }
+.off-map-card { background:#fafafa; border:1px solid #eee; border-radius:12px; padding:10px 12px; }
+.off-map-card small { display:block; font-size:9px; color:#999; text-transform:uppercase; letter-spacing:1px; font-weight:900; margin-bottom:3px; }
+.off-map-card b { color:#203a43; font-size:14px; }
+
 .off-chart-title { font-size:14px; font-weight:800; color:#203a43; margin-bottom:14px; display:flex; align-items:center; gap:8px; }
+.off-scenario-box { border-top: 4px solid #1565c0; background: linear-gradient(135deg,#ffffff 0%,#f8fbff 55%,#f1f8f3 100%); }
+.off-scenario-layout { display:grid; grid-template-columns: 1.15fr 1fr; gap:16px; align-items:stretch; min-height:280px; }
+.off-scenario-summary { display:flex; flex-direction:column; gap:12px; }
+.off-scenario-hero { font-size:20px; line-height:1.25; font-weight:900; color:#1a1a2e; }
+.off-scenario-text { font-size:13px; line-height:1.55; color:#546e7a; font-weight:600; }
+.off-scenario-cards { display:grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap:10px; margin-top:auto; }
+.off-scenario-card { background:#fff; border:1px solid #e6eef2; border-radius:12px; padding:12px 14px; box-shadow:0 2px 10px rgba(0,0,0,.05); }
+.off-scenario-card small { display:block; font-size:10px; color:#90a4ae; text-transform:uppercase; letter-spacing:1px; font-weight:900; margin-bottom:5px; }
+.off-scenario-card b { display:block; font-size:17px; color:#203a43; line-height:1.25; }
+.off-scenario-card span { display:block; font-size:11px; color:#607d8b; font-weight:700; margin-top:4px; line-height:1.35; }
+.off-scenario-chart { background:#fff; border:1px solid #e6eef2; border-radius:14px; padding:14px 14px 10px; box-shadow: inset 0 0 0 1px rgba(255,255,255,.6); }
+.off-scenario-chart-title { font-size:12px; font-weight:900; color:#1565c0; text-transform:uppercase; letter-spacing:.8px; margin-bottom:10px; }
+@media(max-width: 1100px){ .off-scenario-layout { grid-template-columns:1fr; } .off-scenario-cards { grid-template-columns:1fr; } }
 .off-table-wrap { background:white; border-radius:14px; overflow:hidden; box-shadow:0 4px 18px rgba(0,0,0,.10); margin-bottom:22px; border:1px solid #e0e0e0; }
 .off-table-head { padding:16px 22px; border-bottom:1px solid #e8e8e8; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; background:white; }
 .off-table { width:100%; border-collapse:collapse; }
@@ -934,6 +971,9 @@ td { padding: 12px; border-bottom: 1px solid #ddd; white-space: nowrap; }
 .off-vehicle-link:hover { color:#0d47a1; border-bottom:1px solid #0d47a1; }
 .vehicle-profile-grid { display:grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap:12px; }
 .vehicle-profile-card { background:white; border-radius:12px; padding:14px; box-shadow:0 2px 10px rgba(0,0,0,0.07); border-left:4px solid #607d8b; }
+.vehicle-profile-card.full { grid-column: 1 / -1; }
+.vehicle-map-frame { width:100%; height:260px; border:0; border-radius:12px; box-shadow: inset 0 0 0 1px #e5e5e5; background:#eef2ee; }
+.vehicle-mini-note { font-size:11px; color:#777; margin-top:7px; line-height:1.35; }
 .vehicle-profile-label { font-size:10px; color:#888; font-weight:900; text-transform:uppercase; letter-spacing:.8px; margin-bottom:5px; }
 .vehicle-profile-value { font-size:14px; color:#222; font-weight:800; line-height:1.35; word-break:break-word; }
 @media(max-width: 768px){ .vehicle-profile-grid { grid-template-columns:1fr; } }
@@ -1583,35 +1623,35 @@ td { padding: 12px; border-bottom: 1px solid #ddd; white-space: nowrap; }
   </div>
 </div>
 
-<!-- ===== ABA TORRE MOTOR LIGADO ===== -->
+<!-- ===== ABA TORRE TELEMETRIA OFFLINE ===== -->
 <div id="abaTorre" class="tab-pane">
   <div class="container">
 
     <!-- Header Executivo -->
     <div class="torre-header-executive">
       <div>
-        <h2>🚛 Torre de Controle — Veículo Parado / Motor Ligado</h2>
-        <p id="torre-subtitle">Monitoramento de ociosidade e custo operacional por SVC · Atualizado em tempo real</p>
+        <h2>📡 Torre de Controle — Telemetria Offline</h2>
+        <p id="torre-subtitle">Monitoramento executivo de dispositivos offline · SVCs críticos · localização e links operacionais</p>
       </div>
       <div style="display:flex; gap:15px; flex-wrap:wrap; align-items:flex-start; justify-content:flex-end;">
         <div class="torre-update-panel">
-          <div class="torre-last-update" id="torre-last-update">Última leitura da planilha: --</div>
+          <div class="torre-last-update" id="torre-last-update">Última leitura da TELEMETRIA_OFFLINE: --</div>
           <div class="torre-horarios-box" title="Horários previstos de atualização do relatório">
-            <span class="torre-horarios-title">Horários com atualização</span>
-            <span class="torre-hora-chip" id="torre-chip-09">09h</span>
-            <span class="torre-hora-chip" id="torre-chip-12">12h</span>
-            <span class="torre-hora-chip" id="torre-chip-15">15h</span>
-            <span class="torre-hora-chip" id="torre-chip-18">18h</span>
-            <span class="torre-hora-chip" id="torre-chip-21">21h</span>
+            <span class="torre-horarios-title">Janelas de criticidade</span>
+            <span class="torre-hora-chip" id="torre-chip-09">OK</span>
+            <span class="torre-hora-chip" id="torre-chip-12">1-2d</span>
+            <span class="torre-hora-chip" id="torre-chip-15">3-7d</span>
+            <span class="torre-hora-chip" id="torre-chip-18">+7d</span>
+            <span class="torre-hora-chip" id="torre-chip-21">S/LOC</span>
           </div>
         </div>
         <div class="torre-total-badge">
           <div class="val" id="torre-total-custo">R$ 0,00</div>
-          <div class="lbl">💰 Custo Total Operação</div>
+          <div class="lbl">🔴 Dispositivos Offline</div>
         </div>
         <div class="torre-total-badge" style="background: linear-gradient(135deg, #2980b9, #1a5276);">
           <div class="val" id="torre-total-horas">00:00:00</div>
-          <div class="lbl">⏱️ Total Horas Ociosas</div>
+          <div class="lbl">🔥 Críticos +7d</div>
         </div>
       </div>
     </div>
@@ -1620,9 +1660,9 @@ td { padding: 12px; border-bottom: 1px solid #ddd; white-space: nowrap; }
     <!-- Resumo Executivo da Última Hora -->
     <div class="torre-resumo-executivo" id="torre-resumo-executivo">
       <div class="torre-resumo-main">
-        <div class="torre-resumo-eyebrow">Top 3 bases ofensoras da última hora</div>
+        <div class="torre-resumo-eyebrow">Top 3 bases ofensoras da telemetria offline</div>
         <div class="torre-resumo-title" id="torre-resumo-title">Aguardando leitura da operação...</div>
-        <div class="torre-resumo-text" id="torre-resumo-text">Assim que os dados forem carregados, esta caixa mostra as 3 bases que mais cresceram na última janela, com motorista ofensor e status de estabilização.</div>
+        <div class="torre-resumo-text" id="torre-resumo-text">Assim que os dados forem carregados, esta caixa mostra as 3 bases que mais cresceram na última janela, com placas críticas, dias sem comunicação e prioridade de atuação.</div>
         <div class="torre-resumo-status" id="torre-resumo-status">⏳ Aguardando atualização</div>
       </div>
       <div class="torre-resumo-side torre-top3-side">
@@ -1642,36 +1682,36 @@ td { padding: 12px; border-bottom: 1px solid #ddd; white-space: nowrap; }
     <div class="torre-kpis">
       <div class="torre-kpi-card">
         <div class="torre-kpi-val" id="tkpi-total-veic">0</div>
-        <div class="torre-kpi-lbl">Total Veículos</div>
-        <div class="torre-kpi-sub">na base de dados</div>
+        <div class="torre-kpi-lbl">Total Dispositivos</div>
+        <div class="torre-kpi-sub">na TELEMETRIA_OFFLINE</div>
       </div>
       <div class="torre-kpi-card blue">
         <div class="torre-kpi-val" id="tkpi-total-svc">0</div>
-        <div class="torre-kpi-lbl">SVCs Ativos</div>
-        <div class="torre-kpi-sub">com ocorrências</div>
+        <div class="torre-kpi-lbl">SVCs Afetados</div>
+        <div class="torre-kpi-sub">com dispositivos offline</div>
       </div>
       <div class="torre-kpi-card orange">
         <div class="torre-kpi-val" id="tkpi-com-custo">0</div>
-        <div class="torre-kpi-lbl">Veículos com Custo</div>
-        <div class="torre-kpi-sub">motor ligado detectado</div>
+        <div class="torre-kpi-lbl">Offline / Crítico</div>
+        <div class="torre-kpi-sub">precisa tratativa</div>
       </div>
       <div class="torre-kpi-card green">
         <div class="torre-kpi-val" id="tkpi-sem-custo">0</div>
-        <div class="torre-kpi-lbl">Veículos Sem Custo</div>
-        <div class="torre-kpi-sub">dentro do padrão</div>
+        <div class="torre-kpi-lbl">OK / Recente</div>
+        <div class="torre-kpi-sub">sem criticidade alta</div>
       </div>
       <div class="torre-kpi-card purple">
         <div class="torre-kpi-val" id="tkpi-modais">0</div>
-        <div class="torre-kpi-lbl">Modais Diferentes</div>
-        <div class="torre-kpi-sub">tipos de veículos</div>
+        <div class="torre-kpi-lbl">Sem Localização</div>
+        <div class="torre-kpi-sub">sem endereço/lat-long</div>
       </div>
     </div>
 
     <!-- Controles -->
     <div class="torre-controls">
       <div>
-        <label>🔍 Buscar Motorista / Placa:</label>
-        <input type="text" id="torre-search" class="filter-input" placeholder="Digite nome ou placa..." oninput="renderTorre_db()" style="min-width:220px;">
+        <label>🔍 Buscar Veículo / Placa / Endereço:</label>
+        <input type="text" id="torre-search" class="filter-input" placeholder="Digite placa, veículo, SVC, endereço ou série..." oninput="renderTorre_db()" style="min-width:220px;">
       </div>
       <div class="multi-select-container">
         <label>🏢 Filtrar SVC:</label>
@@ -1684,11 +1724,11 @@ td { padding: 12px; border-bottom: 1px solid #ddd; white-space: nowrap; }
         <div id="dd-modal-torre" class="multi-select-dropdown"></div>
       </div>
       <div>
-        <label>💰 Apenas com Custo:</label>
+        <label>📊 Status:</label>
         <select id="torre-filter-custo" class="filter-input" onchange="renderTorre_db()" style="min-width:160px;">
           <option value="TODOS">Todos</option>
-          <option value="COM">Apenas com Custo</option>
-          <option value="SEM">Apenas sem Custo</option>
+          <option value="COM">Offline / Crítico</option>
+          <option value="SEM">OK / Recente</option>
         </select>
       </div>
       <button class="btn-action btn-update" onclick="loadTorre(true)" style="margin-top:20px;">🔄 Atualizar</button>
@@ -1699,7 +1739,7 @@ td { padding: 12px; border-bottom: 1px solid #ddd; white-space: nowrap; }
     <div class="torre-charts">
       <div class="torre-chart-box" style="position:relative;" id="wrap-chartTorreCustoSVC">
         <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;margin-bottom:8px;">
-          <h3 style="margin:0;">💰 Custo por SVC (Top 15)</h3>
+          <h3 style="margin:0;">🏢 Offline por SVC (Top 15)</h3>
           <div style="display:flex;gap:5px;">
             <button class="btn-export-img" onclick="printGrafico('chartTorreCustoSVC','Custo por SVC — Torre','Torre_Custo_SVC')" title="Print"><i class="fas fa-camera"></i> Print</button>
             <button class="btn-export-img" onclick="excelGraficoTorre('custosvc')" style="background:linear-gradient(135deg,#27ae60,#1e8449);" title="Excel"><i class="fas fa-file-excel"></i> Excel</button>
@@ -1709,7 +1749,7 @@ td { padding: 12px; border-bottom: 1px solid #ddd; white-space: nowrap; }
       </div>
       <div class="torre-chart-box" style="position:relative;" id="wrap-chartTorreModal">
         <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;margin-bottom:8px;">
-          <h3 style="margin:0;">🚛 Distribuição por Modal</h3>
+          <h3 style="margin:0;">🚚 Distribuição por Modal</h3>
           <div style="display:flex;gap:5px;">
             <button class="btn-export-img" onclick="printGrafico('chartTorreModal','Distribuição por Modal — Torre','Torre_Dist_Modal')" title="Print"><i class="fas fa-camera"></i> Print</button>
             <button class="btn-export-img" onclick="excelGraficoTorre('modal')" style="background:linear-gradient(135deg,#27ae60,#1e8449);" title="Excel"><i class="fas fa-file-excel"></i> Excel</button>
@@ -1719,7 +1759,7 @@ td { padding: 12px; border-bottom: 1px solid #ddd; white-space: nowrap; }
       </div>
       <div class="torre-chart-box" style="position:relative;" id="wrap-chartTorreHorario">
         <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;margin-bottom:8px;">
-          <h3 style="margin:0;">⏱️ Horas Ociosas por Faixa de Horário</h3>
+          <h3 style="margin:0;">📆 Faixa de Dias Sem Comunicação</h3>
           <div style="display:flex;gap:5px;">
             <button class="btn-export-img" onclick="printGrafico('chartTorreHorario','Horas Ociosas por Horário — Torre','Torre_Horas_Horario')" title="Print"><i class="fas fa-camera"></i> Print</button>
             <button class="btn-export-img" onclick="excelGraficoTorre('horario')" style="background:linear-gradient(135deg,#27ae60,#1e8449);" title="Excel"><i class="fas fa-file-excel"></i> Excel</button>
@@ -1729,7 +1769,7 @@ td { padding: 12px; border-bottom: 1px solid #ddd; white-space: nowrap; }
       </div>
       <div class="torre-chart-box" style="position:relative;" id="wrap-chartTorreProporcao">
         <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;margin-bottom:8px;">
-          <h3 style="margin:0;">📊 Horas Ociosas por Faixa × SVC</h3>
+          <h3 style="margin:0;">📊 Criticidade por SVC</h3>
           <div style="display:flex;gap:5px;">
             <button class="btn-export-img" onclick="printGrafico('chartTorreProporcao','Horas por Faixa × SVC — Torre','Torre_Horas_SVC')" title="Print"><i class="fas fa-camera"></i> Print</button>
             <button class="btn-export-img" onclick="excelGraficoTorre('proporcao')" style="background:linear-gradient(135deg,#27ae60,#1e8449);" title="Excel"><i class="fas fa-file-excel"></i> Excel</button>
@@ -1742,12 +1782,12 @@ td { padding: 12px; border-bottom: 1px solid #ddd; white-space: nowrap; }
     <!-- Ranking SVCs por custo -->
     <div class="ranking-section" id="wrap-torre-ranking">
       <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:18px;">
-        <h3 style="margin:0;" id="torre-ranking-title">🏆 Ranking SVCs por Custo de Ociosidade</h3>
+        <h3 style="margin:0;" id="torre-ranking-title">🏆 Ranking SVCs por Risco Offline</h3>
         <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
           <select id="torre-ranking-mode" class="torre-ranking-select" onchange="renderTorre_db()" title="Classificar ranking">
-            <option value="valor">Classificar: Valor total</option>
+            <option value="valor">Classificar: Risco crítico</option>
             <option value="veiculos">Classificar: Quant. veículos</option>
-            <option value="media">Classificar: Média por veículo</option>
+            <option value="media">Classificar: Maior dias offline</option>
           </select>
           <button class="btn-export-img" onclick="printTorreRanking()" title="Imprimir ranking"><i class="fas fa-print"></i> Print</button>
           <button class="btn-export-img" onclick="exportarRankingSVCExcel()" style="background:linear-gradient(135deg,#27ae60,#1e8449);" title="Excel"><i class="fas fa-file-excel"></i> Excel</button>
@@ -1759,7 +1799,7 @@ td { padding: 12px; border-bottom: 1px solid #ddd; white-space: nowrap; }
     <!-- Cards por SVC — Filtros Clicáveis + Exportação -->
     <div style="background:white; border-radius:14px; padding:20px 24px; margin-bottom:20px; box-shadow:0 4px 15px rgba(0,0,0,0.08);">
       <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:16px;">
-        <h3 style="color:#1a1a2e; font-size:18px; margin:0;">📦 Visão por SVC</h3>
+        <h3 style="color:#1a1a2e; font-size:18px; margin:0;">🏢 Gestão por SVC</h3>
         <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
           <button onclick="limparFiltroSVC()" id="btn-limpar-svc"
             style="display:none; padding:7px 16px; background:#f44336; color:white; border:none; border-radius:20px; cursor:pointer; font-size:12px; font-weight:700; transition:0.2s;">
@@ -1787,7 +1827,7 @@ td { padding: 12px; border-bottom: 1px solid #ddd; white-space: nowrap; }
     <!-- Tabela Detalhada -->
     <div class="torre-main-table" id="wrap-torre-tabela">
       <h3 style="display:flex;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:15px;">
-        📋 Detalhamento Completo — <span id="torre-count-label">0 registros</span>
+        📋 Detalhamento TELEMETRIA_OFFLINE — <span id="torre-count-label">0 registros</span>
         <div style="display:flex;gap:6px;margin-left:auto;">
           <button class="btn-export-img" onclick="printTorreTabela()" title="Imprimir tabela completa"><i class="fas fa-print"></i> Print</button>
           <button class="btn-export-img" onclick="exportarTorreExcel()" style="background:linear-gradient(135deg,#27ae60,#1e8449);" title="Excel"><i class="fas fa-file-excel"></i> Excel</button>
@@ -1799,14 +1839,14 @@ td { padding: 12px; border-bottom: 1px solid #ddd; white-space: nowrap; }
             <th>MODAL</th>
             <th>PLACA</th>
             <th>SVC</th>
-            <th>09h</th>
-            <th>12h</th>
-            <th>15h</th>
-            <th>18h</th>
-            <th>21h</th>
-            <th>CUSTO R$</th>
-            <th>MOTORISTA</th>
-            <th>TOTAL HORAS</th>
+            <th>OK</th>
+            <th>1-2d</th>
+            <th>3-7d</th>
+            <th>+7d</th>
+            <th>S/LOC</th>
+            <th>STATUS</th>
+            <th>ENDEREÇO</th>
+            <th>LINKS</th>
           </tr>
         </thead>
         <tbody id="torre-tbody"></tbody>
@@ -1817,13 +1857,13 @@ td { padding: 12px; border-bottom: 1px solid #ddd; white-space: nowrap; }
 </div>
 
 
-<!-- ===== ABA DISPOSITIVO OFFILINE ===== -->
+<!-- ===== ABA DISPOSITIVO OFFLINE ===== -->
 <div id="abaOffline" class="tab-pane">
   <div class="container">
     <div class="off-header">
       <div style="position:relative;">
         <div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;opacity:0.55;margin-bottom:5px;">Monitoramento de Dispositivos</div>
-        <h2 style="font-size:24px;font-weight:900;text-transform:uppercase;letter-spacing:2px;margin:0;">📡 DISPOSITIVO OFFILINE</h2>
+        <h2 style="font-size:24px;font-weight:900;text-transform:uppercase;letter-spacing:2px;margin:0;">📡 DISPOSITIVO OFFLINE</h2>
         <p style="font-size:12px;opacity:0.75;margin-top:6px;">Status dos dispositivos · Dias sem comunicação · Localização e criticidade por SVC</p>
       </div>
       <div style="display:flex;gap:10px;flex-wrap:wrap;position:relative;">
@@ -1832,17 +1872,29 @@ td { padding: 12px; border-bottom: 1px solid #ddd; white-space: nowrap; }
       </div>
     </div>
     <div class="off-kpis-row">
-      <div class="off-kpi red"><div class="off-kpi-val" id="offTotalOffline">-</div><div class="off-kpi-lbl">🔴 Total Offline</div><div class="off-kpi-sub">dispositivos sem sinal</div></div>
+      <div class="off-kpi red"><div class="off-kpi-val" id="offTotalOffline">-</div><div class="off-kpi-lbl">🔴 Total Offline</div><div class="off-kpi-sub">sem comunicação, exceto não ativos</div></div>
       <div class="off-kpi green"><div class="off-kpi-val" id="offTotalOK">-</div><div class="off-kpi-lbl">✅ Total OK</div><div class="off-kpi-sub">com comunicação</div></div>
+      <div class="off-kpi blue"><div class="off-kpi-val" id="offTotalVeiculos">-</div><div class="off-kpi-lbl">🚚 Total Veículos</div><div class="off-kpi-sub">conforme TELEMETRIA_OFFLINE</div></div>
+      <div class="off-kpi gray"><div class="off-kpi-val" id="offNaoAtivo">-</div><div class="off-kpi-lbl">🚫 Não ativo</div><div class="off-kpi-sub">status ativo Geotab</div></div>
       <div class="off-kpi orange"><div class="off-kpi-val" id="offCriticos">-</div><div class="off-kpi-lbl">🔥 Críticos +7d</div><div class="off-kpi-sub">ação imediata</div></div>
       <div class="off-kpi blue"><div class="off-kpi-val" id="offSVCs">-</div><div class="off-kpi-lbl">🏢 SVCs afetados</div><div class="off-kpi-sub">bases com offline</div></div>
       <div class="off-kpi purple"><div class="off-kpi-val" id="offMaiorTempo">-</div><div class="off-kpi-lbl">⏱️ Maior tempo off</div><div class="off-kpi-sub">dias sem comunicação</div></div>
+    </div>
+    <div class="off-analysis" id="offAnalysisBox">
+      <div>
+        <div class="off-analysis-title">Análise executiva da telemetria</div>
+        <div class="off-analysis-main" id="offAnalysisTitle">Aguardando leitura dos dispositivos...</div>
+        <div class="off-analysis-text" id="offAnalysisText">Ao carregar os dados, esta visão destaca não ativos, críticos, bases ofensoras e links operacionais.</div>
+      </div>
+      <div class="off-analysis-card"><small>Base mais crítica</small><b id="offAnalysisSvc">--</b></div>
+      <div class="off-analysis-card"><small>Não ativo</small><b id="offAnalysisInactive">--</b></div>
+      <div class="off-analysis-card"><small>Atualização da planilha</small><b id="offAnalysisLinks">--</b></div>
     </div>
     <div class="off-filters">
       <div style="flex:2;min-width:220px;"><label style="font-size:11px;font-weight:800;color:#888;text-transform:uppercase;letter-spacing:1px;display:block;margin-bottom:5px;">🔎 Buscar</label><input id="offSearch" class="filter-input" oninput="renderOffline()" placeholder="Veículo, placa, endereço ou série..." style="height:40px;"></div>
       <div style="flex:1;min-width:160px;"><label style="font-size:11px;font-weight:800;color:#888;text-transform:uppercase;letter-spacing:1px;display:block;margin-bottom:5px;">🏢 SVC</label><select id="offFilterSVC" class="filter-input" onchange="renderOffline()" style="height:40px;"><option value="TODOS">Todos</option></select></div>
       <div style="flex:1;min-width:160px;"><label style="font-size:11px;font-weight:800;color:#888;text-transform:uppercase;letter-spacing:1px;display:block;margin-bottom:5px;">🚚 Modal</label><select id="offFilterModal" class="filter-input" onchange="renderOffline()" style="height:40px;"><option value="TODOS">Todos</option></select></div>
-      <div style="flex:1;min-width:160px;"><label style="font-size:11px;font-weight:800;color:#888;text-transform:uppercase;letter-spacing:1px;display:block;margin-bottom:5px;">📊 Status</label><select id="offFilterStatus" class="filter-input" onchange="renderOffline()" style="height:40px;"><option value="TODOS">Todos</option><option value="OK">OK</option><option value="OFFLINE">Offline</option><option value="CRITICO">Crítico +7d</option><option value="ATENCAO">Atenção 3-7d</option><option value="RECENTE">Recente 1-2d</option></select></div>
+      <div style="flex:1;min-width:160px;"><label style="font-size:11px;font-weight:800;color:#888;text-transform:uppercase;letter-spacing:1px;display:block;margin-bottom:5px;">📊 Status</label><select id="offFilterStatus" class="filter-input" onchange="renderOffline()" style="height:40px;"><option value="TODOS">Todos</option><option value="OK">OK</option><option value="NAO_ATIVO">Não ativo</option><option value="OFFLINE">Offline</option><option value="CRITICO">Crítico +7d</option><option value="ATENCAO">Atenção 3-7d</option><option value="RECENTE">Recente 1-2d</option></select></div>
       <button onclick="clearOfflineFilters()" style="height:40px;padding:0 18px;border-radius:8px;border:1px solid #ddd;background:#fff;color:#455a64;font-weight:800;cursor:pointer;font-family:'Outfit',sans-serif;">✕ Limpar</button>
     </div>
     <div class="off-charts">
@@ -1850,15 +1902,31 @@ td { padding: 12px; border-bottom: 1px solid #ddd; white-space: nowrap; }
       <div class="off-chart-box" id="wrap-chartOffDias"><div class="off-chart-title">📆 Faixa de dias offline <div style="margin-left:auto;display:flex;gap:6px;flex-wrap:wrap;"><button class="btn-export-img" onclick="printGrafico('chartOffDias','Faixa de dias offline','Dispositivo_Offline_Dias')" title="Baixar imagem"><i class="fas fa-camera"></i> Print</button><button class="btn-export-img" onclick="excelGraficoOffline('dias')" style="background:linear-gradient(135deg,#27ae60,#1e8449);" title="Exportar Excel"><i class="fas fa-file-excel"></i> Excel</button></div></div><div style="height:250px;"><canvas id="chartOffDias"></canvas></div></div>
       <div class="off-chart-box" id="wrap-chartOffModal"><div class="off-chart-title">🚚 Offline por Modal <div style="margin-left:auto;display:flex;gap:6px;flex-wrap:wrap;"><button class="btn-export-img" onclick="printGrafico('chartOffModal','Offline por Modal','Dispositivo_Offline_Modal')" title="Baixar imagem"><i class="fas fa-camera"></i> Print</button><button class="btn-export-img" onclick="excelGraficoOffline('modal')" style="background:linear-gradient(135deg,#27ae60,#1e8449);" title="Exportar Excel"><i class="fas fa-file-excel"></i> Excel</button></div></div><div style="height:250px;"><canvas id="chartOffModal"></canvas></div></div>
     </div>
-    <div class="off-charts">
+    <div class="off-charts two">
       <div class="off-chart-box" id="wrap-chartOffStatus"><div class="off-chart-title">📊 Análise por Status <div style="margin-left:auto;display:flex;gap:6px;flex-wrap:wrap;"><button class="btn-export-img" onclick="printGrafico('chartOffStatus','Análise por Status','Dispositivo_Offline_Status')" title="Baixar imagem"><i class="fas fa-camera"></i> Print</button><button class="btn-export-img" onclick="excelGraficoOffline('status')" style="background:linear-gradient(135deg,#27ae60,#1e8449);" title="Exportar Excel"><i class="fas fa-file-excel"></i> Excel</button></div></div><div style="height:280px;"><canvas id="chartOffStatus"></canvas></div></div>
-      <div class="off-chart-box" id="wrap-chartOffTop"><div class="off-chart-title">🔥 Top 10 veículos mais críticos <div style="margin-left:auto;display:flex;gap:6px;flex-wrap:wrap;"><button class="btn-export-img" onclick="printGrafico('chartOffTop','Top 10 veículos mais críticos','Dispositivo_Offline_Top10_Criticos')" title="Baixar imagem"><i class="fas fa-camera"></i> Print</button><button class="btn-export-img" onclick="excelGraficoOffline('top')" style="background:linear-gradient(135deg,#27ae60,#1e8449);" title="Exportar Excel"><i class="fas fa-file-excel"></i> Excel</button></div></div><div style="height:280px;"><canvas id="chartOffTop"></canvas></div></div>
-      <div class="off-chart-box" id="wrap-chartOffEndereco"><div class="off-chart-title">📍 Endereços com maior recorrência <div style="margin-left:auto;display:flex;gap:6px;flex-wrap:wrap;"><button class="btn-export-img" onclick="printGrafico('chartOffEndereco','Endereços com maior recorrência','Dispositivo_Offline_Enderecos')" title="Baixar imagem"><i class="fas fa-camera"></i> Print</button><button class="btn-export-img" onclick="excelGraficoOffline('endereco')" style="background:linear-gradient(135deg,#27ae60,#1e8449);" title="Exportar Excel"><i class="fas fa-file-excel"></i> Excel</button></div></div><div style="height:280px;"><canvas id="chartOffEndereco"></canvas></div></div>
+      <div class="off-chart-box off-scenario-box" id="wrap-chartOffScenario">
+        <div class="off-chart-title">🧭 Cenário Atual <div style="margin-left:auto;display:flex;gap:6px;flex-wrap:wrap;"><button class="btn-export-img" onclick="printGrafico('chartOffScenario','Cenário Atual','Dispositivo_Offline_Cenario_Atual')" title="Baixar imagem"><i class="fas fa-camera"></i> Print</button></div></div>
+        <div class="off-scenario-layout">
+          <div class="off-scenario-summary">
+            <div class="off-scenario-hero" id="offScenarioHeadline">Aguardando análise do cenário atual...</div>
+            <div class="off-scenario-text" id="offScenarioText">Ao carregar os dados, esta área vai mostrar a leitura executiva do cenário, concentração do risco e um gráfico de linha com a pressão por SVC.</div>
+            <div class="off-scenario-cards">
+              <div class="off-scenario-card"><small>Concentração Top 3</small><b id="offScenarioTop3">--</b><span id="offScenarioTop3Sub">--</span></div>
+              <div class="off-scenario-card"><small>Sem localização</small><b id="offScenarioNoMap">--</b><span id="offScenarioNoMapSub">--</span></div>
+              <div class="off-scenario-card"><small>Maior risco</small><b id="offScenarioMaxRisk">--</b><span id="offScenarioMaxRiskSub">--</span></div>
+            </div>
+          </div>
+          <div class="off-scenario-chart">
+            <div class="off-scenario-chart-title">📈 Pressão Offline por SVC</div>
+            <div style="height:220px;"><canvas id="chartOffScenario"></canvas></div>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="off-table-wrap">
       <div class="off-table-head"><div><h3 style="font-size:15px;font-weight:800;color:#222;margin:0;">📋 Detalhamento Completo dos Dispositivos</h3><p id="offTableInfo" style="font-size:12px;color:#aaa;margin-top:3px;">Aguardando dados...</p></div><div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;"><button class="btn-export-img" onclick="printOfflineTabela()" title="Imprimir tabela completa"><i class="fas fa-print"></i> Print</button><button onclick="exportOfflineExcel()" class="btn-action btn-excel" style="height:34px;">📥 Excel</button></div></div>
       <div style="overflow-x:auto;max-height:720px;overflow-y:auto;">
-        <table class="off-table" id="offTable"><thead><tr><th>Veículo</th><th>Placa</th><th>SVC</th><th>Modal</th><th>Status</th><th>Plano</th><th>Última Comunicação</th><th>Status Dispositivo</th><th>Dias Mov.</th><th>Dias Comunicação</th><th>Endereço</th><th>Mapa</th></tr></thead><tbody id="offTableBody"></tbody></table>
+        <table class="off-table" id="offTable"><thead><tr><th>Veículo / Placa</th><th>SVC</th><th>Modal</th><th>Status</th><th>Criticidade</th><th>Dias Offline</th><th>Última Comunicação</th><th>Status Dispositivo</th><th>Dias Mov.</th><th>Status Ativo</th><th>Instalação</th><th>Latitude</th><th>Longitude</th><th>Google Maps</th><th>MyGeotab</th></tr></thead><tbody id="offTableBody"></tbody></table>
       </div>
     </div>
   </div>
@@ -1918,7 +1986,8 @@ const SHEET_NAME_OFENSORES = 'DB_OFENSORES';
 // ========== TORRE ==========
 const SHEET_ID_TORRE = '19YI9vFSaUp1y5uO74LjvwbuAghJN-Lq_PjDpJ5zBbpk';
 const GID_TORRE = '1634458402';
-const GID_OFFLINE = '203760927';
+const GID_OFFLINE = '1300163880';
+const SHEET_NAME_OFFLINE = 'TELEMETRIA_OFFLINE';
 
 let dashData = null, chartsCheck = {}, chartsOf = {};
 let dadosTreinoAll = [], dadosTreinoFiltered = [], chartTreinoInst = null, chartTreinoSVCInst = null, treinoLoaded = false;
@@ -3955,10 +4024,26 @@ function printDriverProfile() {
 
 
 // =============================
-// DISPOSITIVO OFFILINE
+// DISPOSITIVO OFFLINE
 // =============================
 let activeOfflineChartFilter = null;
 function _offCell(row, idx){ if(!row||!row.c||!row.c[idx]) return ''; const c=row.c[idx]; const f=c.f!=null?String(c.f).trim():''; const v=c.v!=null?String(c.v).trim():''; return f!==''?f:v; }
+function _offRawCell(row, idx){ if(!row||!row.c||!row.c[idx]) return ''; const c=row.c[idx]; return c.v!=null?String(c.v).trim():(c.f!=null?String(c.f).trim():''); }
+function _parseCoord(v){
+  let s=String(v||'').trim();
+  if(!s) return NaN;
+  if(/\d{1,2}\/\d{1,2}\/\d{4}/.test(s)) return NaN;
+  s=s.replace(/\s/g,'').replace(',', '.');
+  const n=parseFloat(s);
+  return isNaN(n)?NaN:n;
+}
+function _hasValidCoords(lat, lon){ return isFinite(lat) && isFinite(lon) && Math.abs(lat)<=90 && Math.abs(lon)<=180; }
+function _mapsUrlFromCoords(lat, lon){ return `https://www.google.com/maps/search/?api=1&query=${lat},${lon}`; }
+function _mapsEmbedUrl(d){
+  const lat=_parseCoord(d?.latitude), lon=_parseCoord(d?.longitude);
+  const q=_hasValidCoords(lat, lon) ? `${lat},${lon}` : (d?.endereco || '');
+  return q ? `https://maps.google.com/maps?q=${encodeURIComponent(q)}&z=15&output=embed` : '';
+}
 function _offLink(row, idx){
   if(!row||!row.c||!row.c[idx]) return '';
   const c=row.c[idx];
@@ -3970,9 +4055,11 @@ function _offLink(row, idx){
   }
   return '';
 }
-function _safeMapUrl(v, endereco){
+function _safeMapUrl(v, endereco, latVal='', lonVal=''){
   const s = String(v||'').trim();
   if(/^https?:\/\//i.test(s)) return s.replace(/&amp;/g,'&');
+  const lat=_parseCoord(latVal), lon=_parseCoord(lonVal);
+  if(_hasValidCoords(lat, lon)) return _mapsUrlFromCoords(lat, lon);
   if(endereco) return 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(endereco);
   return '';
 }
@@ -4160,7 +4247,10 @@ function _applyOfflineCrossRefs(){
       d.modal = _isBadModal(modalPlanilha) ? 'N/I' : modalPlanilha;
       d.modalFonte = _isBadModal(modalPlanilha) ? 'Não encontrado no cruzamento' : 'Planilha';
     }
-    d.mapa = _safeMapUrl(d.mapa, d.endereco);
+    // Reconstrói links se necessário (não sobrescreve links já construídos)
+    if(!d.googleMaps){ const c=_getOfflineCoords(d); if(c) d.googleMaps=`https://www.google.com/maps/search/?api=1&query=${c.lat},${c.lon}`; }
+    d.mapa = d.googleMaps;
+    if(!d.myGeotab) d.myGeotab = _buildGeotabUrl(d);
   });
 }
 function _loadOfflineModalCrossRef(done){
@@ -4194,10 +4284,19 @@ function _statusLabel(v){
   const s = String(v||'').trim();
   return s || 'N/I';
 }
+function _isNaoAtivoOffline(d){
+  const txt = normalizeString(`${d?.statusAtivo||''} ${d?.status||''} ${d?.statusDisp||''}`);
+  return txt.includes('NAO ATIVO') || txt.includes('NÃO ATIVO') || txt.includes('ENCERRADO') || txt.includes('INACTIVE');
+}
+function _offLinkHtml(url, label='Abrir'){
+  const u = String(url||'').trim();
+  if(!u) return '--';
+  return `<a href="${_esc(u)}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation();" style="color:#1565c0;font-weight:900;">${label}</a>`;
+}
 function loadOffline(force=false){
   document.getElementById('loadingOverlay').classList.add('active'); document.getElementById('loadingText').textContent='Carregando Dispositivo Offline...';
   const old=document.getElementById('script-offline'); if(old) old.remove();
-  const url=`https://docs.google.com/spreadsheets/d/${SHEET_ID_TORRE}/gviz/tq?tqx=out:json&gid=${GID_OFFLINE}&range=A16:Q&headers=1`;
+  const url=`https://docs.google.com/spreadsheets/d/${SHEET_ID_TORRE}/gviz/tq?tqx=out:json&gid=${GID_OFFLINE}&range=A:Z&headers=1`;
   const script=document.createElement('script'); script.id='script-offline'; script.src=url;
   window.google=window.google||{}; window.google.visualization=window.google.visualization||{}; window.google.visualization.Query=window.google.visualization.Query||{};
   window.google.visualization.Query.setResponse=function(res){
@@ -4205,8 +4304,70 @@ function loadOffline(force=false){
       if(res.status==='error') throw new Error('Erro ao acessar planilha. Verifique se a planilha está pública.');
       const cols=res.table.cols||[], rows=res.table.rows||[], idx={}; cols.forEach((c,i)=>{ const k=_normHeader(c.label||c.id||''); if(k) idx[k]=i; });
       const findIdx=(names,fallback)=>{ for(const name of names){ const k=_normHeader(name); if(idx[k]!=null) return idx[k]; const found=Object.keys(idx).find(x=>x.includes(k)||k.includes(x)); if(found) return idx[found]; } return fallback; };
-      const C={veiculo:findIdx(['Veículo','Veiculo'],0),grupo:findIdx(['Grupo'],1),serie:findIdx(['Número de série','Numero de serie'],2),status:findIdx(['Status'],3),plano:findIdx(['Plano do dispositivo'],4),ultima:findIdx(['Última data de comunicação','Ultima data de comunicacao'],5),statusDisp:findIdx(['Status do dispositivo'],6),info:findIdx(['Informações adicionais de status','Informacoes adicionais de status'],7),endereco:findIdx(['Último endereço conhecido','Ultimo endereco conhecido'],8),diasMov:findIdx(['Dias desde o último movimento','Dias desde o ultimo movimento'],9),diasCom:findIdx(['Dias desde o recebimento da última comunicação','Dias desde o recebimento da ultima comunicacao'],10),mapa:findIdx(['Visualização no mapa','Visualizacao no mapa'],11),placa:findIdx(['placa separada','Placa separada'],14),modal:findIdx(['modal','Modal'],15),svc:findIdx(['svc','SVC'],16)};
-      dataOffline=rows.map(r=>{ const o={veiculo:_offCell(r,C.veiculo),grupo:_offCell(r,C.grupo),serie:_offCell(r,C.serie),status:_offCell(r,C.status),plano:_offCell(r,C.plano),ultima:_offCell(r,C.ultima),statusDisp:_offCell(r,C.statusDisp),info:_offCell(r,C.info),endereco:_offCell(r,C.endereco),diasMovTxt:_offCell(r,C.diasMov),diasComTxt:_offCell(r,C.diasCom),mapa:_safeMapUrl(_offLink(r,C.mapa)||_offCell(r,C.mapa), _offCell(r,C.endereco)),placa:_offCell(r,C.placa),modal:_offCell(r,C.modal),svc:_offCell(r,C.svc)}; o.diasMov=_parseDays(o.diasMovTxt); o.diasCom=_parseDays(o.diasComTxt); o.diasMax=Math.max(o.diasMov,o.diasCom); o.criticidade=_offCrit(o); return o; }).filter(d=>d.veiculo||d.placa||d.svc||d.status);
+      const C={
+        // Nova aba TELEMETRIA_OFFLINE: cabeçalho começa na linha 1.
+        // A estrutura principal é: A Placa | B Veículo | C Grupo | D SVC | E Número de série | F Status | G Última comunicação ...
+        placa:findIdx(['Placa','placa separada','Placa separada'],0),
+        veiculo:findIdx(['Veículo','Veiculo'],1),
+        grupo:findIdx(['Grupo'],2),
+        svc:findIdx(['SVC','svc'],3),
+        serie:findIdx(['Número de série','Numero de serie'],4),
+        status:findIdx(['Status'],5),
+        plano:findIdx(['Plano do dispositivo'],6),
+        ultima:findIdx(['Última data de comunicação','Ultima data de comunicacao'],7),
+        ultimoRegistroViagem:findIdx(['Último registro de viagem','Ultimo registro de viagem'],8),
+        ultimoGPS:findIdx(['Último registro do GPS','Ultimo registro do GPS','Último registro GPS'],9),
+        movimento:findIdx(['Movimento do dispositivo','Movimento'],10),
+        statusDisp:findIdx(['Status do dispositivo','Status'],5),
+        info:findIdx(['Informações adicionais de status','Informacoes adicionais de status','Status'],5),
+        endereco:findIdx(['Último endereço conhecido','Ultimo endereco conhecido'],11),
+        diasMov:findIdx(['Dias desde o último movimento','Dias desde o ultimo movimento'],12),
+        diasCom:findIdx(['Dias desde o recebimento da comunicação','Dias desde o recebimento da ultima comunicacao','Dias desde o recebimento da última comunicação'],13),
+        statusInstalacao:findIdx(['Status instalação','Status instalacao'],14),
+        mapa:findIdx(['Visualização no mapa','Visualizacao no mapa','Link Google Maps','Google Maps'],15),
+        googleMaps:findIdx(['Link Google Maps','Google Maps','Visualização no mapa','Visualizacao no mapa'],15),
+        latitude:findIdx(['Latitude'],16),
+        longitude:findIdx(['Longitude'],17),
+        myGeotab:findIdx(['Link MyGeotab','MyGeotab','Link My Geotab','My Geotab'],18),
+        modal:findIdx(['Modal','modal'],21),
+        statusAtivo:findIdx(['Status ativo Geotab','Status ativo','Ativo Geotab'],19),
+        statusComunicacao:findIdx(['Status comunicação','Status comunicacao'],5),
+        atualizado:findIdx(['Atualizado em','Atualizacao','Atualização'],20)
+      };
+      dataOffline=rows.map(r=>{
+        const endereco=_offCell(r,C.endereco);
+        const latRaw=_offCell(r,C.latitude);
+        const lonRaw=_offCell(r,C.longitude);
+        const serie=_offCell(r,C.serie);
+        const o={
+          veiculo:_offCell(r,C.veiculo),grupo:_offCell(r,C.grupo),serie,
+          status:_offCell(r,C.status),plano:_offCell(r,C.plano),
+          ultima:_offCell(r,C.ultima),ultimoRegistroViagem:_offCell(r,C.ultimoRegistroViagem),
+          ultimoGPS:_offCell(r,C.ultimoGPS),movimento:_offCell(r,C.movimento),
+          statusDisp:_offCell(r,C.statusDisp),info:_offCell(r,C.info),
+          endereco,diasMovTxt:_offCell(r,C.diasMov),diasComTxt:_offCell(r,C.diasCom),
+          statusInstalacao:_offCell(r,C.statusInstalacao),
+          placa:_offCell(r,C.placa),modal:_offCell(r,C.modal),svc:_offCell(r,C.svc),
+          statusAtivo:_offCell(r,C.statusAtivo),statusComunicacao:_offCell(r,C.statusComunicacao),
+          latitude:latRaw,longitude:lonRaw,atualizado:_offCell(r,C.atualizado)
+        };
+        // Resolve coordenadas reais (prioriza endereço que vem correto da API)
+        const coords = _getOfflineCoords(o);
+        o._lat = coords ? coords.lat : null;
+        o._lon = coords ? coords.lon : null;
+        // Constrói links funcionais: Maps pelas coords, Geotab pelo número de série
+        o.googleMaps = coords
+          ? `https://www.google.com/maps/search/?api=1&query=${coords.lat},${coords.lon}`
+          : null;
+        o.mapa = o.googleMaps;
+        o.myGeotab = _buildGeotabUrl(o);
+        o.diasMov=_parseDays(o.diasMovTxt);
+        o.diasCom=_parseDays(o.diasComTxt);
+        o.diasMax=Math.max(o.diasMov,o.diasCom);
+        o.criticidade=_offCrit(o);
+        return o;
+      }).filter(d=>d.veiculo||d.placa||d.svc||d.status);
+      window.offlineLoadedAt = new Date();
       _loadOfflineModalCrossRef(() => { _applyOfflineCrossRefs(); setupOfflineFilters(); renderOffline(); document.getElementById('loadingOverlay').classList.remove('active'); });
     }catch(e){ console.error(e); document.getElementById('loadingOverlay').classList.remove('active'); const tb=document.getElementById('offTableBody'); if(tb) tb.innerHTML=`<tr><td colspan="12" style="padding:18px;color:#c62828;font-weight:800;">Erro ao carregar dados: ${e.message}</td></tr>`; }
   };
@@ -4214,7 +4375,7 @@ function loadOffline(force=false){
 }
 function setupOfflineFilters(){ const fill=(id,vals)=>{ const el=document.getElementById(id); if(!el)return; const cur=el.value; el.innerHTML='<option value="TODOS">Todos</option>'+[...new Set(vals.filter(Boolean))].sort().map(v=>`<option value="${String(v).replace(/"/g,'&quot;')}">${v}</option>`).join(''); if([...el.options].some(o=>o.value===cur)) el.value=cur; }; fill('offFilterSVC',dataOffline.map(d=>d.svc)); fill('offFilterModal',dataOffline.map(d=>d.modal)); }
 function clearOfflineFilters(){ activeOfflineChartFilter=null; document.getElementById('offSearch').value=''; document.getElementById('offFilterSVC').value='TODOS'; document.getElementById('offFilterModal').value='TODOS'; document.getElementById('offFilterStatus').value='TODOS'; renderOffline(); }
-function getOfflineFiltered(){ const q=(document.getElementById('offSearch')?.value||'').toLowerCase(), svc=document.getElementById('offFilterSVC')?.value||'TODOS', modal=document.getElementById('offFilterModal')?.value||'TODOS', st=document.getElementById('offFilterStatus')?.value||'TODOS'; return dataOffline.filter(d=>{ if(q && !`${d.veiculo} ${d.placa} ${d.endereco} ${d.serie} ${d.svc} ${d.modal}`.toLowerCase().includes(q)) return false; if(svc!=='TODOS'&&d.svc!==svc)return false; if(modal!=='TODOS'&&d.modal!==modal)return false; if(st==='OK'&&d.criticidade!=='OK')return false; if(st==='OFFLINE'&&d.criticidade==='OK')return false; if(['CRITICO','ATENCAO','RECENTE'].includes(st)&&d.criticidade!==st)return false;
+function getOfflineFiltered(){ const q=(document.getElementById('offSearch')?.value||'').toLowerCase(), svc=document.getElementById('offFilterSVC')?.value||'TODOS', modal=document.getElementById('offFilterModal')?.value||'TODOS', st=document.getElementById('offFilterStatus')?.value||'TODOS'; return dataOffline.filter(d=>{ if(q && !`${d.veiculo} ${d.placa} ${d.endereco} ${d.serie} ${d.svc} ${d.modal}`.toLowerCase().includes(q)) return false; if(svc!=='TODOS'&&d.svc!==svc)return false; if(modal!=='TODOS'&&d.modal!==modal)return false; if(st==='OK'&&d.criticidade!=='OK')return false; if(st==='NAO_ATIVO'&&!_isNaoAtivoOffline(d))return false; if(st==='OFFLINE'&&(d.criticidade==='OK'||_isNaoAtivoOffline(d)))return false; if(['CRITICO','ATENCAO','RECENTE'].includes(st)&&(d.criticidade!==st||_isNaoAtivoOffline(d)))return false;
   if(activeOfflineChartFilter){
     const f=activeOfflineChartFilter;
     if(f.type==='svc' && d.svc!==f.value) return false;
@@ -4225,7 +4386,50 @@ function getOfflineFiltered(){ const q=(document.getElementById('offSearch')?.va
     if(f.type==='endereco'){ const e=String(d.endereco||'').replace(/\s+/g,' ').trim(); const base=e?e.split(',').slice(0,2).join(','):'N/I'; if(base!==f.value) return false; }
   }
   return true; }); }
-function renderOffline(){ dataOfflineFiltered=getOfflineFiltered(); const offline=dataOfflineFiltered.filter(d=>d.criticidade!=='OK'); document.getElementById('offTotalOffline').textContent=offline.length.toLocaleString('pt-BR'); document.getElementById('offTotalOK').textContent=dataOfflineFiltered.filter(d=>d.criticidade==='OK').length.toLocaleString('pt-BR'); document.getElementById('offCriticos').textContent=offline.filter(d=>d.criticidade==='CRITICO').length.toLocaleString('pt-BR'); document.getElementById('offSVCs').textContent=new Set(offline.map(d=>d.svc).filter(Boolean)).size.toLocaleString('pt-BR'); document.getElementById('offMaiorTempo').textContent=(Math.max(0,...offline.map(d=>d.diasMax))||0)+'d'; document.getElementById('offTableInfo').innerHTML=`${dataOfflineFiltered.length} registros exibidos de ${dataOffline.length} registros totais ${_offActiveInfo()}`; renderOfflineCharts(offline, dataOfflineFiltered); renderOfflineTable(dataOfflineFiltered); }
+function renderOffline(){
+  dataOfflineFiltered=getOfflineFiltered();
+  const naoAtivo=dataOfflineFiltered.filter(_isNaoAtivoOffline);
+  const offline=dataOfflineFiltered.filter(d=>d.criticidade!=='OK' && !_isNaoAtivoOffline(d));
+  document.getElementById('offTotalOffline').textContent=offline.length.toLocaleString('pt-BR');
+  document.getElementById('offTotalOK').textContent=dataOfflineFiltered.filter(d=>d.criticidade==='OK').length.toLocaleString('pt-BR');
+  const elTotal=document.getElementById('offTotalVeiculos'); if(elTotal) elTotal.textContent=dataOfflineFiltered.length.toLocaleString('pt-BR');
+  const elNao=document.getElementById('offNaoAtivo'); if(elNao) elNao.textContent=naoAtivo.length.toLocaleString('pt-BR');
+  document.getElementById('offCriticos').textContent=offline.filter(d=>d.criticidade==='CRITICO').length.toLocaleString('pt-BR');
+  document.getElementById('offSVCs').textContent=new Set(offline.map(d=>d.svc).filter(Boolean)).size.toLocaleString('pt-BR');
+  document.getElementById('offMaiorTempo').textContent=(Math.max(0,...offline.map(d=>Number(d.diasCom)||0))||0)+'d';
+  const upd=_offlineUpdateInfo(dataOfflineFiltered);
+  document.getElementById('offTableInfo').innerHTML=`${dataOfflineFiltered.length} veículos exibidos de ${dataOffline.length} veículos totais · Atualizado: ${upd.label} · API roda de 1 em 1 hora ${_offActiveInfo()}`;
+  renderOfflineAnalysis(dataOfflineFiltered, offline, naoAtivo);
+  renderOfflineCharts(offline, dataOfflineFiltered);
+  renderOfflineScenario(dataOfflineFiltered, offline, naoAtivo);
+  renderOfflineTable(dataOfflineFiltered);
+}
+
+
+function renderOfflineAnalysis(allRows, offline, naoAtivo){
+  const title=document.getElementById('offAnalysisTitle'), textEl=document.getElementById('offAnalysisText'), svcEl=document.getElementById('offAnalysisSvc'), inactiveEl=document.getElementById('offAnalysisInactive'), linksEl=document.getElementById('offAnalysisLinks');
+  if(!title) return;
+  const countBy=(arr, fn)=>{ const m={}; (arr||[]).forEach(d=>{ const k=fn(d)||'N/I'; m[k]=(m[k]||0)+1; }); return Object.entries(m).sort((a,b)=>b[1]-a[1]); };
+  const topSvc=(countBy(offline, d=>d.svc)[0]||['--',0]);
+  const topNao=(countBy(naoAtivo, d=>d.svc)[0]||['--',0]);
+  const criticos=offline.filter(d=>d.criticidade==='CRITICO').length;
+  const atencao=offline.filter(d=>d.criticidade==='ATENCAO').length;
+  const total=allRows.length||0;
+  const upd=_offlineUpdateInfo(allRows);
+  const pctNao=total?((naoAtivo.length/total)*100).toFixed(1):'0.0';
+  const topCrit = [...offline].sort((a,b)=>(b.diasMax-a.diasMax))[0] || {};
+  const topEnd = (countBy(offline, d=>d.endereco ? d.endereco.split(',').slice(0,2).join(',') : 'N/I')[0]||['--',0]);
+  if(criticos>0 || naoAtivo.length>0){
+    title.innerHTML=`Atenção: ${criticos.toLocaleString('pt-BR')} crítico(s), ${atencao.toLocaleString('pt-BR')} em atenção e ${naoAtivo.length.toLocaleString('pt-BR')} não ativo(s)`;
+    textEl.innerHTML=`A operação <b>${_esc(topSvc[0])}</b> concentra o maior volume offline (${topSvc[1]} registro(s)). Entre os não ativos, o maior foco está em <b>${_esc(topNao[0])}</b> (${topNao[1]} veículo(s)). O veículo mais crítico é <b>${_esc(topCrit.placa || topCrit.veiculo || '--')}</b>, com <b>${_esc(topCrit.diasMovTxt || topCrit.diasComTxt || '--')}</b> sem atualização relevante. Endereço mais recorrente: <b>${_esc(topEnd[0])}</b>. Use Google Maps para localização e MyGeotab para validar comunicação, instalação e status do ativo.`;
+  } else {
+    title.innerHTML='Cenário estável: sem não ativos em destaque';
+    textEl.innerHTML='Não há concentração crítica relevante nos filtros atuais. Manter acompanhamento, validar as próximas leituras da telemetria e conferir dispositivos sem coordenada ou sem link operacional.';
+  }
+  if(svcEl) svcEl.textContent=`${topSvc[0]} · ${topSvc[1]} off`;
+  if(inactiveEl) inactiveEl.textContent=`${naoAtivo.length} veículo(s) · ${pctNao}%`;
+  if(linksEl) linksEl.textContent=`${upd.label} · API 1h · Total: ${total.toLocaleString('pt-BR')}`;
+}
 
 function _setOfflineChartFilter(type, value){
   if(activeOfflineChartFilter && activeOfflineChartFilter.type===type && activeOfflineChartFilter.value===value) activeOfflineChartFilter=null;
@@ -4241,6 +4445,177 @@ function _offActiveInfo(){
   if(!f) return '';
   const label={svc:'SVC',modal:'Modal',status:'Status',dias:'Faixa',veiculo:'Veículo',endereco:'Endereço'}[f.type]||'Filtro';
   return `<span style="margin-left:8px;color:#1565c0;font-weight:900;">Filtro ativo: ${label} = ${_esc(f.value)}</span>`;
+}
+
+function _offlineParsedDate(v){
+  if(v === null || v === undefined) return null;
+  const raw = String(v).trim();
+  if(!raw) return null;
+  const br = raw.match(/(\d{1,2})\/(\d{1,2})\/(\d{4})(?:\s+(\d{1,2}):(\d{2})(?::(\d{2}))?)?/);
+  if(br){
+    const d = new Date(Number(br[3]), Number(br[2])-1, Number(br[1]), Number(br[4]||0), Number(br[5]||0), Number(br[6]||0));
+    return isNaN(d.getTime()) ? null : d;
+  }
+  const iso = new Date(raw);
+  return isNaN(iso.getTime()) ? null : iso;
+}
+function _offlineUpdateInfo(rows){
+  const dates = (rows || dataOffline || []).map(d => _offlineParsedDate(d.atualizado)).filter(Boolean).sort((a,b)=>b-a);
+  const baseDate = dates[0] || window.offlineLoadedAt || new Date();
+  const hora = baseDate.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+  const data = baseDate.toLocaleDateString('pt-BR');
+  return { date: baseDate, label: `${data} ${hora}`, short: hora };
+}
+
+
+function _parseCoordValue(v){
+  if(v === null || v === undefined) return null;
+  let s = String(v).trim();
+  if(!s || /\d{1,2}\/\d{1,2}\/\d{4}/.test(s)) return null;
+  if(/abrir|maps|geotab|http/i.test(s)) return null;
+  s = s.replace(',', '.');
+  // Corrige formato errado da planilha: -233.549.118 → -23.3549118
+  // Ocorre quando o Google Sheets exporta coordenadas com separadores de milhar
+  const multiDot = s.match(/^(-?)(\d+)\.(\d{3})\.(\d+)$/);
+  if(multiDot){
+    const sign=multiDot[1], digits=multiDot[2]+multiDot[3]+multiDot[4];
+    // Lat: 2 inteiros (ex: 23), Lon: 2-3 inteiros (ex: 46 ou 123)
+    for(const intLen of [2,3]){
+      if(digits.length > intLen){
+        const n=parseFloat(sign+digits.slice(0,intLen)+'.'+digits.slice(intLen));
+        if(Number.isFinite(n)){
+          if(intLen===2 && n>=-35 && n<=6) return n;   // latitude BR
+          if(intLen===3 && n>=-75 && n<=-30) return n; // longitude BR
+        }
+      }
+    }
+  }
+  const n = parseFloat(s);
+  return Number.isFinite(n) ? n : null;
+}
+// Extrai coords do campo endereço que vem como "-23.354, -46.193" (formato correto)
+function _coordsFromText(txt){
+  const s = String(txt || '');
+  // Formato exato: "lat, lon" com ponto decimal
+  const m = s.match(/^\s*(-?\d{1,2}\.\d+)\s*,\s*(-?\d{2,3}\.\d+)\s*$/);
+  if(m){
+    const lat=parseFloat(m[1]), lon=parseFloat(m[2]);
+    if(Number.isFinite(lat)&&Number.isFinite(lon)&&lat>=-35&&lat<=6&&lon>=-75&&lon<=-30)
+      return {lat, lon};
+  }
+  // Fallback: procura padrão lat,lon dentro de texto maior
+  const m2 = s.match(/(-?\d{1,2}\.\d{4,})\s*,\s*(-?\d{2,3}\.\d{4,})/);
+  if(m2){
+    const lat=parseFloat(m2[1]), lon=parseFloat(m2[2]);
+    if(Number.isFinite(lat)&&Number.isFinite(lon)) return {lat, lon};
+  }
+  return {lat:null, lon:null};
+}
+// Resolve as coordenadas reais de um registro.
+// PRIORIDADE: campo endereço (formato correto) > colunas Lat/Lon (pode ter formato errado)
+function _getOfflineCoords(d){
+  // 1. Tenta extrair do endereço (ex: "-23.3549118, -46.1934547")
+  const fromAddr = _coordsFromText(d.endereco || '');
+  if(fromAddr.lat !== null && fromAddr.lon !== null) return fromAddr;
+  // 2. Tenta as colunas Lat/Lon com correção de formato
+  const lat = _parseCoordValue(d.latitude);
+  const lon = _parseCoordValue(d.longitude);
+  if(lat!==null && lon!==null && lat>=-35&&lat<=6&&lon>=-75&&lon<=-30) return {lat, lon};
+  return null;
+}
+// Constrói URL do Google Maps com as coordenadas reais
+function _buildMapsUrl(d){
+  const c = _getOfflineCoords(d);
+  if(c) return `https://www.google.com/maps/search/?api=1&query=${c.lat},${c.lon}`;
+  const end = (d.endereco||'').trim();
+  if(end && !/^-?\d/.test(end) && !/abrir/i.test(end) && !/^1,\s*1$/.test(end))
+    return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(end)}`;
+  return null;
+}
+// Constrói URL do MyGeotab pelo número de série do dispositivo
+function _buildGeotabUrl(d){
+  const s = (d.serie||'').trim();
+  if(s && !/^abrir/i.test(s) && !/^\s*$/.test(s))
+    return `https://my.geotab.com/geotab/checkmate/ui/index.html#device!${s}`;
+  return null;
+}
+function renderOfflineHeatmap(data){
+  const el = document.getElementById('offHeatmap');
+  const legend = document.getElementById('offHeatmapLegend');
+  const summary = document.getElementById('offHeatmapSummary');
+  if(!el) return;
+  const pointsRaw = (data || []).map(d => ({d, c:_getOfflineCoords(d)})).filter(x => x.c);
+  if(!pointsRaw.length){
+    el.innerHTML = '<div class="off-heatmap-grid"></div><div class="off-heatmap-empty">Sem latitude/longitude válida nos dados filtrados. Verifique se Latitude e Longitude estão como número ou se o endereço veio no formato “lat, long”.</div>';
+    if(legend) legend.innerHTML = '';
+    if(summary) summary.innerHTML = '';
+    return;
+  }
+  const groups = {};
+  pointsRaw.forEach(p => {
+    const key = `${p.c.lat.toFixed(3)},${p.c.lon.toFixed(3)}`;
+    if(!groups[key]) groups[key] = {lat:p.c.lat, lon:p.c.lon, count:0, crit:0, maxDias:0, svcs:{}, rows:[]};
+    const g = groups[key];
+    g.count++;
+    if(p.d.criticidade === 'CRITICO') g.crit++;
+    g.maxDias = Math.max(g.maxDias, asNum(p.d.diasMax));
+    g.svcs[p.d.svc || 'N/I'] = (g.svcs[p.d.svc || 'N/I'] || 0) + 1;
+    g.rows.push(p.d);
+  });
+  const pts = Object.values(groups);
+  const lats = pts.map(p=>p.lat), lons = pts.map(p=>p.lon);
+  let minLat=Math.min(...lats), maxLat=Math.max(...lats), minLon=Math.min(...lons), maxLon=Math.max(...lons);
+  if(maxLat-minLat < .01){ maxLat += .01; minLat -= .01; }
+  if(maxLon-minLon < .01){ maxLon += .01; minLon -= .01; }
+  const maxCount = Math.max(...pts.map(p=>p.count), 1);
+  el.innerHTML = '<div class="off-heatmap-grid"></div>' + pts.map(p=>{
+    const left = 5 + ((p.lon - minLon) / (maxLon - minLon)) * 90;
+    const top = 92 - ((p.lat - minLat) / (maxLat - minLat)) * 84;
+    const size = Math.max(18, Math.min(58, 16 + (p.count / maxCount) * 42));
+    const cls = p.crit > 0 ? 'crit' : (p.maxDias >= 3 ? 'att' : 'ok');
+    const topSvc = Object.entries(p.svcs).sort((a,b)=>b[1]-a[1])[0]?.[0] || 'N/I';
+    const first = p.rows[0];
+    const idx = dataOffline.indexOf(first);
+    const title = `${p.count} veículo(s) · ${topSvc} · ${p.maxDias} dia(s) · ${p.lat.toFixed(5)}, ${p.lon.toFixed(5)}`;
+    return `<div class="off-heatmap-point ${cls}" style="left:${left}%;top:${top}%;width:${size}px;height:${size}px;" title="${_esc(title)}" onclick="openVehicleProfile(${idx})">${p.count}</div>`;
+  }).join('');
+  const topClusters = pts.slice().sort((a,b)=>b.count-a.count || b.maxDias-a.maxDias).slice(0,3);
+  if(legend) legend.innerHTML = `<span><i class="off-heatmap-dot" style="background:#c62828"></i>crítico</span><span><i class="off-heatmap-dot" style="background:#f57c00"></i>atenção</span><span><i class="off-heatmap-dot" style="background:#1565c0"></i>recente/ok</span><span>${pointsRaw.length} veículo(s) com coordenada válida</span>`;
+  if(summary) summary.innerHTML = topClusters.map((p,idx)=>{ const topSvc = Object.entries(p.svcs).sort((a,b)=>b[1]-a[1])[0]?.[0] || 'N/I'; return `<div class="off-map-card"><small>#${idx+1} ponto quente</small><b>${topSvc}</b><div style="font-size:12px;color:#607d8b;margin-top:3px;">${p.count} veículo(s) · ${p.maxDias} dia(s) máx.<br>${p.lat.toFixed(5)}, ${p.lon.toFixed(5)}</div></div>`; }).join('');
+}
+
+function renderOfflineScenario(allRows, offline, naoAtivo){
+  const head = document.getElementById('offScenarioHeadline');
+  const txt = document.getElementById('offScenarioText');
+  const top3El = document.getElementById('offScenarioTop3');
+  const top3SubEl = document.getElementById('offScenarioTop3Sub');
+  const noMapEl = document.getElementById('offScenarioNoMap');
+  const noMapSubEl = document.getElementById('offScenarioNoMapSub');
+  const riskEl = document.getElementById('offScenarioMaxRisk');
+  const riskSubEl = document.getElementById('offScenarioMaxRiskSub');
+  const countBy = (arr, fn) => { const m = {}; (arr||[]).forEach(d=>{ const k = fn(d) || 'N/I'; m[k] = (m[k] || 0) + 1; }); return Object.entries(m).sort((a,b)=>b[1]-a[1]); };
+  const topSvc = countBy(offline, d=>d.svc);
+  const totalOffline = offline.length || 0;
+  const top3 = topSvc.slice(0,3);
+  const top3Qtd = top3.reduce((acc, cur)=>acc + Number(cur[1] || 0), 0);
+  const top3Pct = totalOffline ? ((top3Qtd / totalOffline) * 100).toFixed(1) : '0.0';
+  const semMapa = (offline || []).filter(d=>!(d.googleMaps || d.mapa)).length;
+  const semMapaPct = totalOffline ? ((semMapa / totalOffline) * 100).toFixed(1) : '0.0';
+  const criticos = (offline || []).filter(d=>d.criticidade === 'CRITICO').length;
+  const maior = (offline || []).slice().sort((a,b)=>(Number(b.diasMax)||0) - (Number(a.diasMax)||0))[0] || null;
+  const principal = topSvc[0] || ['--', 0];
+  if(head) head.innerHTML = totalOffline
+    ? `Cenário atual: <span style="color:#c62828;">${totalOffline.toLocaleString('pt-BR')} offline(s)</span>, ${criticos.toLocaleString('pt-BR')} crítico(s) e ${naoAtivo.length.toLocaleString('pt-BR')} não ativo(s)`
+    : 'Cenário atual estável: nenhum dispositivo offline nos filtros aplicados';
+  if(txt) txt.innerHTML = totalOffline
+    ? `A maior pressão está concentrada em <b>${_esc(principal[0])}</b>, com <b>${Number(principal[1]||0).toLocaleString('pt-BR')} registro(s)</b>. As 3 principais bases representam <b>${top3Pct}%</b> do total offline. ${semMapa>0 ? `Existem <b>${semMapa.toLocaleString('pt-BR')} dispositivo(s)</b> sem link de localização, o que exige saneamento para melhorar a tratativa.` : 'A cobertura de localização está consistente nos filtros atuais.'} O gráfico ao lado mostra a curva de concentração do offline por SVC.`
+    : 'Sem pressão relevante no momento. Esta área pode ser usada para acompanhar rapidamente a concentração do risco, o peso das bases e a cobertura de localização.';
+  if(top3El) top3El.textContent = `${top3Qtd.toLocaleString('pt-BR')} · ${top3Pct}%`;
+  if(top3SubEl) top3SubEl.textContent = top3.length ? top3.map(([k,v])=>`${k}: ${v}`).join(' · ') : 'Sem concentração relevante';
+  if(noMapEl) noMapEl.textContent = `${semMapa.toLocaleString('pt-BR')} · ${semMapaPct}%`;
+  if(noMapSubEl) noMapSubEl.textContent = semMapa ? 'offline(s) sem Google Maps/coord.' : 'todos com alguma referência de localização';
+  if(riskEl) riskEl.textContent = maior ? `${_bestPlate(maior) || maior.veiculo || '--'} · ${Number(maior.diasMax||0)}d` : '--';
+  if(riskSubEl) riskSubEl.textContent = maior ? `${maior.svc || 'N/I'} · ${maior.diasMovTxt || maior.diasComTxt || 'sem leitura'}` : 'Sem risco crítico no momento';
 }
 
 function renderOfflineCharts(offline, allRows=dataOfflineFiltered){
@@ -4342,39 +4717,106 @@ function renderOfflineCharts(offline, allRows=dataOfflineFiltered){
     plugins: [ChartDataLabels]
   });
 
-  // 5) Top 10 veículos mais críticos - usa dias de movimento/comunicação da planilha
-  destroy('top');
-  const top = [...offline]
-    .map(d => ({...d, diasPlot: asNum(d.diasMax)}))
-    .sort((a,b) => b.diasPlot - a.diasPlot)
-    .slice(0, 10);
-  chartsOffline.top = new Chart(document.getElementById('chartOffTop'), {
-    type: 'bar',
-    data: { labels: top.map(d => shortLabel(d.placa || d.veiculo || 'N/I', 22)), datasets: [{ label: 'Dias offline', data: top.map(d => asNum(d.diasPlot)), backgroundColor: _offChartColors(top.map(d=>_bestPlate(d)), 'veiculo', '#e65100'), borderRadius: 6 }] },
-    options: { ...horizontalOpts, onClick: (e, el) => { if(el.length){ _setOfflineChartFilter('veiculo', _bestPlate(top[el[0].index])); } }, plugins: { ...horizontalOpts.plugins, tooltip: { callbacks: { label: ctx => `${asNum(ctx.raw).toLocaleString('pt-BR')} dias offline` } } } },
+  // Mapa de calor removido conforme solicitação.
+  // 5) Gráfico de linha - pressão offline por SVC (Top 10)
+  destroy('scenario');
+  const scenarioRows = count(offline, d => d.svc).slice(0, 10);
+  chartsOffline.scenario = new Chart(document.getElementById('chartOffScenario'), {
+    type: 'line',
+    data: {
+      labels: scenarioRows.map(x => shortLabel(x[0], 18)),
+      datasets: [{
+        label: 'Offline',
+        data: scenarioRows.map(x => asNum(x[1])),
+        borderColor: '#1565c0',
+        backgroundColor: 'rgba(21,101,192,0.12)',
+        fill: true,
+        tension: 0.35,
+        pointRadius: 4,
+        pointHoverRadius: 5,
+        pointBackgroundColor: '#1565c0',
+        pointBorderColor: '#ffffff',
+        pointBorderWidth: 2
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        datalabels: { align: 'top', anchor: 'end', color: '#1565c0', font: { weight: '900', size: 10 }, formatter: v => asNum(v) ? asNum(v).toLocaleString('pt-BR') : '' },
+        tooltip: { callbacks: { label: ctx => `Offline: ${asNum(ctx.raw).toLocaleString('pt-BR')}` } }
+      },
+      scales: {
+        x: { ticks: { font: chartFont, maxRotation: 35, minRotation: 20 } },
+        y: { beginAtZero: true, ticks: { precision: 0, font: chartFont } }
+      },
+      onClick: (e, el) => { if(el.length){ _setOfflineChartFilter('svc', scenarioRows[el[0].index][0]); } }
+    },
     plugins: [ChartDataLabels]
   });
 
-  // 5) Endereços com maior recorrência - agrupa pelo começo do endereço
+  destroy('top');
   destroy('end');
-  const end = count(offline, d => {
-    const e = String(d.endereco || '').replace(/\s+/g, ' ').trim();
-    if (!e) return 'N/I';
-    return e.split(',').slice(0, 2).join(',');
-  }).slice(0, 10);
-  chartsOffline.end = new Chart(document.getElementById('chartOffEndereco'), {
-    type: 'bar',
-    data: { labels: end.map(x => shortLabel(x[0], 38)), datasets: [{ label: 'Ocorrências', data: end.map(x => asNum(x[1])), backgroundColor: _offChartColors(end.map(x=>x[0]), 'endereco', '#607d8b'), borderRadius: 6 }] },
-    options: { ...horizontalOpts, onClick: (e, el) => { if(el.length){ _setOfflineChartFilter('endereco', end[el[0].index][0]); } } },
-    plugins: [ChartDataLabels]
-  });
 }
 function renderOfflineTable(data){
   const tb=document.getElementById('offTableBody'); if(!tb)return;
-  tb.innerHTML=data.sort((a,b)=>b.diasMax-a.diasMax).map((d,i)=>{
-    const mapa=d.mapa?`<a href="${_esc(_safeMapUrl(d.mapa,d.endereco)||'')}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation();" style="color:#1565c0;font-weight:800;">Abrir</a>`:'--';
+  // Ordena: críticos primeiro, depois por dias decrescente
+  const cOrd={CRITICO:0,ATENCAO:1,RECENTE:2,OFFLINE:3,NAO_ATIVO:4,OK:5};
+  const sorted=data.slice().sort((a,b)=>{
+    const ca=cOrd[a.criticidade]??6, cb=cOrd[b.criticidade]??6;
+    return ca!==cb ? ca-cb : b.diasMax-a.diasMax;
+  });
+  tb.innerHTML=sorted.map((d,i)=>{
     const idx=dataOffline.indexOf(d);
-    return `<tr><td title="${_esc(d.veiculo||'')}" onclick="openVehicleProfile(${idx})"><span class="off-vehicle-link">${_esc(d.veiculo||'--')}</span></td><td><strong>${_esc(d.placa||'--')}</strong></td><td>${_esc(d.svc||'--')}</td><td title="Fonte: ${_esc(d.modalFonte||'Planilha')}"><span class="modal-tag ${getModalClass(d.modal)}">${_esc(shortModal(d.modal||'N/I'))}</span></td><td>${_offBadge(d.criticidade)}</td><td>${_esc(d.plano||'--')}</td><td>${_esc(_formatOfflineDateText(d.ultima)||'--')}</td><td>${_esc(d.statusDisp||'--')}</td><td>${_esc(d.diasMovTxt||'--')}</td><td>${_esc(_formatOfflineDateText(d.diasComTxt)||'--')}</td><td title="${_esc(d.endereco||'')}" style="max-width:260px;overflow:hidden;text-overflow:ellipsis;">${_esc(d.endereco||'--')}</td><td>${mapa}</td></tr>`;
+    // Link Maps: URL real construída das coordenadas resolvidas
+    const mapa = d.googleMaps
+      ? `<a href="${_esc(d.googleMaps)}" target="_blank" rel="noopener"
+           style="display:inline-flex;align-items:center;gap:4px;padding:3px 10px;
+                  border-radius:10px;font-size:10px;font-weight:800;text-decoration:none;
+                  background:#e3f2fd;color:#1565c0;border:1px solid #90caf9;white-space:nowrap;"
+           title="${_esc(d._lat&&d._lon ? 'Lat: '+d._lat.toFixed(6)+' | Lon: '+d._lon.toFixed(6) : d.endereco||'')}">
+           📍 Maps</a>`
+      : `<span style="color:#ccc;font-size:11px;">--</span>`;
+    // Link Geotab: URL real pelo número de série
+    const geotab = d.myGeotab
+      ? `<a href="${_esc(d.myGeotab)}" target="_blank" rel="noopener"
+           style="display:inline-flex;align-items:center;gap:4px;padding:3px 10px;
+                  border-radius:10px;font-size:10px;font-weight:800;text-decoration:none;
+                  background:#e8f5e9;color:#2e7d32;border:1px solid #a5d6a7;white-space:nowrap;"
+           title="Série: ${_esc(d.serie||'')}">
+           🛰️ Geotab</a>`
+      : `<span style="color:#ccc;font-size:11px;">--</span>`;
+    const lat = d._lat!=null ? d._lat.toFixed(6) : '--';
+    const lon = d._lon!=null ? d._lon.toFixed(6) : '--';
+    const diasVal = d.diasMax||0;
+    let dbg='#f5f5f5',dcl='#999';
+    if(diasVal>=7){dbg='#ffebee';dcl='#c62828';}
+    else if(diasVal>=3){dbg='#fff3e0';dcl='#e65100';}
+    else if(diasVal>=1){dbg='#e3f2fd';dcl='#1565c0';}
+    else if(d.criticidade==='OK'){dbg='#e8f5e9';dcl='#2e7d32';}
+    const rowCls=d.criticidade==='CRITICO'?'style="background:#fff5f5;"':
+                 _isNaoAtivoOffline(d)?'style="background:#f8f8f8;"':'';
+    return `<tr ${rowCls}>
+      <td style="cursor:pointer;" onclick="openVehicleProfile(${idx})">
+        <div><span class="off-vehicle-link">${_esc(d.placa||'--')}</span></div>
+        <div style="font-size:10px;color:#888;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${_esc(d.veiculo||'')}">${_esc((d.veiculo||'').split('|').slice(1).join('|').trim()||d.veiculo||'')}</div>
+      </td>
+      <td style="font-weight:700;">${_esc(d.svc||'--')}</td>
+      <td><span class="modal-tag ${getModalClass(d.modal)}">${_esc(shortModal(d.modal||'N/I'))}</span></td>
+      <td style="font-size:11px;color:#555;">${_esc(d.status||'--')}</td>
+      <td>${_offBadge(d.criticidade)}</td>
+      <td><span style="padding:2px 8px;border-radius:10px;font-size:10px;font-weight:900;font-family:monospace;background:${dbg};color:${dcl};">${diasVal>0?diasVal+'d':'0d'}</span></td>
+      <td style="font-size:11px;white-space:nowrap;">${_esc(_formatOfflineDateText(d.ultima)||'--')}</td>
+      <td style="font-size:11px;color:#607d8b;">${_esc(d.statusDisp||'--')}</td>
+      <td style="font-size:11px;">${_esc(d.diasMovTxt||'--')}</td>
+      <td style="font-size:11px;">${_esc(d.statusAtivo||'--')}</td>
+      <td style="font-size:11px;">${_esc(d.statusInstalacao||'--')}</td>
+      <td style="font-family:monospace;font-size:10px;color:#607d8b;">${lat}</td>
+      <td style="font-family:monospace;font-size:10px;color:#607d8b;">${lon}</td>
+      <td>${mapa}</td>
+      <td>${geotab}</td>
+    </tr>`;
   }).join('');
 }
 
@@ -4389,7 +4831,21 @@ function openVehicleProfile(idx){
   const opRec = _lookupVehicleOperationalRecord(d);
   const offenderRec = _lookupVehicleOffenderRecord(d);
   const torreHit = opRec.hit || {};
-  const mapa = d.mapa ? `<a href="${_esc(_safeMapUrl(d.mapa,d.endereco)||'')}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation();" style="color:#1565c0;font-weight:900;">Abrir visualização no mapa</a>` : '--';
+  // Links funcionais usando coords reais e número de série
+  const mapa = d.googleMaps
+    ? `<a href="${d.googleMaps}" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:10px;font-size:12px;font-weight:800;text-decoration:none;background:#1565c0;color:white;">📍 Abrir Google Maps</a>`
+    : '<span style="color:#aaa;font-size:12px;">Sem coordenada disponível</span>';
+  const geotab = d.myGeotab
+    ? `<a href="${d.myGeotab}" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:10px;font-size:12px;font-weight:800;text-decoration:none;background:#2e7d32;color:white;">🛰️ Abrir MyGeotab</a>`
+    : '<span style="color:#aaa;font-size:12px;">Número de série não disponível</span>';
+  // Mapa embutido usando coordenadas reais resolvidas
+  const embedUrl = d._lat!=null && d._lon!=null
+    ? `https://maps.google.com/maps?q=${d._lat},${d._lon}&z=15&output=embed`
+    : (d.endereco && !/abrir|^-?\d.*,.*\d$|^1,\s*1$/.test(d.endereco)
+        ? `https://maps.google.com/maps?q=${encodeURIComponent(d.endereco)}&z=15&output=embed` : null);
+  const mapaVisual = embedUrl
+    ? `<iframe class="vehicle-map-frame" src="${_esc(embedUrl)}" loading="lazy"></iframe><div class="vehicle-mini-note">Coordenadas: ${d._lat!=null?d._lat.toFixed(6):'--'}, ${d._lon!=null?d._lon.toFixed(6):'--'} · Série: ${_esc(d.serie||'N/D')}</div>`
+    : 'Sem coordenada válida para visualização no mapa.';
   const statusColor = d.criticidade==='OK' ? '#2e7d32' : d.criticidade==='CRITICO' ? '#c62828' : d.criticidade==='ATENCAO' ? '#e65100' : '#1565c0';
   const card = (label, value, icon='') => `<div class="vehicle-profile-card"><div class="vehicle-profile-label">${icon} ${label}</div><div class="vehicle-profile-value">${value || '--'}</div></div>`;
   const html = `
@@ -4411,16 +4867,23 @@ function openVehicleProfile(idx){
         ${card('Modal', `${_esc(d.modal||'--')}<div style="font-size:11px;color:#999;margin-top:4px;">Fonte: ${_esc(d.modalFonte||'Planilha')}</div>`, '🚚')}
         ${card('Último ofensor registrado em PCML ou Scorecard', offenderRec.texto || '--', '🗺️')}
         ${card('Status de telemetria', _offBadge(d.criticidade) + `<div style="font-size:12px;color:#666;margin-top:6px;">${_esc(d.status||'--')}</div>`, '📡')}
-        ${card('Último registro de comunicação', _esc(_formatOfflineDateText(d.ultima)||'--'), '🕒')}
+        ${card('Última data de comunicação', _esc(_formatOfflineDateText(d.ultima)||'--'), '🕒')}
+        ${card('Último registro de viagem', _esc(_formatOfflineDateText(d.ultimoRegistroViagem)||'--'), '🚚')}
+        ${card('Último registro do GPS', _esc(_formatOfflineDateText(d.ultimoGPS)||'--'), '🛰️')}
+        ${card('Movimento do dispositivo', _esc(d.movimento||'--'), '📍')}
         ${card('Status do dispositivo', _esc(d.statusDisp||'--'), '🔋')}
         ${card('Último endereço conhecido', _esc(d.endereco||'--'), '📍')}
         ${card('Visualização no mapa', mapa, '🧭')}
+        ${card('Link MyGeotab', geotab, '🛰️')}
+        ${card('Status instalação', _esc(d.statusInstalacao||'--'), '🛠️')}
+        ${card('Status ativo Geotab', _esc(d.statusAtivo||'--'), '🚫')}
         ${card('Dias desde o último movimento', _esc(d.diasMovTxt||`${d.diasMov||0} dias`), '⏱️')}
         ${card('Dias desde o recebimento da comunicação', _esc(d.diasComTxt||`${d.diasCom||0} dias`), '📶')}
         ${card('Grupo', _esc(d.grupo||'--'), '🧩')}
         ${card('Número de série', _esc(d.serie||'--'), '🔢')}
         ${card('Plano do dispositivo', _esc(d.plano||'--'), '📋')}
         ${card('Informações adicionais', _esc(d.info||'--'), 'ℹ️')}
+        <div class="vehicle-profile-card full"><div class="vehicle-profile-label">🗺️ Mapa de localização</div><div class="vehicle-profile-value">${mapaVisual}</div></div>
       </div>
     </div>
     <div style="background:#fff;padding:12px 22px;border-top:1px solid #eee;display:flex;justify-content:space-between;align-items:center;font-size:11px;color:#999;">
@@ -4448,8 +4911,11 @@ function printOfflineTabela(){
       <td>${_esc(d.diasMovTxt||'--')}</td>
       <td>${_esc(_formatOfflineDateText(d.diasComTxt)||'--')}</td>
       <td>${_esc(d.endereco||'--')}</td>
+      <td>${_esc(d.statusAtivo||'--')}</td>
+      <td>${_esc(d.googleMaps||d.mapa||'--')}</td>
+      <td>${_esc(d.myGeotab||'--')}</td>
     </tr>`).join('');
-  const tableHTML = `<p style="font-size:12px;color:#666;margin-bottom:12px;">${rows.length} registros filtrados de ${dataOffline.length} registros totais</p><table style="font-size:10px;"><thead><tr><th>Veículo/Placa</th><th>SVC</th><th>Modal</th><th>Criticidade</th><th>Status</th><th>Plano</th><th>Última Comunicação</th><th>Status Dispositivo</th><th>Dias Mov.</th><th>Dias Comunicação</th><th>Endereço</th></tr></thead><tbody>${rowsHTML}</tbody></table>`;
+  const tableHTML = `<p style="font-size:12px;color:#666;margin-bottom:12px;">${rows.length} registros filtrados de ${dataOffline.length} registros totais</p><table style="font-size:10px;"><thead><tr><th>Veículo/Placa</th><th>SVC</th><th>Modal</th><th>Criticidade</th><th>Status</th><th>Plano</th><th>Última Comunicação</th><th>Status Dispositivo</th><th>Dias Mov.</th><th>Dias Comunicação</th><th>Endereço</th><th>Status Ativo</th><th>Google Maps</th><th>MyGeotab</th></tr></thead><tbody>${rowsHTML}</tbody></table>`;
   _openPrintWindow(_printWrap('📡 Dispositivo Offline — Detalhamento Completo', `${rows.length} registros`, '#10242b,#2c5364', tableHTML), 'Dispositivo Offline');
 }
 function printVehicleProfile(){
@@ -4459,8 +4925,20 @@ function printVehicleProfile(){
   _openPrintWindow(_printWrap('📡 Perfil do Veículo', 'Detalhamento operacional do dispositivo', '#10242b,#2c5364', html), 'Perfil Veiculo');
 }
 
-function exportOfflineExcel(){ const data=(dataOfflineFiltered.length?dataOfflineFiltered:getOfflineFiltered()).map(d=>({Veiculo:d.veiculo,Placa:d.placa,SVC:d.svc,Modal:d.modal,Status:d.status,Criticidade:d.criticidade,Plano:d.plano,Ultima_Comunicacao:_formatOfflineDateText(d.ultima),Status_Dispositivo:d.statusDisp,Info:d.info,Dias_Movimento:d.diasMovTxt,Dias_Comunicacao:_formatOfflineDateText(d.diasComTxt),Endereco:d.endereco,Mapa:d.mapa,Grupo:d.grupo,Serie:d.serie,Modal_Fonte:d.modalFonte||'Planilha'})); const wb=XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(data),'Dispositivo Offline'); XLSX.writeFile(wb,'Dispositivo_Offline.xlsx'); }
+function exportOfflineExcel(){ const data=(dataOfflineFiltered.length?dataOfflineFiltered:getOfflineFiltered()).map(d=>({Veiculo:d.veiculo,Placa:d.placa,SVC:d.svc,Modal:d.modal,Status:d.status,Criticidade:d.criticidade,Status_Ativo_Geotab:d.statusAtivo,Status_Comunicacao:d.statusComunicacao,Plano:d.plano,Ultima_Comunicacao:_formatOfflineDateText(d.ultima),Ultimo_Registro_Viagem:_formatOfflineDateText(d.ultimoRegistroViagem),Ultimo_Registro_GPS:_formatOfflineDateText(d.ultimoGPS),Movimento_Dispositivo:d.movimento,Status_Dispositivo:d.statusDisp,Info:d.info,Dias_Movimento:d.diasMovTxt,Dias_Comunicacao:_formatOfflineDateText(d.diasComTxt),Status_Instalacao:d.statusInstalacao,Endereco:d.endereco,Link_Google_Maps:d.googleMaps||d.mapa,Link_MyGeotab:d.myGeotab,Latitude:d._lat!=null?d._lat:d.latitude,Longitude:d._lon!=null?d._lon:d.longitude,Link_Maps_Real:d.googleMaps||'',Link_Geotab_Real:d.myGeotab||'',Grupo:d.grupo,Serie:d.serie,Atualizado_Em:_formatOfflineDateText(d.atualizado),Modal_Fonte:d.modalFonte||'Planilha'})); const wb=XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(data),'Dispositivo Offline'); XLSX.writeFile(wb,'Dispositivo_Offline.xlsx'); }
 function excelGraficoOffline(tipo){
+  if(tipo === 'heatmap'){
+    const rows = (dataOfflineFiltered.length ? dataOfflineFiltered : getOfflineFiltered())
+      .map(d => ({...d, __coords:_getOfflineCoords(d)}))
+      .filter(d => d.__coords)
+      .map(d => ({Placa:d.placa, Veiculo:d.veiculo, SVC:d.svc, Modal:d.modal, Criticidade:d.criticidade, Dias_Offline:d.diasMax, Latitude:d.__coords.lat, Longitude:d.__coords.lon, Endereco:d.endereco, Link_Google_Maps:d.googleMaps||d.mapa, Link_MyGeotab:d.myGeotab}));
+    if(!rows.length){ showExportToast('⚠️ Sem coordenadas válidas para exportar.', '#f57c00', true); return; }
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(rows), 'Mapa_Calor');
+    XLSX.writeFile(wb,'Dispositivo_Offline_Mapa_Calor_' + new Date().toLocaleDateString('pt-BR').replace(/\//g,'-') + '.xlsx');
+    showExportToast('✅ Excel do mapa de calor exportado!', '#1b5e20', true);
+    return;
+  }
   const labels = {
     svc: ['SVC','Dispositivo_Offline_SVC','Offline_por_SVC'],
     dias: ['Faixa','Dispositivo_Offline_Faixa_Dias','Faixa_Dias'],
@@ -6358,6 +6836,230 @@ const _origCLRegional = window.Chart;
   });
   window._pollCharts = _pollCharts;
 })();
+
+
+/* ============================================================
+   PATCH ECO EXPRESS — TORRE 2.0 baseada na aba TELEMETRIA_OFFLINE
+   Mantém as demais páginas intactas e reaproveita os IDs da aba Torre.
+   ============================================================ */
+function _torreNormHeader(s){ return normalizeString(String(s||'')).replace(/[^A-Z0-9]/g,''); }
+function _torreCell(row, idx){
+  if(idx == null || idx < 0 || !row || !row.c || !row.c[idx]) return '';
+  const c = row.c[idx];
+  if(c.f != null && String(c.f).trim() !== '') return String(c.f).trim();
+  if(c.v != null) return String(c.v).trim();
+  return '';
+}
+function _torreNum(v){
+  if(v == null || v === '') return 0;
+  const s = String(v).replace(/[^0-9,.-]/g,'').replace(/\./g,'').replace(',', '.');
+  const n = parseFloat(s);
+  return isNaN(n) ? 0 : n;
+}
+function _torreIsNaoAtivo(v){
+  const n = normalizeString(v);
+  return n.includes('NAO ATIVO') || n.includes('INATIVO') || n === 'NO' || n === 'N';
+}
+function _torreIsOffline(o){
+  const st = normalizeString([o.status, o.statusComunicacao, o.statusDisp, o.info].join(' '));
+  return o.diasCom > 0 || st.includes('OFFLINE') || st.includes('SEM COMUNICACAO') || st.includes('NO COMMUNICATION') || _torreIsNaoAtivo(o.statusAtivo);
+}
+function _torreCriticidade(o){
+  if(_torreIsNaoAtivo(o.statusAtivo)) return {nivel:'NAO_ATIVO', label:'🚫 Não ativo', cor:'#455a64', peso:4};
+  if(o.diasCom >= 7) return {nivel:'CRITICO', label:'🔥 Crítico +7d', cor:'#c62828', peso:5};
+  if(o.diasCom >= 3) return {nivel:'ATENCAO', label:'🟠 Atenção 3-7d', cor:'#f57c00', peso:3};
+  if(o.diasCom >= 1) return {nivel:'RECENTE', label:'🟡 Recente 1-2d', cor:'#f9a825', peso:2};
+  return {nivel:'OK', label:'🟢 OK', cor:'#2e7d32', peso:1};
+}
+function _torreMapaLink(o){
+  if(o.googleMaps) return o.googleMaps;
+  const lat = String(o.latitude||'').replace(',', '.');
+  const lon = String(o.longitude||'').replace(',', '.');
+  if(lat && lon && !isNaN(parseFloat(lat)) && !isNaN(parseFloat(lon))) return `https://www.google.com/maps?q=${lat},${lon}`;
+  return '';
+}
+function _torreSVCStats(data){
+  const map = {};
+  data.forEach(o=>{
+    const svc = o.svc || 'SEM SVC';
+    if(!map[svc]) map[svc] = {svc, total:0, offline:0, criticos:0, recentes:0, naoAtivo:0, semLocal:0, maxDias:0, modais:new Set(), placas:[]};
+    const s = map[svc];
+    s.total++;
+    if(o.offline) s.offline++;
+    if(o.crit.nivel === 'CRITICO') s.criticos++;
+    if(o.crit.nivel === 'RECENTE' || o.crit.nivel === 'ATENCAO') s.recentes++;
+    if(o.crit.nivel === 'NAO_ATIVO') s.naoAtivo++;
+    if(!o.endereco && (!o.latitude || !o.longitude)) s.semLocal++;
+    s.maxDias = Math.max(s.maxDias, o.diasCom || 0);
+    if(o.modal) s.modais.add(o.modal);
+    if(o.placa || o.veiculo) s.placas.push(o);
+  });
+  return Object.values(map).map(s=>({...s, risco:(s.criticos*5)+(s.naoAtivo*4)+(s.recentes*2)+s.offline, modaisArr:[...s.modais]}));
+}
+
+function loadTorre(force=false) {
+  document.getElementById('loadingOverlay').classList.add('active');
+  document.getElementById('loadingText').textContent = 'Carregando Torre TELEMETRIA_OFFLINE...';
+  const old = document.getElementById('script-torre'); if (old) old.remove();
+  const tq = encodeURIComponent('select *');
+  const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID_TORRE}/gviz/tq?tqx=out:json&gid=${GID_OFFLINE}&tq=${tq}`;
+  const script = document.createElement('script');
+  script.id = 'script-torre'; script.src = url;
+  window.google = window.google || {}; window.google.visualization = window.google.visualization || {}; window.google.visualization.Query = window.google.visualization.Query || {};
+  window.google.visualization.Query.setResponse = function(res){
+    try{
+      if(res.status === 'error') throw new Error('Erro ao acessar a aba TELEMETRIA_OFFLINE. Verifique se a planilha está pública.');
+      const cols = res.table.cols || [], rows = res.table.rows || [];
+      const idx = {}; cols.forEach((c,i)=>{ const k=_torreNormHeader(c.label || c.id || ''); if(k) idx[k]=i; });
+      const findIdx = (names, fallback) => {
+        for(const name of names){
+          const k = _torreNormHeader(name);
+          if(idx[k] != null) return idx[k];
+          const found = Object.keys(idx).find(x => x.includes(k) || k.includes(x));
+          if(found) return idx[found];
+        }
+        return fallback;
+      };
+      const C = {
+        placa:findIdx(['Placa','Placa separada'],0), veiculo:findIdx(['Veículo','Veiculo'],1), grupo:findIdx(['Grupo'],2), svc:findIdx(['SVC'],3),
+        serie:findIdx(['Número de série','Numero de serie'],4), status:findIdx(['Status'],5), ultima:findIdx(['Última data de comunicação','Ultima data de comunicacao'],7),
+        ultimoGPS:findIdx(['Último registro do GPS','Ultimo registro GPS'],9), movimento:findIdx(['Movimento do dispositivo','Movimento'],10),
+        statusDisp:findIdx(['Status do dispositivo','Status dispositivo'],11), info:findIdx(['Informações adicionais de status','Informacoes adicionais de status'],12),
+        endereco:findIdx(['Último endereço conhecido','Ultimo endereco conhecido'],13), diasMov:findIdx(['Dias desde o último movimento','Dias desde o ultimo movimento'],14),
+        diasCom:findIdx(['Dias desde o recebimento da comunicação','Dias desde o recebimento da comunicacao','Dias desde o recebimento da última comunicação'],15),
+        statusInstalacao:findIdx(['Status instalação','Status instalacao'],16), mapa:findIdx(['Visualização no mapa','Visualizacao no mapa','Link Google Maps','Google Maps'],17),
+        googleMaps:findIdx(['Link Google Maps','Google Maps','Visualização no mapa'],17), latitude:findIdx(['Latitude'],18), longitude:findIdx(['Longitude'],19),
+        myGeotab:findIdx(['Link MyGeotab','MyGeotab','Link My Geotab'],20), modal:findIdx(['Modal'],21), statusAtivo:findIdx(['Status ativo Geotab','Status ativo','Ativo Geotab'],22),
+        statusComunicacao:findIdx(['Status comunicação','Status comunicacao'],23), atualizado:findIdx(['Atualizado em','Atualizacao','Atualização'],24)
+      };
+      dataTorre = rows.map((r,ri)=>{
+        const o = {
+          placa:_torreCell(r,C.placa), veiculo:_torreCell(r,C.veiculo), grupo:_torreCell(r,C.grupo), svc:_torreCell(r,C.svc), serie:_torreCell(r,C.serie),
+          status:_torreCell(r,C.status), ultima:_torreCell(r,C.ultima), ultimoGPS:_torreCell(r,C.ultimoGPS), movimento:_torreCell(r,C.movimento),
+          statusDisp:_torreCell(r,C.statusDisp), info:_torreCell(r,C.info), endereco:_torreCell(r,C.endereco), diasMovTxt:_torreCell(r,C.diasMov), diasComTxt:_torreCell(r,C.diasCom),
+          statusInstalacao:_torreCell(r,C.statusInstalacao), googleMaps:_torreCell(r,C.googleMaps), latitude:_torreCell(r,C.latitude), longitude:_torreCell(r,C.longitude),
+          myGeotab:_torreCell(r,C.myGeotab), modal:_torreCell(r,C.modal), statusAtivo:_torreCell(r,C.statusAtivo), statusComunicacao:_torreCell(r,C.statusComunicacao),
+          atualizado:_torreCell(r,C.atualizado), rowIndex:ri
+        };
+        o.diasCom = _torreNum(o.diasComTxt); o.diasMov = _torreNum(o.diasMovTxt); o.crit = _torreCriticidade(o); o.offline = _torreIsOffline(o); o.mapLink = _torreMapaLink(o);
+        o.rsNum = o.crit.peso; o.totalSecs = o.diasCom * 86400; o.totalHoras = `${o.diasCom||0} dia(s)`;
+        return o;
+      }).filter(o => (o.placa || o.veiculo || o.serie) && (o.svc || o.grupo || o.status || o.statusComunicacao));
+      dataTorreSVC = {}; _torreSVCStats(dataTorre).forEach(s=>dataTorreSVC[s.svc]=s);
+      setupTorre(); updateTorreRefreshInfo();
+    } catch(err){ console.error(err); showTorreError(err.message || 'Erro ao carregar TELEMETRIA_OFFLINE.'); }
+    document.getElementById('loadingOverlay').classList.remove('active');
+  };
+  document.body.appendChild(script);
+}
+
+function setupTorre(){
+  const svcs = [...new Set(dataTorre.map(d=>d.svc).filter(Boolean))].sort();
+  const modais = [...new Set(dataTorre.map(d=>d.modal).filter(Boolean))].sort();
+  setupMultiSelect('dd-svc-torre', svcs, renderTorre);
+  setupMultiSelect('dd-modal-torre', modais, renderTorre);
+  activeSvcChips.clear(); renderSvcChips(svcs); renderTorre();
+}
+
+function renderTorre(){
+  const search = (document.getElementById('torre-search')?.value || '').toLowerCase();
+  const svcSel = getSelectedValues('dd-svc-torre');
+  const modalSel = getSelectedValues('dd-modal-torre');
+  const filtro = document.getElementById('torre-filter-custo')?.value || 'TODOS';
+  let filtered = dataTorre.filter(d=>{
+    const hay = [d.placa,d.veiculo,d.svc,d.modal,d.endereco,d.serie,d.statusAtivo,d.statusComunicacao].join(' ').toLowerCase();
+    const okSearch = !search || hay.includes(search);
+    const okSvcDrop = !svcSel.length || svcSel.includes(d.svc);
+    const okSvcChip = !activeSvcChips.size || activeSvcChips.has(d.svc);
+    const okModal = !modalSel.length || modalSel.includes(d.modal);
+    const okFiltro = filtro === 'TODOS' || (filtro === 'COM' && (d.crit.nivel === 'CRITICO' || d.crit.nivel === 'NAO_ATIVO' || d.offline)) || (filtro === 'SEM' && (d.crit.nivel === 'OK' || d.crit.nivel === 'RECENTE'));
+    return okSearch && okSvcDrop && okSvcChip && okModal && okFiltro;
+  });
+  const stats = _torreSVCStats(filtered);
+  const total = filtered.length, offline = filtered.filter(d=>d.offline).length, criticos = filtered.filter(d=>d.crit.nivel==='CRITICO').length, semLoc = filtered.filter(d=>!d.endereco && (!d.latitude || !d.longitude)).length;
+  document.getElementById('tkpi-total-veic').textContent = total;
+  document.getElementById('tkpi-total-svc').textContent = stats.filter(s=>s.offline>0).length;
+  document.getElementById('tkpi-com-custo').textContent = offline;
+  document.getElementById('tkpi-sem-custo').textContent = filtered.filter(d=>d.crit.nivel==='OK'||d.crit.nivel==='RECENTE').length;
+  document.getElementById('tkpi-modais').textContent = semLoc;
+  document.getElementById('torre-total-custo').textContent = offline;
+  document.getElementById('torre-total-horas').textContent = criticos;
+  document.getElementById('torre-count-label').textContent = `${filtered.length} registros`;
+  renderTorreComunicados(filtered); renderTorreCharts(filtered); renderTorreRanking(filtered); renderTorreSVCCards(filtered); renderTorreTable(filtered);
+}
+
+function updateTorreRefreshInfo(){
+  const el=document.getElementById('torre-last-update');
+  if(el) el.textContent=`Última leitura da TELEMETRIA_OFFLINE: ${new Date().toLocaleDateString('pt-BR')} ${new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit',second:'2-digit'})}`;
+  const chips=[['09','OK',d=>d.crit.nivel==='OK'],['12','1-2d',d=>d.crit.nivel==='RECENTE'],['15','3-7d',d=>d.crit.nivel==='ATENCAO'],['18','+7d',d=>d.crit.nivel==='CRITICO'],['21','S/LOC',d=>!d.endereco&&(!d.latitude||!d.longitude)]];
+  chips.forEach(([id,label,fn])=>{ const c=document.getElementById(`torre-chip-${id}`); if(!c) return; const qtd=(dataTorre||[]).filter(fn).length; c.textContent=`${label} ${qtd}`; c.classList.toggle('ok',qtd>0); });
+}
+
+function renderTorreComunicados(data){
+  const box=document.getElementById('torre-resumo-executivo'), title=document.getElementById('torre-resumo-title'), text=document.getElementById('torre-resumo-text'), status=document.getElementById('torre-resumo-status'), list=document.getElementById('torre-top3-list');
+  const stats=_torreSVCStats(data).sort((a,b)=>b.risco-a.risco).slice(0,3);
+  const offline=data.filter(d=>d.offline).length, crit=data.filter(d=>d.crit.nivel==='CRITICO').length, naoAtivo=data.filter(d=>d.crit.nivel==='NAO_ATIVO').length;
+  box.classList.remove('critico','estavel'); box.classList.add(crit||naoAtivo?'critico':'estavel');
+  title.innerHTML = data.length ? `<b>${crit+naoAtivo}</b> placas em prioridade máxima · ${offline} offline no filtro atual` : 'Aguardando dados da TELEMETRIA_OFFLINE';
+  text.textContent = data.length ? 'Atuação recomendada: priorizar bases do Top 3, validar placa/veículo no MyGeotab, acionar manutenção/instalação e registrar tratativa por SVC.' : 'Sem dados carregados.';
+  status.className = `torre-resumo-status ${crit||naoAtivo?'critico':'estavel'}`; status.textContent = crit||naoAtivo ? '🔴 Ação imediata' : '🟢 Cenário controlado';
+  list.innerHTML = stats.length ? stats.map((s,i)=>{
+    const pior=s.placas.sort((a,b)=>b.crit.peso-a.crit.peso || b.diasCom-a.diasCom)[0] || {};
+    return `<div class="torre-top3-card top${i+1}"><div class="torre-top3-pos">#${i+1}</div><div><div class="torre-top3-title">${s.svc} · ${s.offline} offline</div><div class="torre-top3-sub"><span class="torre-top3-money">${s.criticos} críticos +7d</span> · ${s.naoAtivo} não ativo · placa <span class="torre-top3-driver">${pior.placa||pior.veiculo||'--'}</span> · ${pior.diasCom||0}d sem comunicação</div></div></div>`;
+  }).join('') : '<div class="torre-top3-card vazio"><div class="torre-top3-pos">OK</div><div><div class="torre-top3-title">Sem ofensores no filtro</div><div class="torre-top3-sub">Ajuste os filtros ou atualize a base.</div></div></div>';
+}
+
+function renderTorreCharts(data){
+  const stats=_torreSVCStats(data).sort((a,b)=>b.offline-a.offline).slice(0,15);
+  const ctx1=document.getElementById('chartTorreCustoSVC').getContext('2d'); if(chartsTorre.custoSVC) chartsTorre.custoSVC.destroy();
+  chartsTorre.custoSVC=new Chart(ctx1,{type:'bar',data:{labels:stats.map(s=>s.svc),datasets:[{label:'Offline',data:stats.map(s=>s.offline),backgroundColor:stats.map((s,i)=>i===0?'#c62828':i<3?'#f57c00':'#607d8b'),borderRadius:6}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},datalabels:{anchor:'end',align:'right',font:{weight:'bold'},formatter:v=>v||''}},scales:{x:{beginAtZero:true,ticks:{precision:0}}}}});
+  const modal={}; data.forEach(d=>{const k=d.modal||'Sem modal'; modal[k]=(modal[k]||0)+1;}); const ml=Object.keys(modal).sort((a,b)=>modal[b]-modal[a]);
+  const ctx2=document.getElementById('chartTorreModal').getContext('2d'); if(chartsTorre.modal) chartsTorre.modal.destroy();
+  chartsTorre.modal=new Chart(ctx2,{type:'doughnut',data:{labels:ml,datasets:[{data:ml.map(k=>modal[k]),backgroundColor:['#10242b','#2c5364','#607d8b','#1565c0','#8e24aa','#f57c00','#c62828','#2e7d32']}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'right',labels:{font:{size:11}}},datalabels:{color:'white',font:{weight:'bold'},formatter:(v,ctx)=>{const total=ctx.dataset.data.reduce((a,b)=>a+b,0); const pct=total?Math.round(v/total*100):0; return pct>=6?pct+'%':'';}}}}});
+  const buckets={'OK':0,'1-2d':0,'3-7d':0,'+7d':0,'Não ativo':0}; data.forEach(d=>{ if(d.crit.nivel==='NAO_ATIVO') buckets['Não ativo']++; else if(d.diasCom>=7) buckets['+7d']++; else if(d.diasCom>=3) buckets['3-7d']++; else if(d.diasCom>=1) buckets['1-2d']++; else buckets['OK']++; });
+  const ctx3=document.getElementById('chartTorreHorario').getContext('2d'); if(chartsTorre.horario) chartsTorre.horario.destroy();
+  chartsTorre.horario=new Chart(ctx3,{type:'bar',data:{labels:Object.keys(buckets),datasets:[{label:'Dispositivos',data:Object.values(buckets),backgroundColor:['#2e7d32','#f9a825','#f57c00','#c62828','#455a64'],borderRadius:6}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},datalabels:{color:'white',font:{weight:'bold'},formatter:v=>v||''}},scales:{y:{beginAtZero:true,ticks:{precision:0}}}}});
+  const top=stats.slice(0,10); const ctx4=document.getElementById('chartTorreProporcao').getContext('2d'); if(chartsTorre.prop) chartsTorre.prop.destroy();
+  chartsTorre.prop=new Chart(ctx4,{type:'bar',data:{labels:top.map(s=>s.svc),datasets:[{label:'Crítico +7d',data:top.map(s=>s.criticos),backgroundColor:'#c62828'},{label:'Não ativo',data:top.map(s=>s.naoAtivo),backgroundColor:'#455a64'},{label:'Atenção/Recente',data:top.map(s=>s.recentes),backgroundColor:'#f57c00'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'top'},datalabels:{display:false}},scales:{x:{stacked:true},y:{stacked:true,beginAtZero:true,ticks:{precision:0}}}}});
+}
+
+function getTorreRankingMeta(mode){ if(mode==='veiculos') return {titulo:'🏆 Ranking SVCs por Quantidade de Dispositivos',label:'Dispositivos',cor:'#1565c0'}; if(mode==='media') return {titulo:'🏆 Ranking SVCs por Maior Dias Offline',label:'Maior dias',cor:'#6a1b9a'}; return {titulo:'🏆 Ranking SVCs por Risco Offline',label:'Risco',cor:'#c62828'}; }
+function renderTorreRanking(data){
+  const mode=getTorreRankingMode(), meta=getTorreRankingMeta(mode); document.getElementById('torre-ranking-title').textContent=meta.titulo;
+  const arr=_torreSVCStats(data).map(s=>({...s, indicador: mode==='veiculos'?s.total:mode==='media'?s.maxDias:s.risco})).sort((a,b)=>b.indicador-a.indicador).slice(0,12);
+  const ul=document.getElementById('torre-ranking'); const max=Math.max(...arr.map(s=>s.indicador),1);
+  ul.innerHTML=arr.map((s,i)=>`<li class="rank-item"><span class="rank-num ${i===0?'gold':i===1?'silver':i===2?'bronze':''}">${i+1}</span><div class="rank-bar-wrap"><div class="rank-name">${s.svc} <span style="color:#999;font-size:11px;">${s.total} disp. · ${s.offline} offline · ${s.criticos} críticos</span></div><div class="rank-bar" style="width:${(s.indicador/max*100).toFixed(0)}%;background:${meta.cor};"></div></div><div class="rank-val" style="color:${meta.cor};">${mode==='media'?s.maxDias+'d':s.indicador}</div></li>`).join('') || '<li style="color:#888;padding:18px;">Nenhum dado encontrado.</li>';
+}
+
+function renderTorreSVCCards(data){
+  const grid=document.getElementById('torre-svc-grid'); const svcs=_torreSVCStats(data).sort((a,b)=>b.risco-a.risco).slice(0,12); grid.innerHTML='';
+  if(!svcs.length){ grid.innerHTML='<div style="grid-column:1/-1;padding:34px;text-align:center;color:#888;background:white;border-radius:14px;">Nenhum dado encontrado para os filtros atuais.</div>'; return; }
+  svcs.forEach((s,i)=>{
+    const placas=s.placas.sort((a,b)=>b.crit.peso-a.crit.peso||b.diasCom-a.diasCom).slice(0,8).map((o,idx)=>`<tr><td style="text-align:center;"><span class="rank-pos ${idx===0?'top1':idx===1?'top2':idx===2?'top3':''}">${idx+1}</span></td><td><span class="placa-cell">${o.placa||o.veiculo||'--'}</span><div style="font-size:10px;color:#888;margin-top:2px;">${o.veiculo||o.serie||''}</div></td><td><span style="font-weight:900;color:${o.crit.cor};">${o.crit.label}</span></td><td class="hora-cell">${o.diasCom||0}d</td><td style="font-size:11px;color:#555;max-width:180px;overflow:hidden;text-overflow:ellipsis;">${o.endereco||'Sem endereço'}</td></tr>`).join('');
+    grid.innerHTML += `<div class="svc-card"><div class="svc-card-header"><div><div class="svc-name">${s.svc}</div><div class="svc-total">${s.total} dispositivos · ${s.modaisArr.length} modais</div></div><div class="svc-cost">${s.offline} OFF</div></div><div class="svc-card-kpis"><div class="svc-kpi-item"><div class="svc-kpi-val red">${s.criticos}</div><div class="svc-kpi-lbl">Crítico +7d</div></div><div class="svc-kpi-item"><div class="svc-kpi-val orange">${s.naoAtivo}</div><div class="svc-kpi-lbl">Não ativo</div></div><div class="svc-kpi-item"><div class="svc-kpi-val blue">${s.maxDias}d</div><div class="svc-kpi-lbl">Maior off</div></div><div class="svc-kpi-item"><div class="svc-kpi-val">${s.semLocal}</div><div class="svc-kpi-lbl">Sem loc.</div></div></div><div class="svc-card-scroll"><table class="svc-table-mini"><thead><tr><th>#</th><th>Placa</th><th>Criticidade</th><th>Dias</th><th>Endereço</th></tr></thead><tbody>${placas}</tbody></table></div></div>`;
+  });
+}
+
+function renderTorreTable(data){
+  const tbody=document.getElementById('torre-tbody'); const sorted=[...data].sort((a,b)=>b.crit.peso-a.crit.peso||b.diasCom-a.diasCom); tbody.innerHTML='';
+  sorted.forEach(o=>{ const mapa=o.mapLink?`<a href="${o.mapLink}" target="_blank" style="color:#1565c0;font-weight:800;">Mapa</a>`:'--'; const geo=o.myGeotab?`<a href="${o.myGeotab}" target="_blank" style="color:#2e7d32;font-weight:800;">Geotab</a>`:'';
+    tbody.innerHTML += `<tr><td><span class="modal-tag ${getModalClass(o.modal||'')}">${(o.modal||'--').substring(0,18)}</span></td><td><span class="td-placa">${o.placa||o.veiculo||'--'}</span><div style="font-size:10px;color:#999;">${o.veiculo||o.serie||''}</div></td><td style="font-weight:800;">${o.svc||'--'}</td><td style="font-weight:900;color:${o.crit.cor};">${o.crit.label}</td><td class="td-horas">${o.diasCom||0}d</td><td class="td-horas">${o.diasMov||0}d</td><td style="font-size:11px;color:#555;">${o.ultima||'--'}</td><td style="font-size:11px;font-weight:800;">${o.statusAtivo||'--'}</td><td><span class="status-dot ${o.offline?'dot-com-custo':'dot-sem-custo'}"></span>${o.statusComunicacao||o.status||'--'}</td><td style="font-size:11px;max-width:260px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" title="${o.endereco||''}">${o.endereco||'Sem endereço'}</td><td>${mapa} ${geo}</td></tr>`;
+  });
+}
+
+function exportarTorreExcel(){
+  if(!dataTorre.length){ alert('Nenhum dado carregado.'); return; }
+  const rows=dataTorre.map(o=>({SVC:o.svc, MODAL:o.modal, PLACA:o.placa, VEICULO:o.veiculo, SERIE:o.serie, CRITICIDADE:o.crit.label, 'DIAS SEM COMUNICACAO':o.diasCom, 'DIAS SEM MOVIMENTO':o.diasMov, 'ULTIMA COMUNICACAO':o.ultima, 'STATUS ATIVO':o.statusAtivo, 'STATUS COMUNICACAO':o.statusComunicacao, ENDERECO:o.endereco, LATITUDE:o.latitude, LONGITUDE:o.longitude, GOOGLE_MAPS:o.mapLink, MYGEOTAB:o.myGeotab}));
+  const wb=XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(rows), 'TELEMETRIA_OFFLINE'); XLSX.writeFile(wb, 'Torre_TELEMETRIA_OFFLINE.xlsx');
+}
+
+function exportarRankingSVCExcel(){
+  const rows=_torreSVCStats(dataTorre).sort((a,b)=>b.risco-a.risco).map((s,i)=>({'#':i+1,SVC:s.svc,DISPOSITIVOS:s.total,OFFLINE:s.offline,'CRITICOS +7D':s.criticos,'NAO ATIVO':s.naoAtivo,'SEM LOCALIZACAO':s.semLocal,'MAIOR DIAS OFF':s.maxDias,RISCO:s.risco,MODAIS:s.modaisArr.join(', ')}));
+  const wb=XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(rows), 'Ranking_SVC_Offline'); XLSX.writeFile(wb, 'Ranking_SVC_TELEMETRIA_OFFLINE.xlsx');
+}
+function exportarTodosSVCExcel(){ exportarRankingSVCExcel(); }
+function excelGraficoTorre(){ exportarTorreExcel(); }
+
 </script>
 <div id="exportToast" class="export-toast"></div>
 </body>
