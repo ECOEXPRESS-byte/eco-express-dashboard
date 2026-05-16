@@ -4028,6 +4028,30 @@ function printDriverProfile() {
 // =============================
 let activeOfflineChartFilter = null;
 function _offCell(row, idx){ if(!row||!row.c||!row.c[idx]) return ''; const c=row.c[idx]; const f=c.f!=null?String(c.f).trim():''; const v=c.v!=null?String(c.v).trim():''; return f!==''?f:v; }
+function _decodeHtmlEntitiesOffline(s){
+  return String(s||'')
+    .replace(/&amp;/g,'&')
+    .replace(/&quot;/g,'"')
+    .replace(/&#39;/g,"'")
+    .replace(/&lt;/g,'<')
+    .replace(/&gt;/g,'>');
+}
+function _extractOfflineUrl(v){
+  const raw = String(v||'').trim();
+  if(!raw) return '';
+  const decoded = _decodeHtmlEntitiesOffline(raw);
+  const href = decoded.match(/href=["']([^"']+)["']/i);
+  if(href && /^https?:\/\//i.test(href[1])) return href[1].trim();
+  const formula = decoded.match(/HYPERLINK\(["']([^"']+)["']/i);
+  if(formula && /^https?:\/\//i.test(formula[1])) return formula[1].trim();
+  const url = decoded.match(/https?:\/\/[^\s"'<>]+/i);
+  return url ? url[0].trim() : '';
+}
+function _offCellLink(row, idx){
+  if(!row||!row.c||!row.c[idx]) return '';
+  const c=row.c[idx];
+  return _extractOfflineUrl(c?.p?.link) || _extractOfflineUrl(c?.p?.href) || _extractOfflineUrl(c?.p?.url) || _extractOfflineUrl(c.f) || _extractOfflineUrl(c.v) || '';
+}
 function _offRawCell(row, idx){ if(!row||!row.c||!row.c[idx]) return ''; const c=row.c[idx]; return c.v!=null?String(c.v).trim():(c.f!=null?String(c.f).trim():''); }
 function _parseCoord(v){
   let s=String(v||'').trim();
@@ -4339,6 +4363,7 @@ function loadOffline(force=false){
         const latRaw=_offCell(r,C.latitude);
         const lonRaw=_offCell(r,C.longitude);
         const serie=_offCell(r,C.serie);
+        const myGeotabOriginal=_offCellLink(r,C.myGeotab) || _offCell(r,C.myGeotab);
         const o={
           veiculo:_offCell(r,C.veiculo),grupo:_offCell(r,C.grupo),serie,
           status:_offCell(r,C.status),plano:_offCell(r,C.plano),
@@ -4349,7 +4374,8 @@ function loadOffline(force=false){
           statusInstalacao:_offCell(r,C.statusInstalacao),
           placa:_offCell(r,C.placa),modal:_offCell(r,C.modal),svc:_offCell(r,C.svc),
           statusAtivo:_offCell(r,C.statusAtivo),statusComunicacao:_offCell(r,C.statusComunicacao),
-          latitude:latRaw,longitude:lonRaw,atualizado:_offCell(r,C.atualizado)
+          latitude:latRaw,longitude:lonRaw,atualizado:_offCell(r,C.atualizado),
+          myGeotabOriginal
         };
         // Resolve coordenadas reais (prioriza endereço que vem correto da API)
         const coords = _getOfflineCoords(o);
@@ -4532,11 +4558,16 @@ function _buildMapsUrl(d){
     return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(end)}`;
   return null;
 }
-// Constrói URL do MyGeotab pelo número de série do dispositivo
+// Constrói URL do MyGeotab.
+// Prioridade: link real vindo da planilha. Se a API não trouxer o link oculto da célula,
+// usa apenas o portal oficial, sem /geotab/#devices, porque esse caminho gera erro 404.
 function _buildGeotabUrl(d){
-  const s = (d.serie||'').trim();
-  if(s && !/^abrir/i.test(s) && !/^\s*$/.test(s))
-    return `https://my.geotab.com/geotab/checkmate/ui/index.html#device!${s}`;
+  const original = _extractOfflineUrl(d?.myGeotabOriginal || d?.myGeotab || '');
+  if(original) return original;
+  const s = String(d?.serie || '').trim();
+  if(s && !/^abrir/i.test(s)){
+    return `https://my.geotab.com/`;
+  }
   return null;
 }
 function renderOfflineHeatmap(data){
@@ -4780,11 +4811,11 @@ function renderOfflineTable(data){
       : `<span style="color:#ccc;font-size:11px;">--</span>`;
     // Link Geotab: URL real pelo número de série
     const geotab = d.myGeotab
-      ? `<a href="${_esc(d.myGeotab)}" target="_blank" rel="noopener"
+      ? `<a href="${_esc(d.myGeotab)}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation();"
            style="display:inline-flex;align-items:center;gap:4px;padding:3px 10px;
                   border-radius:10px;font-size:10px;font-weight:800;text-decoration:none;
                   background:#e8f5e9;color:#2e7d32;border:1px solid #a5d6a7;white-space:nowrap;"
-           title="Série: ${_esc(d.serie||'')}">
+           title="${_esc(d.myGeotabOriginal && _extractOfflineUrl(d.myGeotabOriginal) ? 'Abrir link real da planilha' : 'Abrir MyGeotab e buscar pela série: ' + (d.serie||''))}">
            🛰️ Geotab</a>`
       : `<span style="color:#ccc;font-size:11px;">--</span>`;
     const lat = d._lat!=null ? d._lat.toFixed(6) : '--';
@@ -4836,7 +4867,7 @@ function openVehicleProfile(idx){
     ? `<a href="${d.googleMaps}" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:10px;font-size:12px;font-weight:800;text-decoration:none;background:#1565c0;color:white;">📍 Abrir Google Maps</a>`
     : '<span style="color:#aaa;font-size:12px;">Sem coordenada disponível</span>';
   const geotab = d.myGeotab
-    ? `<a href="${d.myGeotab}" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:10px;font-size:12px;font-weight:800;text-decoration:none;background:#2e7d32;color:white;">🛰️ Abrir MyGeotab</a>`
+    ? `<a href="${_esc(d.myGeotab)}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation();" style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:10px;font-size:12px;font-weight:800;text-decoration:none;background:#2e7d32;color:white;" title="${_esc(d.myGeotabOriginal && _extractOfflineUrl(d.myGeotabOriginal) ? 'Link real da planilha' : 'Buscar pela série: ' + (d.serie||''))}">🛰️ Abrir MyGeotab</a>`
     : '<span style="color:#aaa;font-size:12px;">Número de série não disponível</span>';
   // Mapa embutido usando coordenadas reais resolvidas
   const embedUrl = d._lat!=null && d._lon!=null
