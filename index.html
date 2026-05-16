@@ -903,6 +903,7 @@ td { padding: 12px; border-bottom: 1px solid #ddd; white-space: nowrap; }
 }
 
 
+
 /* ============================================================ */
 /* =============== NOVA ABA: DISPOSITIVO OFFLINE ============== */
 /* ============================================================ */
@@ -1623,35 +1624,35 @@ td { padding: 12px; border-bottom: 1px solid #ddd; white-space: nowrap; }
   </div>
 </div>
 
-<!-- ===== ABA TORRE TELEMETRIA OFFLINE ===== -->
+<!-- ===== ABA TORRE MOTOR LIGADO ===== -->
 <div id="abaTorre" class="tab-pane">
   <div class="container">
 
     <!-- Header Executivo -->
     <div class="torre-header-executive">
       <div>
-        <h2>📡 Torre de Controle — Telemetria Offline</h2>
-        <p id="torre-subtitle">Monitoramento executivo de dispositivos offline · SVCs críticos · localização e links operacionais</p>
+        <h2>🚛 Torre de Controle — Veículo Parado / Motor Ligado</h2>
+        <p id="torre-subtitle">Monitoramento de ociosidade e custo operacional por SVC · Atualizado em tempo real</p>
       </div>
       <div style="display:flex; gap:15px; flex-wrap:wrap; align-items:flex-start; justify-content:flex-end;">
         <div class="torre-update-panel">
-          <div class="torre-last-update" id="torre-last-update">Última leitura da TELEMETRIA_OFFLINE: --</div>
+          <div class="torre-last-update" id="torre-last-update">Última leitura da planilha: --</div>
           <div class="torre-horarios-box" title="Horários previstos de atualização do relatório">
-            <span class="torre-horarios-title">Janelas de criticidade</span>
-            <span class="torre-hora-chip" id="torre-chip-09">OK</span>
-            <span class="torre-hora-chip" id="torre-chip-12">1-2d</span>
-            <span class="torre-hora-chip" id="torre-chip-15">3-7d</span>
-            <span class="torre-hora-chip" id="torre-chip-18">+7d</span>
-            <span class="torre-hora-chip" id="torre-chip-21">S/LOC</span>
+            <span class="torre-horarios-title">Horários com atualização</span>
+            <span class="torre-hora-chip" id="torre-chip-09">09h</span>
+            <span class="torre-hora-chip" id="torre-chip-12">12h</span>
+            <span class="torre-hora-chip" id="torre-chip-15">15h</span>
+            <span class="torre-hora-chip" id="torre-chip-18">18h</span>
+            <span class="torre-hora-chip" id="torre-chip-21">21h</span>
           </div>
         </div>
         <div class="torre-total-badge">
           <div class="val" id="torre-total-custo">R$ 0,00</div>
-          <div class="lbl">🔴 Dispositivos Offline</div>
+          <div class="lbl">💰 Custo Total Operação</div>
         </div>
         <div class="torre-total-badge" style="background: linear-gradient(135deg, #2980b9, #1a5276);">
           <div class="val" id="torre-total-horas">00:00:00</div>
-          <div class="lbl">🔥 Críticos +7d</div>
+          <div class="lbl">⏱️ Total Horas Ociosas</div>
         </div>
       </div>
     </div>
@@ -1660,9 +1661,9 @@ td { padding: 12px; border-bottom: 1px solid #ddd; white-space: nowrap; }
     <!-- Resumo Executivo da Última Hora -->
     <div class="torre-resumo-executivo" id="torre-resumo-executivo">
       <div class="torre-resumo-main">
-        <div class="torre-resumo-eyebrow">Top 3 bases ofensoras da telemetria offline</div>
+        <div class="torre-resumo-eyebrow">Top 3 bases ofensoras da última hora</div>
         <div class="torre-resumo-title" id="torre-resumo-title">Aguardando leitura da operação...</div>
-        <div class="torre-resumo-text" id="torre-resumo-text">Assim que os dados forem carregados, esta caixa mostra as 3 bases que mais cresceram na última janela, com placas críticas, dias sem comunicação e prioridade de atuação.</div>
+        <div class="torre-resumo-text" id="torre-resumo-text">Assim que os dados forem carregados, esta caixa mostra as 3 bases que mais cresceram na última janela, com motorista ofensor e status de estabilização.</div>
         <div class="torre-resumo-status" id="torre-resumo-status">⏳ Aguardando atualização</div>
       </div>
       <div class="torre-resumo-side torre-top3-side">
@@ -1682,36 +1683,36 @@ td { padding: 12px; border-bottom: 1px solid #ddd; white-space: nowrap; }
     <div class="torre-kpis">
       <div class="torre-kpi-card">
         <div class="torre-kpi-val" id="tkpi-total-veic">0</div>
-        <div class="torre-kpi-lbl">Total Dispositivos</div>
-        <div class="torre-kpi-sub">na TELEMETRIA_OFFLINE</div>
+        <div class="torre-kpi-lbl">Total Veículos</div>
+        <div class="torre-kpi-sub">na base de dados</div>
       </div>
       <div class="torre-kpi-card blue">
         <div class="torre-kpi-val" id="tkpi-total-svc">0</div>
-        <div class="torre-kpi-lbl">SVCs Afetados</div>
-        <div class="torre-kpi-sub">com dispositivos offline</div>
+        <div class="torre-kpi-lbl">SVCs Ativos</div>
+        <div class="torre-kpi-sub">com ocorrências</div>
       </div>
       <div class="torre-kpi-card orange">
         <div class="torre-kpi-val" id="tkpi-com-custo">0</div>
-        <div class="torre-kpi-lbl">Offline / Crítico</div>
-        <div class="torre-kpi-sub">precisa tratativa</div>
+        <div class="torre-kpi-lbl">Veículos com Custo</div>
+        <div class="torre-kpi-sub">motor ligado detectado</div>
       </div>
       <div class="torre-kpi-card green">
         <div class="torre-kpi-val" id="tkpi-sem-custo">0</div>
-        <div class="torre-kpi-lbl">OK / Recente</div>
-        <div class="torre-kpi-sub">sem criticidade alta</div>
+        <div class="torre-kpi-lbl">Veículos Sem Custo</div>
+        <div class="torre-kpi-sub">dentro do padrão</div>
       </div>
       <div class="torre-kpi-card purple">
         <div class="torre-kpi-val" id="tkpi-modais">0</div>
-        <div class="torre-kpi-lbl">Sem Localização</div>
-        <div class="torre-kpi-sub">sem endereço/lat-long</div>
+        <div class="torre-kpi-lbl">Modais Diferentes</div>
+        <div class="torre-kpi-sub">tipos de veículos</div>
       </div>
     </div>
 
     <!-- Controles -->
     <div class="torre-controls">
       <div>
-        <label>🔍 Buscar Veículo / Placa / Endereço:</label>
-        <input type="text" id="torre-search" class="filter-input" placeholder="Digite placa, veículo, SVC, endereço ou série..." oninput="renderTorre_db()" style="min-width:220px;">
+        <label>🔍 Buscar Motorista / Placa:</label>
+        <input type="text" id="torre-search" class="filter-input" placeholder="Digite nome ou placa..." oninput="renderTorre_db()" style="min-width:220px;">
       </div>
       <div class="multi-select-container">
         <label>🏢 Filtrar SVC:</label>
@@ -1724,11 +1725,11 @@ td { padding: 12px; border-bottom: 1px solid #ddd; white-space: nowrap; }
         <div id="dd-modal-torre" class="multi-select-dropdown"></div>
       </div>
       <div>
-        <label>📊 Status:</label>
+        <label>💰 Apenas com Custo:</label>
         <select id="torre-filter-custo" class="filter-input" onchange="renderTorre_db()" style="min-width:160px;">
           <option value="TODOS">Todos</option>
-          <option value="COM">Offline / Crítico</option>
-          <option value="SEM">OK / Recente</option>
+          <option value="COM">Apenas com Custo</option>
+          <option value="SEM">Apenas sem Custo</option>
         </select>
       </div>
       <button class="btn-action btn-update" onclick="loadTorre(true)" style="margin-top:20px;">🔄 Atualizar</button>
@@ -1739,7 +1740,7 @@ td { padding: 12px; border-bottom: 1px solid #ddd; white-space: nowrap; }
     <div class="torre-charts">
       <div class="torre-chart-box" style="position:relative;" id="wrap-chartTorreCustoSVC">
         <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;margin-bottom:8px;">
-          <h3 style="margin:0;">🏢 Offline por SVC (Top 15)</h3>
+          <h3 style="margin:0;">💰 Custo por SVC (Top 15)</h3>
           <div style="display:flex;gap:5px;">
             <button class="btn-export-img" onclick="printGrafico('chartTorreCustoSVC','Custo por SVC — Torre','Torre_Custo_SVC')" title="Print"><i class="fas fa-camera"></i> Print</button>
             <button class="btn-export-img" onclick="excelGraficoTorre('custosvc')" style="background:linear-gradient(135deg,#27ae60,#1e8449);" title="Excel"><i class="fas fa-file-excel"></i> Excel</button>
@@ -1749,7 +1750,7 @@ td { padding: 12px; border-bottom: 1px solid #ddd; white-space: nowrap; }
       </div>
       <div class="torre-chart-box" style="position:relative;" id="wrap-chartTorreModal">
         <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;margin-bottom:8px;">
-          <h3 style="margin:0;">🚚 Distribuição por Modal</h3>
+          <h3 style="margin:0;">🚛 Distribuição por Modal</h3>
           <div style="display:flex;gap:5px;">
             <button class="btn-export-img" onclick="printGrafico('chartTorreModal','Distribuição por Modal — Torre','Torre_Dist_Modal')" title="Print"><i class="fas fa-camera"></i> Print</button>
             <button class="btn-export-img" onclick="excelGraficoTorre('modal')" style="background:linear-gradient(135deg,#27ae60,#1e8449);" title="Excel"><i class="fas fa-file-excel"></i> Excel</button>
@@ -1759,7 +1760,7 @@ td { padding: 12px; border-bottom: 1px solid #ddd; white-space: nowrap; }
       </div>
       <div class="torre-chart-box" style="position:relative;" id="wrap-chartTorreHorario">
         <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;margin-bottom:8px;">
-          <h3 style="margin:0;">📆 Faixa de Dias Sem Comunicação</h3>
+          <h3 style="margin:0;">⏱️ Horas Ociosas por Faixa de Horário</h3>
           <div style="display:flex;gap:5px;">
             <button class="btn-export-img" onclick="printGrafico('chartTorreHorario','Horas Ociosas por Horário — Torre','Torre_Horas_Horario')" title="Print"><i class="fas fa-camera"></i> Print</button>
             <button class="btn-export-img" onclick="excelGraficoTorre('horario')" style="background:linear-gradient(135deg,#27ae60,#1e8449);" title="Excel"><i class="fas fa-file-excel"></i> Excel</button>
@@ -1769,7 +1770,7 @@ td { padding: 12px; border-bottom: 1px solid #ddd; white-space: nowrap; }
       </div>
       <div class="torre-chart-box" style="position:relative;" id="wrap-chartTorreProporcao">
         <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;margin-bottom:8px;">
-          <h3 style="margin:0;">📊 Criticidade por SVC</h3>
+          <h3 style="margin:0;">📊 Horas Ociosas por Faixa × SVC</h3>
           <div style="display:flex;gap:5px;">
             <button class="btn-export-img" onclick="printGrafico('chartTorreProporcao','Horas por Faixa × SVC — Torre','Torre_Horas_SVC')" title="Print"><i class="fas fa-camera"></i> Print</button>
             <button class="btn-export-img" onclick="excelGraficoTorre('proporcao')" style="background:linear-gradient(135deg,#27ae60,#1e8449);" title="Excel"><i class="fas fa-file-excel"></i> Excel</button>
@@ -1782,12 +1783,12 @@ td { padding: 12px; border-bottom: 1px solid #ddd; white-space: nowrap; }
     <!-- Ranking SVCs por custo -->
     <div class="ranking-section" id="wrap-torre-ranking">
       <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:18px;">
-        <h3 style="margin:0;" id="torre-ranking-title">🏆 Ranking SVCs por Risco Offline</h3>
+        <h3 style="margin:0;" id="torre-ranking-title">🏆 Ranking SVCs por Custo de Ociosidade</h3>
         <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
           <select id="torre-ranking-mode" class="torre-ranking-select" onchange="renderTorre_db()" title="Classificar ranking">
-            <option value="valor">Classificar: Risco crítico</option>
+            <option value="valor">Classificar: Valor total</option>
             <option value="veiculos">Classificar: Quant. veículos</option>
-            <option value="media">Classificar: Maior dias offline</option>
+            <option value="media">Classificar: Média por veículo</option>
           </select>
           <button class="btn-export-img" onclick="printTorreRanking()" title="Imprimir ranking"><i class="fas fa-print"></i> Print</button>
           <button class="btn-export-img" onclick="exportarRankingSVCExcel()" style="background:linear-gradient(135deg,#27ae60,#1e8449);" title="Excel"><i class="fas fa-file-excel"></i> Excel</button>
@@ -1799,7 +1800,7 @@ td { padding: 12px; border-bottom: 1px solid #ddd; white-space: nowrap; }
     <!-- Cards por SVC — Filtros Clicáveis + Exportação -->
     <div style="background:white; border-radius:14px; padding:20px 24px; margin-bottom:20px; box-shadow:0 4px 15px rgba(0,0,0,0.08);">
       <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:16px;">
-        <h3 style="color:#1a1a2e; font-size:18px; margin:0;">🏢 Gestão por SVC</h3>
+        <h3 style="color:#1a1a2e; font-size:18px; margin:0;">📦 Visão por SVC</h3>
         <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
           <button onclick="limparFiltroSVC()" id="btn-limpar-svc"
             style="display:none; padding:7px 16px; background:#f44336; color:white; border:none; border-radius:20px; cursor:pointer; font-size:12px; font-weight:700; transition:0.2s;">
@@ -1827,7 +1828,7 @@ td { padding: 12px; border-bottom: 1px solid #ddd; white-space: nowrap; }
     <!-- Tabela Detalhada -->
     <div class="torre-main-table" id="wrap-torre-tabela">
       <h3 style="display:flex;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:15px;">
-        📋 Detalhamento TELEMETRIA_OFFLINE — <span id="torre-count-label">0 registros</span>
+        📋 Detalhamento Completo — <span id="torre-count-label">0 registros</span>
         <div style="display:flex;gap:6px;margin-left:auto;">
           <button class="btn-export-img" onclick="printTorreTabela()" title="Imprimir tabela completa"><i class="fas fa-print"></i> Print</button>
           <button class="btn-export-img" onclick="exportarTorreExcel()" style="background:linear-gradient(135deg,#27ae60,#1e8449);" title="Excel"><i class="fas fa-file-excel"></i> Excel</button>
@@ -1839,14 +1840,14 @@ td { padding: 12px; border-bottom: 1px solid #ddd; white-space: nowrap; }
             <th>MODAL</th>
             <th>PLACA</th>
             <th>SVC</th>
-            <th>OK</th>
-            <th>1-2d</th>
-            <th>3-7d</th>
-            <th>+7d</th>
-            <th>S/LOC</th>
-            <th>STATUS</th>
-            <th>ENDEREÇO</th>
-            <th>LINKS</th>
+            <th>09h</th>
+            <th>12h</th>
+            <th>15h</th>
+            <th>18h</th>
+            <th>21h</th>
+            <th>CUSTO R$</th>
+            <th>MOTORISTA</th>
+            <th>TOTAL HORAS</th>
           </tr>
         </thead>
         <tbody id="torre-tbody"></tbody>
@@ -1857,6 +1858,7 @@ td { padding: 12px; border-bottom: 1px solid #ddd; white-space: nowrap; }
 </div>
 
 
+<!-- ===== ABA DISPOSITIVO OFFILINE ===== -->
 <!-- ===== ABA DISPOSITIVO OFFLINE ===== -->
 <div id="abaOffline" class="tab-pane">
   <div class="container">
@@ -4023,7 +4025,6 @@ function printDriverProfile() {
 }
 
 
-// =============================
 // DISPOSITIVO OFFLINE
 // =============================
 let activeOfflineChartFilter = null;
@@ -6803,6 +6804,7 @@ function excelTreinoTabela() {
 }
 
 // ── TORRE ───────────────────────────────────────────────────
+
 function excelGraficoTorre(tipo) {
   const map = {
     custosvc:  [window._tChartCustoSVC,  'SVC',          'Torre_Custo_SVC',       'Custo_SVC'],
@@ -6813,6 +6815,7 @@ function excelGraficoTorre(tipo) {
   const m = map[tipo]; if (!m) return;
   _excelFromChart(m[0], m[1], m[2], m[3]);
 }
+
 
 // Intercepta criação dos charts para guardar referências globais para Excel
 // Checklist
@@ -6867,230 +6870,6 @@ const _origCLRegional = window.Chart;
   });
   window._pollCharts = _pollCharts;
 })();
-
-
-/* ============================================================
-   PATCH ECO EXPRESS — TORRE 2.0 baseada na aba TELEMETRIA_OFFLINE
-   Mantém as demais páginas intactas e reaproveita os IDs da aba Torre.
-   ============================================================ */
-function _torreNormHeader(s){ return normalizeString(String(s||'')).replace(/[^A-Z0-9]/g,''); }
-function _torreCell(row, idx){
-  if(idx == null || idx < 0 || !row || !row.c || !row.c[idx]) return '';
-  const c = row.c[idx];
-  if(c.f != null && String(c.f).trim() !== '') return String(c.f).trim();
-  if(c.v != null) return String(c.v).trim();
-  return '';
-}
-function _torreNum(v){
-  if(v == null || v === '') return 0;
-  const s = String(v).replace(/[^0-9,.-]/g,'').replace(/\./g,'').replace(',', '.');
-  const n = parseFloat(s);
-  return isNaN(n) ? 0 : n;
-}
-function _torreIsNaoAtivo(v){
-  const n = normalizeString(v);
-  return n.includes('NAO ATIVO') || n.includes('INATIVO') || n === 'NO' || n === 'N';
-}
-function _torreIsOffline(o){
-  const st = normalizeString([o.status, o.statusComunicacao, o.statusDisp, o.info].join(' '));
-  return o.diasCom > 0 || st.includes('OFFLINE') || st.includes('SEM COMUNICACAO') || st.includes('NO COMMUNICATION') || _torreIsNaoAtivo(o.statusAtivo);
-}
-function _torreCriticidade(o){
-  if(_torreIsNaoAtivo(o.statusAtivo)) return {nivel:'NAO_ATIVO', label:'🚫 Não ativo', cor:'#455a64', peso:4};
-  if(o.diasCom >= 7) return {nivel:'CRITICO', label:'🔥 Crítico +7d', cor:'#c62828', peso:5};
-  if(o.diasCom >= 3) return {nivel:'ATENCAO', label:'🟠 Atenção 3-7d', cor:'#f57c00', peso:3};
-  if(o.diasCom >= 1) return {nivel:'RECENTE', label:'🟡 Recente 1-2d', cor:'#f9a825', peso:2};
-  return {nivel:'OK', label:'🟢 OK', cor:'#2e7d32', peso:1};
-}
-function _torreMapaLink(o){
-  if(o.googleMaps) return o.googleMaps;
-  const lat = String(o.latitude||'').replace(',', '.');
-  const lon = String(o.longitude||'').replace(',', '.');
-  if(lat && lon && !isNaN(parseFloat(lat)) && !isNaN(parseFloat(lon))) return `https://www.google.com/maps?q=${lat},${lon}`;
-  return '';
-}
-function _torreSVCStats(data){
-  const map = {};
-  data.forEach(o=>{
-    const svc = o.svc || 'SEM SVC';
-    if(!map[svc]) map[svc] = {svc, total:0, offline:0, criticos:0, recentes:0, naoAtivo:0, semLocal:0, maxDias:0, modais:new Set(), placas:[]};
-    const s = map[svc];
-    s.total++;
-    if(o.offline) s.offline++;
-    if(o.crit.nivel === 'CRITICO') s.criticos++;
-    if(o.crit.nivel === 'RECENTE' || o.crit.nivel === 'ATENCAO') s.recentes++;
-    if(o.crit.nivel === 'NAO_ATIVO') s.naoAtivo++;
-    if(!o.endereco && (!o.latitude || !o.longitude)) s.semLocal++;
-    s.maxDias = Math.max(s.maxDias, o.diasCom || 0);
-    if(o.modal) s.modais.add(o.modal);
-    if(o.placa || o.veiculo) s.placas.push(o);
-  });
-  return Object.values(map).map(s=>({...s, risco:(s.criticos*5)+(s.naoAtivo*4)+(s.recentes*2)+s.offline, modaisArr:[...s.modais]}));
-}
-
-function loadTorre(force=false) {
-  document.getElementById('loadingOverlay').classList.add('active');
-  document.getElementById('loadingText').textContent = 'Carregando Torre TELEMETRIA_OFFLINE...';
-  const old = document.getElementById('script-torre'); if (old) old.remove();
-  const tq = encodeURIComponent('select *');
-  const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID_TORRE}/gviz/tq?tqx=out:json&gid=${GID_OFFLINE}&tq=${tq}`;
-  const script = document.createElement('script');
-  script.id = 'script-torre'; script.src = url;
-  window.google = window.google || {}; window.google.visualization = window.google.visualization || {}; window.google.visualization.Query = window.google.visualization.Query || {};
-  window.google.visualization.Query.setResponse = function(res){
-    try{
-      if(res.status === 'error') throw new Error('Erro ao acessar a aba TELEMETRIA_OFFLINE. Verifique se a planilha está pública.');
-      const cols = res.table.cols || [], rows = res.table.rows || [];
-      const idx = {}; cols.forEach((c,i)=>{ const k=_torreNormHeader(c.label || c.id || ''); if(k) idx[k]=i; });
-      const findIdx = (names, fallback) => {
-        for(const name of names){
-          const k = _torreNormHeader(name);
-          if(idx[k] != null) return idx[k];
-          const found = Object.keys(idx).find(x => x.includes(k) || k.includes(x));
-          if(found) return idx[found];
-        }
-        return fallback;
-      };
-      const C = {
-        placa:findIdx(['Placa','Placa separada'],0), veiculo:findIdx(['Veículo','Veiculo'],1), grupo:findIdx(['Grupo'],2), svc:findIdx(['SVC'],3),
-        serie:findIdx(['Número de série','Numero de serie'],4), status:findIdx(['Status'],5), ultima:findIdx(['Última data de comunicação','Ultima data de comunicacao'],7),
-        ultimoGPS:findIdx(['Último registro do GPS','Ultimo registro GPS'],9), movimento:findIdx(['Movimento do dispositivo','Movimento'],10),
-        statusDisp:findIdx(['Status do dispositivo','Status dispositivo'],11), info:findIdx(['Informações adicionais de status','Informacoes adicionais de status'],12),
-        endereco:findIdx(['Último endereço conhecido','Ultimo endereco conhecido'],13), diasMov:findIdx(['Dias desde o último movimento','Dias desde o ultimo movimento'],14),
-        diasCom:findIdx(['Dias desde o recebimento da comunicação','Dias desde o recebimento da comunicacao','Dias desde o recebimento da última comunicação'],15),
-        statusInstalacao:findIdx(['Status instalação','Status instalacao'],16), mapa:findIdx(['Visualização no mapa','Visualizacao no mapa','Link Google Maps','Google Maps'],17),
-        googleMaps:findIdx(['Link Google Maps','Google Maps','Visualização no mapa'],17), latitude:findIdx(['Latitude'],18), longitude:findIdx(['Longitude'],19),
-        myGeotab:findIdx(['Link MyGeotab','MyGeotab','Link My Geotab'],20), modal:findIdx(['Modal'],21), statusAtivo:findIdx(['Status ativo Geotab','Status ativo','Ativo Geotab'],22),
-        statusComunicacao:findIdx(['Status comunicação','Status comunicacao'],23), atualizado:findIdx(['Atualizado em','Atualizacao','Atualização'],24)
-      };
-      dataTorre = rows.map((r,ri)=>{
-        const o = {
-          placa:_torreCell(r,C.placa), veiculo:_torreCell(r,C.veiculo), grupo:_torreCell(r,C.grupo), svc:_torreCell(r,C.svc), serie:_torreCell(r,C.serie),
-          status:_torreCell(r,C.status), ultima:_torreCell(r,C.ultima), ultimoGPS:_torreCell(r,C.ultimoGPS), movimento:_torreCell(r,C.movimento),
-          statusDisp:_torreCell(r,C.statusDisp), info:_torreCell(r,C.info), endereco:_torreCell(r,C.endereco), diasMovTxt:_torreCell(r,C.diasMov), diasComTxt:_torreCell(r,C.diasCom),
-          statusInstalacao:_torreCell(r,C.statusInstalacao), googleMaps:_torreCell(r,C.googleMaps), latitude:_torreCell(r,C.latitude), longitude:_torreCell(r,C.longitude),
-          myGeotab:_torreCell(r,C.myGeotab), modal:_torreCell(r,C.modal), statusAtivo:_torreCell(r,C.statusAtivo), statusComunicacao:_torreCell(r,C.statusComunicacao),
-          atualizado:_torreCell(r,C.atualizado), rowIndex:ri
-        };
-        o.diasCom = _torreNum(o.diasComTxt); o.diasMov = _torreNum(o.diasMovTxt); o.crit = _torreCriticidade(o); o.offline = _torreIsOffline(o); o.mapLink = _torreMapaLink(o);
-        o.rsNum = o.crit.peso; o.totalSecs = o.diasCom * 86400; o.totalHoras = `${o.diasCom||0} dia(s)`;
-        return o;
-      }).filter(o => (o.placa || o.veiculo || o.serie) && (o.svc || o.grupo || o.status || o.statusComunicacao));
-      dataTorreSVC = {}; _torreSVCStats(dataTorre).forEach(s=>dataTorreSVC[s.svc]=s);
-      setupTorre(); updateTorreRefreshInfo();
-    } catch(err){ console.error(err); showTorreError(err.message || 'Erro ao carregar TELEMETRIA_OFFLINE.'); }
-    document.getElementById('loadingOverlay').classList.remove('active');
-  };
-  document.body.appendChild(script);
-}
-
-function setupTorre(){
-  const svcs = [...new Set(dataTorre.map(d=>d.svc).filter(Boolean))].sort();
-  const modais = [...new Set(dataTorre.map(d=>d.modal).filter(Boolean))].sort();
-  setupMultiSelect('dd-svc-torre', svcs, renderTorre);
-  setupMultiSelect('dd-modal-torre', modais, renderTorre);
-  activeSvcChips.clear(); renderSvcChips(svcs); renderTorre();
-}
-
-function renderTorre(){
-  const search = (document.getElementById('torre-search')?.value || '').toLowerCase();
-  const svcSel = getSelectedValues('dd-svc-torre');
-  const modalSel = getSelectedValues('dd-modal-torre');
-  const filtro = document.getElementById('torre-filter-custo')?.value || 'TODOS';
-  let filtered = dataTorre.filter(d=>{
-    const hay = [d.placa,d.veiculo,d.svc,d.modal,d.endereco,d.serie,d.statusAtivo,d.statusComunicacao].join(' ').toLowerCase();
-    const okSearch = !search || hay.includes(search);
-    const okSvcDrop = !svcSel.length || svcSel.includes(d.svc);
-    const okSvcChip = !activeSvcChips.size || activeSvcChips.has(d.svc);
-    const okModal = !modalSel.length || modalSel.includes(d.modal);
-    const okFiltro = filtro === 'TODOS' || (filtro === 'COM' && (d.crit.nivel === 'CRITICO' || d.crit.nivel === 'NAO_ATIVO' || d.offline)) || (filtro === 'SEM' && (d.crit.nivel === 'OK' || d.crit.nivel === 'RECENTE'));
-    return okSearch && okSvcDrop && okSvcChip && okModal && okFiltro;
-  });
-  const stats = _torreSVCStats(filtered);
-  const total = filtered.length, offline = filtered.filter(d=>d.offline).length, criticos = filtered.filter(d=>d.crit.nivel==='CRITICO').length, semLoc = filtered.filter(d=>!d.endereco && (!d.latitude || !d.longitude)).length;
-  document.getElementById('tkpi-total-veic').textContent = total;
-  document.getElementById('tkpi-total-svc').textContent = stats.filter(s=>s.offline>0).length;
-  document.getElementById('tkpi-com-custo').textContent = offline;
-  document.getElementById('tkpi-sem-custo').textContent = filtered.filter(d=>d.crit.nivel==='OK'||d.crit.nivel==='RECENTE').length;
-  document.getElementById('tkpi-modais').textContent = semLoc;
-  document.getElementById('torre-total-custo').textContent = offline;
-  document.getElementById('torre-total-horas').textContent = criticos;
-  document.getElementById('torre-count-label').textContent = `${filtered.length} registros`;
-  renderTorreComunicados(filtered); renderTorreCharts(filtered); renderTorreRanking(filtered); renderTorreSVCCards(filtered); renderTorreTable(filtered);
-}
-
-function updateTorreRefreshInfo(){
-  const el=document.getElementById('torre-last-update');
-  if(el) el.textContent=`Última leitura da TELEMETRIA_OFFLINE: ${new Date().toLocaleDateString('pt-BR')} ${new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit',second:'2-digit'})}`;
-  const chips=[['09','OK',d=>d.crit.nivel==='OK'],['12','1-2d',d=>d.crit.nivel==='RECENTE'],['15','3-7d',d=>d.crit.nivel==='ATENCAO'],['18','+7d',d=>d.crit.nivel==='CRITICO'],['21','S/LOC',d=>!d.endereco&&(!d.latitude||!d.longitude)]];
-  chips.forEach(([id,label,fn])=>{ const c=document.getElementById(`torre-chip-${id}`); if(!c) return; const qtd=(dataTorre||[]).filter(fn).length; c.textContent=`${label} ${qtd}`; c.classList.toggle('ok',qtd>0); });
-}
-
-function renderTorreComunicados(data){
-  const box=document.getElementById('torre-resumo-executivo'), title=document.getElementById('torre-resumo-title'), text=document.getElementById('torre-resumo-text'), status=document.getElementById('torre-resumo-status'), list=document.getElementById('torre-top3-list');
-  const stats=_torreSVCStats(data).sort((a,b)=>b.risco-a.risco).slice(0,3);
-  const offline=data.filter(d=>d.offline).length, crit=data.filter(d=>d.crit.nivel==='CRITICO').length, naoAtivo=data.filter(d=>d.crit.nivel==='NAO_ATIVO').length;
-  box.classList.remove('critico','estavel'); box.classList.add(crit||naoAtivo?'critico':'estavel');
-  title.innerHTML = data.length ? `<b>${crit+naoAtivo}</b> placas em prioridade máxima · ${offline} offline no filtro atual` : 'Aguardando dados da TELEMETRIA_OFFLINE';
-  text.textContent = data.length ? 'Atuação recomendada: priorizar bases do Top 3, validar placa/veículo no MyGeotab, acionar manutenção/instalação e registrar tratativa por SVC.' : 'Sem dados carregados.';
-  status.className = `torre-resumo-status ${crit||naoAtivo?'critico':'estavel'}`; status.textContent = crit||naoAtivo ? '🔴 Ação imediata' : '🟢 Cenário controlado';
-  list.innerHTML = stats.length ? stats.map((s,i)=>{
-    const pior=s.placas.sort((a,b)=>b.crit.peso-a.crit.peso || b.diasCom-a.diasCom)[0] || {};
-    return `<div class="torre-top3-card top${i+1}"><div class="torre-top3-pos">#${i+1}</div><div><div class="torre-top3-title">${s.svc} · ${s.offline} offline</div><div class="torre-top3-sub"><span class="torre-top3-money">${s.criticos} críticos +7d</span> · ${s.naoAtivo} não ativo · placa <span class="torre-top3-driver">${pior.placa||pior.veiculo||'--'}</span> · ${pior.diasCom||0}d sem comunicação</div></div></div>`;
-  }).join('') : '<div class="torre-top3-card vazio"><div class="torre-top3-pos">OK</div><div><div class="torre-top3-title">Sem ofensores no filtro</div><div class="torre-top3-sub">Ajuste os filtros ou atualize a base.</div></div></div>';
-}
-
-function renderTorreCharts(data){
-  const stats=_torreSVCStats(data).sort((a,b)=>b.offline-a.offline).slice(0,15);
-  const ctx1=document.getElementById('chartTorreCustoSVC').getContext('2d'); if(chartsTorre.custoSVC) chartsTorre.custoSVC.destroy();
-  chartsTorre.custoSVC=new Chart(ctx1,{type:'bar',data:{labels:stats.map(s=>s.svc),datasets:[{label:'Offline',data:stats.map(s=>s.offline),backgroundColor:stats.map((s,i)=>i===0?'#c62828':i<3?'#f57c00':'#607d8b'),borderRadius:6}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},datalabels:{anchor:'end',align:'right',font:{weight:'bold'},formatter:v=>v||''}},scales:{x:{beginAtZero:true,ticks:{precision:0}}}}});
-  const modal={}; data.forEach(d=>{const k=d.modal||'Sem modal'; modal[k]=(modal[k]||0)+1;}); const ml=Object.keys(modal).sort((a,b)=>modal[b]-modal[a]);
-  const ctx2=document.getElementById('chartTorreModal').getContext('2d'); if(chartsTorre.modal) chartsTorre.modal.destroy();
-  chartsTorre.modal=new Chart(ctx2,{type:'doughnut',data:{labels:ml,datasets:[{data:ml.map(k=>modal[k]),backgroundColor:['#10242b','#2c5364','#607d8b','#1565c0','#8e24aa','#f57c00','#c62828','#2e7d32']}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'right',labels:{font:{size:11}}},datalabels:{color:'white',font:{weight:'bold'},formatter:(v,ctx)=>{const total=ctx.dataset.data.reduce((a,b)=>a+b,0); const pct=total?Math.round(v/total*100):0; return pct>=6?pct+'%':'';}}}}});
-  const buckets={'OK':0,'1-2d':0,'3-7d':0,'+7d':0,'Não ativo':0}; data.forEach(d=>{ if(d.crit.nivel==='NAO_ATIVO') buckets['Não ativo']++; else if(d.diasCom>=7) buckets['+7d']++; else if(d.diasCom>=3) buckets['3-7d']++; else if(d.diasCom>=1) buckets['1-2d']++; else buckets['OK']++; });
-  const ctx3=document.getElementById('chartTorreHorario').getContext('2d'); if(chartsTorre.horario) chartsTorre.horario.destroy();
-  chartsTorre.horario=new Chart(ctx3,{type:'bar',data:{labels:Object.keys(buckets),datasets:[{label:'Dispositivos',data:Object.values(buckets),backgroundColor:['#2e7d32','#f9a825','#f57c00','#c62828','#455a64'],borderRadius:6}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},datalabels:{color:'white',font:{weight:'bold'},formatter:v=>v||''}},scales:{y:{beginAtZero:true,ticks:{precision:0}}}}});
-  const top=stats.slice(0,10); const ctx4=document.getElementById('chartTorreProporcao').getContext('2d'); if(chartsTorre.prop) chartsTorre.prop.destroy();
-  chartsTorre.prop=new Chart(ctx4,{type:'bar',data:{labels:top.map(s=>s.svc),datasets:[{label:'Crítico +7d',data:top.map(s=>s.criticos),backgroundColor:'#c62828'},{label:'Não ativo',data:top.map(s=>s.naoAtivo),backgroundColor:'#455a64'},{label:'Atenção/Recente',data:top.map(s=>s.recentes),backgroundColor:'#f57c00'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'top'},datalabels:{display:false}},scales:{x:{stacked:true},y:{stacked:true,beginAtZero:true,ticks:{precision:0}}}}});
-}
-
-function getTorreRankingMeta(mode){ if(mode==='veiculos') return {titulo:'🏆 Ranking SVCs por Quantidade de Dispositivos',label:'Dispositivos',cor:'#1565c0'}; if(mode==='media') return {titulo:'🏆 Ranking SVCs por Maior Dias Offline',label:'Maior dias',cor:'#6a1b9a'}; return {titulo:'🏆 Ranking SVCs por Risco Offline',label:'Risco',cor:'#c62828'}; }
-function renderTorreRanking(data){
-  const mode=getTorreRankingMode(), meta=getTorreRankingMeta(mode); document.getElementById('torre-ranking-title').textContent=meta.titulo;
-  const arr=_torreSVCStats(data).map(s=>({...s, indicador: mode==='veiculos'?s.total:mode==='media'?s.maxDias:s.risco})).sort((a,b)=>b.indicador-a.indicador).slice(0,12);
-  const ul=document.getElementById('torre-ranking'); const max=Math.max(...arr.map(s=>s.indicador),1);
-  ul.innerHTML=arr.map((s,i)=>`<li class="rank-item"><span class="rank-num ${i===0?'gold':i===1?'silver':i===2?'bronze':''}">${i+1}</span><div class="rank-bar-wrap"><div class="rank-name">${s.svc} <span style="color:#999;font-size:11px;">${s.total} disp. · ${s.offline} offline · ${s.criticos} críticos</span></div><div class="rank-bar" style="width:${(s.indicador/max*100).toFixed(0)}%;background:${meta.cor};"></div></div><div class="rank-val" style="color:${meta.cor};">${mode==='media'?s.maxDias+'d':s.indicador}</div></li>`).join('') || '<li style="color:#888;padding:18px;">Nenhum dado encontrado.</li>';
-}
-
-function renderTorreSVCCards(data){
-  const grid=document.getElementById('torre-svc-grid'); const svcs=_torreSVCStats(data).sort((a,b)=>b.risco-a.risco).slice(0,12); grid.innerHTML='';
-  if(!svcs.length){ grid.innerHTML='<div style="grid-column:1/-1;padding:34px;text-align:center;color:#888;background:white;border-radius:14px;">Nenhum dado encontrado para os filtros atuais.</div>'; return; }
-  svcs.forEach((s,i)=>{
-    const placas=s.placas.sort((a,b)=>b.crit.peso-a.crit.peso||b.diasCom-a.diasCom).slice(0,8).map((o,idx)=>`<tr><td style="text-align:center;"><span class="rank-pos ${idx===0?'top1':idx===1?'top2':idx===2?'top3':''}">${idx+1}</span></td><td><span class="placa-cell">${o.placa||o.veiculo||'--'}</span><div style="font-size:10px;color:#888;margin-top:2px;">${o.veiculo||o.serie||''}</div></td><td><span style="font-weight:900;color:${o.crit.cor};">${o.crit.label}</span></td><td class="hora-cell">${o.diasCom||0}d</td><td style="font-size:11px;color:#555;max-width:180px;overflow:hidden;text-overflow:ellipsis;">${o.endereco||'Sem endereço'}</td></tr>`).join('');
-    grid.innerHTML += `<div class="svc-card"><div class="svc-card-header"><div><div class="svc-name">${s.svc}</div><div class="svc-total">${s.total} dispositivos · ${s.modaisArr.length} modais</div></div><div class="svc-cost">${s.offline} OFF</div></div><div class="svc-card-kpis"><div class="svc-kpi-item"><div class="svc-kpi-val red">${s.criticos}</div><div class="svc-kpi-lbl">Crítico +7d</div></div><div class="svc-kpi-item"><div class="svc-kpi-val orange">${s.naoAtivo}</div><div class="svc-kpi-lbl">Não ativo</div></div><div class="svc-kpi-item"><div class="svc-kpi-val blue">${s.maxDias}d</div><div class="svc-kpi-lbl">Maior off</div></div><div class="svc-kpi-item"><div class="svc-kpi-val">${s.semLocal}</div><div class="svc-kpi-lbl">Sem loc.</div></div></div><div class="svc-card-scroll"><table class="svc-table-mini"><thead><tr><th>#</th><th>Placa</th><th>Criticidade</th><th>Dias</th><th>Endereço</th></tr></thead><tbody>${placas}</tbody></table></div></div>`;
-  });
-}
-
-function renderTorreTable(data){
-  const tbody=document.getElementById('torre-tbody'); const sorted=[...data].sort((a,b)=>b.crit.peso-a.crit.peso||b.diasCom-a.diasCom); tbody.innerHTML='';
-  sorted.forEach(o=>{ const mapa=o.mapLink?`<a href="${o.mapLink}" target="_blank" style="color:#1565c0;font-weight:800;">Mapa</a>`:'--'; const geo=o.myGeotab?`<a href="${o.myGeotab}" target="_blank" style="color:#2e7d32;font-weight:800;">Geotab</a>`:'';
-    tbody.innerHTML += `<tr><td><span class="modal-tag ${getModalClass(o.modal||'')}">${(o.modal||'--').substring(0,18)}</span></td><td><span class="td-placa">${o.placa||o.veiculo||'--'}</span><div style="font-size:10px;color:#999;">${o.veiculo||o.serie||''}</div></td><td style="font-weight:800;">${o.svc||'--'}</td><td style="font-weight:900;color:${o.crit.cor};">${o.crit.label}</td><td class="td-horas">${o.diasCom||0}d</td><td class="td-horas">${o.diasMov||0}d</td><td style="font-size:11px;color:#555;">${o.ultima||'--'}</td><td style="font-size:11px;font-weight:800;">${o.statusAtivo||'--'}</td><td><span class="status-dot ${o.offline?'dot-com-custo':'dot-sem-custo'}"></span>${o.statusComunicacao||o.status||'--'}</td><td style="font-size:11px;max-width:260px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" title="${o.endereco||''}">${o.endereco||'Sem endereço'}</td><td>${mapa} ${geo}</td></tr>`;
-  });
-}
-
-function exportarTorreExcel(){
-  if(!dataTorre.length){ alert('Nenhum dado carregado.'); return; }
-  const rows=dataTorre.map(o=>({SVC:o.svc, MODAL:o.modal, PLACA:o.placa, VEICULO:o.veiculo, SERIE:o.serie, CRITICIDADE:o.crit.label, 'DIAS SEM COMUNICACAO':o.diasCom, 'DIAS SEM MOVIMENTO':o.diasMov, 'ULTIMA COMUNICACAO':o.ultima, 'STATUS ATIVO':o.statusAtivo, 'STATUS COMUNICACAO':o.statusComunicacao, ENDERECO:o.endereco, LATITUDE:o.latitude, LONGITUDE:o.longitude, GOOGLE_MAPS:o.mapLink, MYGEOTAB:o.myGeotab}));
-  const wb=XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(rows), 'TELEMETRIA_OFFLINE'); XLSX.writeFile(wb, 'Torre_TELEMETRIA_OFFLINE.xlsx');
-}
-
-function exportarRankingSVCExcel(){
-  const rows=_torreSVCStats(dataTorre).sort((a,b)=>b.risco-a.risco).map((s,i)=>({'#':i+1,SVC:s.svc,DISPOSITIVOS:s.total,OFFLINE:s.offline,'CRITICOS +7D':s.criticos,'NAO ATIVO':s.naoAtivo,'SEM LOCALIZACAO':s.semLocal,'MAIOR DIAS OFF':s.maxDias,RISCO:s.risco,MODAIS:s.modaisArr.join(', ')}));
-  const wb=XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(rows), 'Ranking_SVC_Offline'); XLSX.writeFile(wb, 'Ranking_SVC_TELEMETRIA_OFFLINE.xlsx');
-}
-function exportarTodosSVCExcel(){ exportarRankingSVCExcel(); }
-function excelGraficoTorre(){ exportarTorreExcel(); }
-
 </script>
 <div id="exportToast" class="export-toast"></div>
 </body>
