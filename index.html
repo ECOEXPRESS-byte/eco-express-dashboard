@@ -1125,6 +1125,23 @@ td { padding: 12px; border-bottom: 1px solid #ddd; white-space: nowrap; }
     overflow: visible !important;
   }
 }
+
+/* Fix: SVC cards use auto height for proper layout */
+#abaTorre .svc-card {
+  height: auto !important;
+  min-height: auto !important;
+  max-height: none !important;
+}
+#abaTorre .svc-card-scroll {
+  max-height: 600px !important;
+  min-height: auto !important;
+  overflow-y: auto !important;
+}
+#abaTorre .svc-tab-content.active {
+  display: block !important;
+  flex: unset !important;
+}
+
 </style>
 </head>
 <body>
@@ -1873,6 +1890,7 @@ td { padding: 12px; border-bottom: 1px solid #ddd; white-space: nowrap; }
             <span class="torre-hora-chip" id="torre-chip-15">15h</span>
             <span class="torre-hora-chip" id="torre-chip-18">18h</span>
             <span class="torre-hora-chip" id="torre-chip-21">21h</span>
+            <span class="torre-hora-chip" id="torre-chip-23">23h</span>
           </div>
         </div>
         <div class="torre-total-badge">
@@ -2074,6 +2092,7 @@ td { padding: 12px; border-bottom: 1px solid #ddd; white-space: nowrap; }
             <th>15h</th>
             <th>18h</th>
             <th>21h</th>
+            <th>23h</th>
             <th>CUSTO R$</th>
             <th>MOTORISTA</th>
             <th>TOTAL HORAS</th>
@@ -2287,8 +2306,9 @@ function loadTorre(force=false) {
   document.getElementById('loadingOverlay').classList.add('active');
   document.getElementById('loadingText').textContent = 'Carregando Torre PCML...';
 
-  // Solicita apenas colunas A-J (0-9) — ignora K em diante que são totais de resumo
-  const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID_TORRE}/gviz/tq?tqx=out:json&gid=${GID_TORRE}&range=A:J`;
+  // Solicita colunas A-K para incluir o novo horário 23h
+  // Estrutura esperada: A=MODAL, B=VEÍCULO, C=SVC, D=09h, E=12h, F=15h, G=18h, H=21h, I=23h, J=R$, K=MOTORISTA
+  const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID_TORRE}/gviz/tq?tqx=out:json&gid=${GID_TORRE}&range=A:K`;
 
   // Remove script anterior se houver
   const oldScript = document.getElementById('script-torre');
@@ -2315,16 +2335,16 @@ function loadTorre(force=false) {
     const rows = res.table.rows;
 
     // ─────────────────────────────────────────────────────────────
-    // ESTRUTURA USADA: apenas colunas A–J (índices 0–9)
-    //  0=MODAL  1=VEÍCULO  2=SVC  3=09h  4=12h  5=15h  6=18h  7=21h
-    //  8=R$     9=MOTORISTA
+    // ESTRUTURA USADA: colunas A–K (índices 0–10)
+    //  0=MODAL  1=VEÍCULO  2=SVC  3=09h  4=12h  5=15h  6=18h  7=21h  8=23h
+    //  9=R$     10=MOTORISTA
     //
     // REGRAS DE LINHA:
     //  • colA === 'MODAL'     → linha de cabeçalho de bloco SVC  (ignora)
     //  • colA === 'R$ TOTAL'  → linha de custo total do bloco     (ignora — calculamos via veículos)
     //  • caso contrário       → linha de veículo real
     //
-    // TEMPO TOTAL do veículo = soma D+E+F+G+H (última coluna com valor é a acumulada,
+    // TEMPO TOTAL do veículo = soma D+E+F+G+H+I (incluindo 23h),
     //  mas para precisão somamos todas as faixas individualmente)
     // ─────────────────────────────────────────────────────────────
 
@@ -2375,6 +2395,7 @@ function loadTorre(force=false) {
       const h15str = cv(r, 5);
       const h18str = cv(r, 6);
       const h21str = cv(r, 7);
+      const h23str = cv(r, 8);
 
       // ── Converte cada faixa para segundos
       //    Se cell.f vier como "0:03:47" ou "00:03:47" → usa timeToSecondsTorre
@@ -2384,17 +2405,18 @@ function loadTorre(force=false) {
       const s15 = timeToSecondsTorre(h15str);
       const s18 = timeToSecondsTorre(h18str);
       const s21 = timeToSecondsTorre(h21str);
+      const s23 = timeToSecondsTorre(h23str);
 
       // ── Tempo total do veículo = soma de TODAS as faixas
       //    (a última coluna preenchida na planilha é acumulada, mas somamos para garantir)
-      const totalSecs = s09 + s12 + s15 + s18 + s21;
+      const totalSecs = s09 + s12 + s15 + s18 + s21 + s23;
 
       // ── Custo R$ — cell.f geralmente "R$ 3,47" ou "R$ 0,00"
-      const rsStr = cv(r, 8);
+      const rsStr = cv(r, 9);
       const rsNum = parseRealBR(rsStr);
 
-      // ── Motorista — coluna J (índice 9)
-      const motorista = cv(r, 9);
+      // ── Motorista — coluna K (índice 10)
+      const motorista = cv(r, 10);
 
       // ── SVC vem diretamente da coluna C de cada linha de veículo
       const svc = colC.trim();
@@ -2405,7 +2427,7 @@ function loadTorre(force=false) {
       // ── Agrega dados do SVC em dataTorreSVC (calculado dos veículos)
       if (svc) {
         if (!dataTorreSVC[svc]) {
-          dataTorreSVC[svc] = { svc, totalCusto: 0, totalSecs: 0, s09: 0, s12: 0, s15: 0, s18: 0, s21: 0 };
+          dataTorreSVC[svc] = { svc, totalCusto: 0, totalSecs: 0, s09: 0, s12: 0, s15: 0, s18: 0, s21: 0, s23: 0 };
         }
         dataTorreSVC[svc].totalCusto += rsNum;
         dataTorreSVC[svc].totalSecs  += totalSecs;
@@ -2414,14 +2436,15 @@ function loadTorre(force=false) {
         dataTorreSVC[svc].s15        += s15;
         dataTorreSVC[svc].s18        += s18;
         dataTorreSVC[svc].s21        += s21;
+        dataTorreSVC[svc].s23        += s23;
       }
 
       dataTorre.push({
         modal:      colA.trim(),
         veiculo:    colB.trim(),
         svc,
-        h09: h09str, h12: h12str, h15: h15str, h18: h18str, h21: h21str,
-        s09, s12, s15, s18, s21,
+        h09: h09str, h12: h12str, h15: h15str, h18: h18str, h21: h21str, h23: h23str,
+        s09, s12, s15, s18, s21, s23,
         rsStr,
         rsNum,
         motorista:  motorista.trim(),
@@ -2650,7 +2673,8 @@ function getTorreActiveTimeKeys(data) {
     { key: 's12', label: '12h' },
     { key: 's15', label: '15h' },
     { key: 's18', label: '18h' },
-    { key: 's21', label: '21h' }
+    { key: 's21', label: '21h' },
+    { key: 's23', label: '23h' }
   ];
   return slots.filter(slot => (data || []).some(d => (d[slot.key] || 0) > 0));
 }
@@ -2848,8 +2872,8 @@ function renderTorreCharts(data) {
   });
 
   // ── 3. FAIXAS DE HORÁRIO — soma segundos reais por faixa de todos os veículos
-  const faixaSecs = { '09h': 0, '12h': 0, '15h': 0, '18h': 0, '21h': 0 };
-  const faixaVeic = { '09h': 0, '12h': 0, '15h': 0, '18h': 0, '21h': 0 };
+  const faixaSecs = { '09h': 0, '12h': 0, '15h': 0, '18h': 0, '21h': 0, '23h': 0 };
+  const faixaVeic = { '09h': 0, '12h': 0, '15h': 0, '18h': 0, '21h': 0, '23h': 0 };
 
   data.forEach(d => {
     faixaSecs['09h'] += (d.s09 || 0);
@@ -2857,16 +2881,18 @@ function renderTorreCharts(data) {
     faixaSecs['15h'] += (d.s15 || 0);
     faixaSecs['18h'] += (d.s18 || 0);
     faixaSecs['21h'] += (d.s21 || 0);
+    faixaSecs['23h'] += (d.s23 || 0);
     if ((d.s09||0) > 0) faixaVeic['09h']++;
     if ((d.s12||0) > 0) faixaVeic['12h']++;
     if ((d.s15||0) > 0) faixaVeic['15h']++;
     if ((d.s18||0) > 0) faixaVeic['18h']++;
     if ((d.s21||0) > 0) faixaVeic['21h']++;
+    if ((d.s23||0) > 0) faixaVeic['23h']++;
   });
 
-  const faixas = ['09h','12h','15h','18h','21h'];
+  const faixas = ['09h','12h','15h','18h','21h','23h'];
   const faixaHrsVal = faixas.map(f => parseFloat((faixaSecs[f]/3600).toFixed(2)));
-  const faixaColors = ['#1a5276','#2471a3','#e67e22','#c0392b','#6c3483'];
+  const faixaColors = ['#1a5276','#2471a3','#e67e22','#c0392b','#6c3483','#2e7d32'];
 
   const ctx3 = document.getElementById('chartTorreHorario').getContext('2d');
   if (chartsTorre.horario) chartsTorre.horario.destroy();
@@ -2921,7 +2947,7 @@ function renderTorreCharts(data) {
     // dataTorreSVC já foi preenchido com soma dos veículos no loadTorre
     const s = dataTorreSVC[svc];
     if (s) {
-      svcsFaixaData[svc] = [s.s09/3600, s.s12/3600, s.s15/3600, s.s18/3600, s.s21/3600].map(v=>parseFloat(v.toFixed(3)));
+      svcsFaixaData[svc] = [s.s09/3600, s.s12/3600, s.s15/3600, s.s18/3600, s.s21/3600, (s.s23||0)/3600].map(v=>parseFloat(v.toFixed(3)));
     } else {
       const veicsDoSVC = data.filter(d=>d.svc===svc);
       svcsFaixaData[svc] = [
@@ -2929,7 +2955,8 @@ function renderTorreCharts(data) {
         parseFloat((veicsDoSVC.reduce((a,d)=>a+(d.s12||0),0)/3600).toFixed(3)),
         parseFloat((veicsDoSVC.reduce((a,d)=>a+(d.s15||0),0)/3600).toFixed(3)),
         parseFloat((veicsDoSVC.reduce((a,d)=>a+(d.s18||0),0)/3600).toFixed(3)),
-        parseFloat((veicsDoSVC.reduce((a,d)=>a+(d.s21||0),0)/3600).toFixed(3))
+        parseFloat((veicsDoSVC.reduce((a,d)=>a+(d.s21||0),0)/3600).toFixed(3)),
+        parseFloat((veicsDoSVC.reduce((a,d)=>a+(d.s23||0),0)/3600).toFixed(3))
       ];
     }
   });
@@ -2981,7 +3008,7 @@ function updateTorreRefreshInfo() {
   const el = document.getElementById('torre-last-update');
   if (el) el.textContent = `Última leitura da planilha: ${now.toLocaleDateString('pt-BR')} ${now.toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit', second:'2-digit'})}`;
   const faixas = [
-    ['09', 's09'], ['12', 's12'], ['15', 's15'], ['18', 's18'], ['21', 's21']
+    ['09', 's09'], ['12', 's12'], ['15', 's15'], ['18', 's18'], ['21', 's21'], ['23', 's23']
   ];
   faixas.forEach(([hora, key]) => {
     const chip = document.getElementById(`torre-chip-${hora}`);
@@ -3056,7 +3083,7 @@ function renderTorreSVCCards(data) {
   data.forEach(d => {
     if (!d.svc) return;
     if (!svcMap[d.svc]) {
-      svcMap[d.svc] = { svc: d.svc, veiculos: [], totalCusto: 0, totalSecs: 0, s09: 0, s12: 0, s15: 0, s18: 0, s21: 0 };
+      svcMap[d.svc] = { svc: d.svc, veiculos: [], totalCusto: 0, totalSecs: 0, s09: 0, s12: 0, s15: 0, s18: 0, s21: 0, s23: 0 };
     }
     svcMap[d.svc].veiculos.push(d);
     svcMap[d.svc].totalCusto += d.rsNum;
@@ -3064,6 +3091,7 @@ function renderTorreSVCCards(data) {
     svcMap[d.svc].s09 += (d.s09||0); svcMap[d.svc].s12 += (d.s12||0);
     svcMap[d.svc].s15 += (d.s15||0); svcMap[d.svc].s18 += (d.s18||0);
     svcMap[d.svc].s21 += (d.s21||0);
+    svcMap[d.svc].s23 += (d.s23||0);
   });
 
   const svcs = Object.values(svcMap).sort((a,b) => b.totalCusto - a.totalCusto);
@@ -3135,10 +3163,10 @@ function renderTorreSVCCards(data) {
     const maxCusto        = motoRows[0]?.totalCusto || 1;
 
     // ── 3. HTML — Mini barras de faixa
-    const maxFaixa = Math.max(svcData.s09, svcData.s12, svcData.s15, svcData.s18, svcData.s21, 1);
-    const coresFaixa = ['#1a5276','#2471a3','#e67e22','#c0392b','#6c3483'];
-    const faixaBarHTML = ['09h','12h','15h','18h','21h'].map((f,fi) => {
-      const sec = [svcData.s09,svcData.s12,svcData.s15,svcData.s18,svcData.s21][fi]||0;
+    const maxFaixa = Math.max(svcData.s09, svcData.s12, svcData.s15, svcData.s18, svcData.s21, svcData.s23, 1);
+    const coresFaixa = ['#1a5276','#2471a3','#e67e22','#c0392b','#6c3483','#2e7d32'];
+    const faixaBarHTML = ['09h','12h','15h','18h','21h','23h'].map((f,fi) => {
+      const sec = [svcData.s09,svcData.s12,svcData.s15,svcData.s18,svcData.s21,svcData.s23][fi]||0;
       const pct = Math.round((sec/maxFaixa)*100);
       return `<div style="flex:1;text-align:center;">
         <div style="font-size:9px;color:#aaa;margin-bottom:3px;font-weight:700;">${f}</div>
@@ -3204,7 +3232,7 @@ function renderTorreSVCCards(data) {
       const hasCusto = v.rsNum > 0;
       const h09c=(v.s09||0)>0?'has-data':'', h12c=(v.s12||0)>0?'has-data':'';
       const h15c=(v.s15||0)>0?'has-data':'', h18c=(v.s18||0)>0?'has-data':'';
-      const h21c=(v.s21||0)>0?'has-data':'';
+      const h21c=(v.s21||0)>0?'has-data':'', h23c=(v.s23||0)>0?'has-data':'';
       const nomeCurto = v.motorista && v.motorista.trim() && v.motorista!=='----'
         ? v.motorista.split(' ').slice(0,2).join(' ')
         : `<span style="color:#f39c12;font-size:10px;font-weight:700;">SEM MOTORISTA</span>`;
@@ -3219,6 +3247,7 @@ function renderTorreSVCCards(data) {
           <span class="horas-slot ${h15c}" title="${secsToHHMMSS(v.s15||0)}">15h</span>
           <span class="horas-slot ${h18c}" title="${secsToHHMMSS(v.s18||0)}">18h</span>
           <span class="horas-slot ${h21c}" title="${secsToHHMMSS(v.s21||0)}">21h</span>
+        <span class="horas-slot ${h23c}" title="${secsToHHMMSS(v.s23||0)}">23h</span>
         </div></td>
         <td style="font-size:11px;color:#555;max-width:110px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${nomeCurto}</td>
       </tr>`;
@@ -3492,6 +3521,7 @@ function aplicarFiltroModal(cardId, svc) {
         <span class="horas-slot ${h15c}" title="${secsToHHMMSS(v.s15||0)}">15h</span>
         <span class="horas-slot ${h18c}" title="${secsToHHMMSS(v.s18||0)}">18h</span>
         <span class="horas-slot ${h21c}" title="${secsToHHMMSS(v.s21||0)}">21h</span>
+        <span class="horas-slot ${h23c}" title="${secsToHHMMSS(v.s23||0)}">23h</span>
       </div></td>
       <td style="font-size:11px;color:#555;">${nomeCurto}</td>
     </tr>`;
@@ -3560,8 +3590,9 @@ function printSVCCard(svc) {
   const s15 = veiculos.reduce((s,v)=>s+(v.s15||0),0);
   const s18 = veiculos.reduce((s,v)=>s+(v.s18||0),0);
   const s21 = veiculos.reduce((s,v)=>s+(v.s21||0),0);
-  const maxF = Math.max(s09,s12,s15,s18,s21,1);
-  const faixaHTML = [['09h',s09,'#1a5276'],['12h',s12,'#2471a3'],['15h',s15,'#e67e22'],['18h',s18,'#c0392b'],['21h',s21,'#6c3483']].map(([f,s,c]) => `
+  const s23 = veiculos.reduce((s,v)=>s+(v.s23||0),0);
+  const maxF = Math.max(s09,s12,s15,s18,s21,s23,1);
+  const faixaHTML = [['09h',s09,'#1a5276'],['12h',s12,'#2471a3'],['15h',s15,'#e67e22'],['18h',s18,'#c0392b'],['21h',s21,'#6c3483'],['23h',s23,'#2e7d32']].map(([f,s,c]) => `
     <div style="text-align:center;flex:1;">
       <div style="font-size:10px;color:#888;font-weight:700;margin-bottom:4px;">${f}</div>
       <div style="height:40px;background:#f0f0f0;border-radius:4px;display:flex;align-items:flex-end;">
@@ -3593,7 +3624,7 @@ function printSVCCard(svc) {
 
   // ── Tabela de veículos
   const veicHTML = [...veiculos].sort((a,b)=>b.rsNum-a.rsNum).map((v,i) => {
-    const faixas = [['9h',v.s09],['12h',v.s12],['15h',v.s15],['18h',v.s18],['21h',v.s21]]
+    const faixas = [['9h',v.s09],['12h',v.s12],['15h',v.s15],['18h',v.s18],['21h',v.s21],['23h',v.s23]]
       .map(([f,s]) => `<span style="background:${(s||0)>0?'#c8e6c9':'#f0f0f0'};color:${(s||0)>0?'#2e7d32':'#aaa'};padding:2px 5px;border-radius:3px;font-size:9px;font-family:monospace;margin:1px;">${f}</span>`).join('');
     const nome = v.motorista && v.motorista.trim() && v.motorista!=='----' ? v.motorista.split(' ').slice(0,2).join(' ') : '<span style="color:#f39c12;font-weight:700;">SEM MOT.</span>';
     return `<tr style="background:${i%2===0?'#fff':'#f9f9f9'};">
@@ -3758,6 +3789,7 @@ function exportarSVCExcel(svc) {
     '15h':            v.h15 || '--',
     '18h':            v.h18 || '--',
     '21h':            v.h21 || '--',
+    '23h':            v.h23 || '--',
     'TOTAL HORAS':    v.totalHoras || '--',
     'CUSTO (R$)':     v.rsNum,
     'CUSTO':          v.rsStr || fmtBRL(v.rsNum)
@@ -3802,6 +3834,7 @@ function exportarSVCExcel(svc) {
     'OCIOSO 15h':        secsToHHMMSS(veiculos.reduce((a,d)=>a+(d.s15||0),0)),
     'OCIOSO 18h':        secsToHHMMSS(veiculos.reduce((a,d)=>a+(d.s18||0),0)),
     'OCIOSO 21h':        secsToHHMMSS(veiculos.reduce((a,d)=>a+(d.s21||0),0)),
+    'OCIOSO 23h':        secsToHHMMSS(veiculos.reduce((a,d)=>a+(d.s23||0),0)),
   }];
   XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(dadosResumo), 'Resumo');
 
@@ -3816,7 +3849,7 @@ function exportarRankingSVCExcel() {
   const svcMap = {};
   dataTorre.forEach(d => {
     if (!d.svc) return;
-    if (!svcMap[d.svc]) svcMap[d.svc] = { svc: d.svc, totalCusto: 0, totalSecs: 0, veiculos: 0, comCusto: 0, motoristas: new Set(), modais: new Set(), s09: 0, s12: 0, s15: 0, s18: 0, s21: 0 };
+    if (!svcMap[d.svc]) svcMap[d.svc] = { svc: d.svc, totalCusto: 0, totalSecs: 0, veiculos: 0, comCusto: 0, motoristas: new Set(), modais: new Set(), s09: 0, s12: 0, s15: 0, s18: 0, s21: 0, s23: 0 };
     svcMap[d.svc].totalCusto += d.rsNum;
     svcMap[d.svc].totalSecs  += (d.totalSecs || 0);
     svcMap[d.svc].veiculos++;
@@ -3828,6 +3861,7 @@ function exportarRankingSVCExcel() {
     svcMap[d.svc].s15 += (d.s15 || 0);
     svcMap[d.svc].s18 += (d.s18 || 0);
     svcMap[d.svc].s21 += (d.s21 || 0);
+    svcMap[d.svc].s23 += (d.s23 || 0);
   });
   const ranking = Object.values(svcMap).map(s => {
     const media = s.veiculos > 0 ? s.totalCusto / s.veiculos : 0;
@@ -3841,7 +3875,7 @@ function exportarRankingSVCExcel() {
     'VEÍCULOS TOTAL': s.veiculos, 'VEÍC. COM CUSTO': s.comCusto,
     'MOTORISTAS': s.motoristas.size, 'MODAIS': [...s.modais].join(', '),
     'OCIOSO 09h': secsToHHMMSS(s.s09), 'OCIOSO 12h': secsToHHMMSS(s.s12),
-    'OCIOSO 15h': secsToHHMMSS(s.s15), 'OCIOSO 18h': secsToHHMMSS(s.s18), 'OCIOSO 21h': secsToHHMMSS(s.s21),
+    'OCIOSO 15h': secsToHHMMSS(s.s15), 'OCIOSO 18h': secsToHHMMSS(s.s18), 'OCIOSO 21h': secsToHHMMSS(s.s21), 'OCIOSO 23h': secsToHHMMSS(s.s23),
   }));
   const wb = XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(ranking), 'Ranking_SVCs_Ociosidade');
@@ -3874,6 +3908,7 @@ function exportarTodosSVCExcel() {
       'OCIOSO 15h': secsToHHMMSS(veiculos.reduce((a,d)=>a+(d.s15||0),0)),
       'OCIOSO 18h': secsToHHMMSS(veiculos.reduce((a,d)=>a+(d.s18||0),0)),
       'OCIOSO 21h': secsToHHMMSS(veiculos.reduce((a,d)=>a+(d.s21||0),0)),
+      'OCIOSO 23h': secsToHHMMSS(veiculos.reduce((a,d)=>a+(d.s23||0),0)),
     };
   });
   XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(resumoGeral), 'Resumo Geral');
@@ -3924,6 +3959,7 @@ function renderTorreTable(data) {
       <td ${slotClass(d.h15)}>${hasHora(d.h15) ? d.h15 : '----'}</td>
       <td ${slotClass(d.h18)}>${hasHora(d.h18) ? d.h18 : '----'}</td>
       <td ${slotClass(d.h21)}>${hasHora(d.h21) ? d.h21 : '----'}</td>
+      <td ${slotClass(d.h23)}>${hasHora(d.h23) ? d.h23 : '----'}</td>
       <td class="${hasCusto ? 'td-custo' : 'td-custo-zero'}">${hasCusto ? fmtBRL(d.rsNum) : '--'}</td>
       <td class="td-motorista" title="${d.motorista}">${d.motorista || '----'}</td>
       <td class="td-horas">${d.totalHoras || '--'}</td>
@@ -3935,7 +3971,7 @@ function exportarTorreExcel() {
   if (!dataTorre.length) return;
   const exportData = dataTorre.map(d => ({
     MODAL: d.modal, VEICULO: d.veiculo, SVC: d.svc,
-    '09h': d.h09, '12h': d.h12, '15h': d.h15, '18h': d.h18, '21h': d.h21,
+    '09h': d.h09, '12h': d.h12, '15h': d.h15, '18h': d.h18, '21h': d.h21, '23h': d.h23,
     'R$': d.rsNum, MOTORISTA: d.motorista, 'TOTAL HORAS': d.totalHoras
   }));
   const wb = XLSX.utils.book_new();
@@ -5312,6 +5348,1161 @@ function _printWrap(title, subtitle, corHeader, tableHTML, extraCSS) {
   .header small { font-size:11px;opacity:0.6;margin-top:4px;display:block; }
   .header .dt { font-size:11px;opacity:0.55;text-align:right; }
   ${extraCSS||''}
+
+
+/* ===== AJUSTE EXCLUSIVO DA ABA TORRE PCML: CARDS POR SVC MAIORES ===== */
+#abaTorre .torre-svc-grid {
+  grid-template-columns: repeat(auto-fit, minmax(580px, 1fr)) !important;
+  gap: 30px !important;
+  align-items: stretch !important;
+}
+#abaTorre .svc-card {
+  height: 760px !important;
+  min-height: 760px !important;
+  max-height: 760px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  border-radius: 18px !important;
+}
+#abaTorre .svc-card-header {
+  padding: 20px 24px !important;
+}
+#abaTorre .svc-card-header .svc-name {
+  font-size: 28px !important;
+}
+#abaTorre .svc-card-header .svc-total {
+  font-size: 14px !important;
+}
+#abaTorre .svc-card-header .svc-cost,
+#abaTorre .svc-card-header .svc-hours {
+  padding: 8px 16px !important;
+  font-size: 15px !important;
+}
+#abaTorre .svc-card-kpis {
+  min-height: 92px !important;
+}
+#abaTorre .svc-kpi-item {
+  padding: 16px 14px !important;
+}
+#abaTorre .svc-kpi-val {
+  font-size: 20px !important;
+}
+#abaTorre .svc-kpi-lbl {
+  font-size: 11px !important;
+}
+#abaTorre .svc-tab-btn {
+  padding: 12px !important;
+  font-size: 13px !important;
+}
+#abaTorre .svc-card-scroll {
+  flex: 1 1 auto !important;
+  min-height: 320px !important;
+  max-height: none !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+}
+#abaTorre .svc-table-motorista,
+#abaTorre .svc-table-mini {
+  font-size: 13px !important;
+}
+#abaTorre .svc-table-motorista th,
+#abaTorre .svc-table-mini th {
+  font-size: 11px !important;
+  padding: 10px 12px !important;
+}
+#abaTorre .svc-table-motorista td,
+#abaTorre .svc-table-mini td {
+  padding: 10px 12px !important;
+}
+#abaTorre .modal-analysis-grid {
+  grid-template-columns: repeat(auto-fill, minmax(165px, 1fr)) !important;
+  gap: 10px !important;
+}
+#abaTorre .modal-analysis-card {
+  padding: 12px 14px !important;
+}
+@media (max-width: 768px) {
+  #abaTorre .torre-svc-grid {
+    grid-template-columns: 1fr !important;
+  }
+  #abaTorre .svc-card {
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+  }
+}
+
+
+
+/* ===== AJUSTE EXCLUSIVO: VISÃO POR SVC MAIOR NA ABA TORRE PCML ===== */
+#abaTorre .torre-svc-grid {
+  grid-template-columns: repeat(auto-fit, minmax(680px, 1fr)) !important;
+  gap: 34px !important;
+  align-items: stretch !important;
+}
+
+#abaTorre .svc-card {
+  height: 920px !important;
+  min-height: 920px !important;
+  max-height: 920px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  border-radius: 20px !important;
+}
+
+#abaTorre .svc-card-header {
+  padding: 24px 28px !important;
+}
+
+#abaTorre .svc-card-header .svc-name {
+  font-size: 32px !important;
+  letter-spacing: 2.4px !important;
+}
+
+#abaTorre .svc-card-header .svc-total {
+  font-size: 15px !important;
+  line-height: 1.45 !important;
+}
+
+#abaTorre .svc-card-header .svc-cost,
+#abaTorre .svc-card-header .svc-hours {
+  padding: 9px 18px !important;
+  font-size: 16px !important;
+  border-radius: 22px !important;
+}
+
+#abaTorre .svc-card-kpis {
+  min-height: 108px !important;
+}
+
+#abaTorre .svc-kpi-item {
+  padding: 18px 16px !important;
+}
+
+#abaTorre .svc-kpi-val {
+  font-size: 24px !important;
+}
+
+#abaTorre .svc-kpi-lbl {
+  font-size: 12px !important;
+  line-height: 1.25 !important;
+}
+
+#abaTorre .svc-tab-btn {
+  padding: 14px 16px !important;
+  font-size: 15px !important;
+}
+
+#abaTorre .svc-tab-content.active {
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+#abaTorre .svc-card-scroll {
+  flex: 1 1 auto !important;
+  min-height: 470px !important;
+  max-height: none !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+}
+
+#abaTorre .svc-table-motorista,
+#abaTorre .svc-table-mini {
+  font-size: 15px !important;
+}
+
+#abaTorre .svc-table-motorista th,
+#abaTorre .svc-table-mini th {
+  font-size: 12px !important;
+  padding: 13px 14px !important;
+}
+
+#abaTorre .svc-table-motorista td,
+#abaTorre .svc-table-mini td {
+  padding: 13px 14px !important;
+}
+
+#abaTorre .nome-motorista-cell {
+  max-width: 260px !important;
+  font-size: 15px !important;
+}
+
+#abaTorre .placa-cell {
+  font-size: 13px !important;
+  padding: 4px 8px !important;
+}
+
+#abaTorre .hora-cell {
+  font-size: 13px !important;
+}
+
+#abaTorre .custo-cell {
+  font-size: 14px !important;
+}
+
+#abaTorre .svc-table-motorista .rank-pos {
+  width: 28px !important;
+  height: 28px !important;
+  font-size: 12px !important;
+}
+
+#abaTorre .modal-analysis-grid {
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)) !important;
+  gap: 12px !important;
+}
+
+#abaTorre .modal-analysis-card {
+  padding: 15px 16px !important;
+  min-height: 112px !important;
+}
+
+#abaTorre .horas-bar {
+  gap: 5px !important;
+}
+
+#abaTorre .horas-slot {
+  padding: 4px 7px !important;
+  font-size: 12px !important;
+}
+
+@media (max-width: 1100px) {
+  #abaTorre .torre-svc-grid {
+    grid-template-columns: 1fr !important;
+  }
+  #abaTorre .svc-card {
+    height: 900px !important;
+    min-height: 900px !important;
+    max-height: 900px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  #abaTorre .svc-card {
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+  }
+  #abaTorre .svc-card-scroll {
+    min-height: 420px !important;
+  }
+}
+
+
+
+/* ===== AJUSTE EXCLUSIVO TORRE PCML: NÃO ALARGAR, APENAS AUMENTAR ALTURA DOS CARDS PARA VER MOTORISTAS ===== */
+#abaTorre .torre-svc-grid {
+  grid-template-columns: repeat(auto-fill, minmax(520px, 1fr)) !important;
+  gap: 28px !important;
+  align-items: stretch !important;
+}
+
+#abaTorre .svc-card {
+  height: 1180px !important;
+  min-height: 1180px !important;
+  max-height: 1180px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  border-radius: 18px !important;
+}
+
+#abaTorre .svc-card-header {
+  padding: 20px 24px !important;
+  flex-shrink: 0 !important;
+}
+
+#abaTorre .svc-card-header .svc-name {
+  font-size: 28px !important;
+}
+
+#abaTorre .svc-card-header .svc-total {
+  font-size: 14px !important;
+}
+
+#abaTorre .svc-card-kpis,
+#abaTorre .svc-card-tabs {
+  flex-shrink: 0 !important;
+}
+
+#abaTorre .svc-tab-content.active {
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+#abaTorre .svc-card-scroll {
+  flex: 1 1 auto !important;
+  min-height: 620px !important;
+  max-height: none !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+}
+
+#abaTorre .svc-table-motorista,
+#abaTorre .svc-table-mini {
+  font-size: 14px !important;
+}
+
+#abaTorre .svc-table-motorista th,
+#abaTorre .svc-table-mini th {
+  font-size: 11px !important;
+  padding: 12px 13px !important;
+}
+
+#abaTorre .svc-table-motorista td,
+#abaTorre .svc-table-mini td {
+  padding: 12px 13px !important;
+}
+
+#abaTorre .nome-motorista-cell {
+  max-width: 220px !important;
+  font-size: 14px !important;
+}
+
+#abaTorre .hora-cell {
+  font-size: 13px !important;
+}
+
+#abaTorre .placa-cell {
+  font-size: 12px !important;
+}
+
+#abaTorre .mais-veiculos {
+  padding: 14px 16px !important;
+  font-size: 12px !important;
+}
+
+@media (max-width: 768px) {
+  #abaTorre .torre-svc-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  #abaTorre .svc-card {
+    height: auto !important;
+    min-height: 1100px !important;
+    max-height: none !important;
+  }
+
+  #abaTorre .svc-card-scroll {
+    min-height: 620px !important;
+  }
+}
+
+
+
+/* ===================================================================== */
+/* AJUSTE EXCLUSIVO ABA TORRE PCML                                       */
+/* Objetivo: cards mais altos para listar motoristas + detalhamento menor */
+/* Não altera outras abas                                                 */
+/* ===================================================================== */
+
+/* Mantém largura normal em 3 colunas quando couber, sem alargar demais */
+#abaTorre .torre-svc-grid {
+  grid-template-columns: repeat(auto-fill, minmax(520px, 1fr)) !important;
+  gap: 28px !important;
+  align-items: stretch !important;
+}
+
+/* Aumenta a altura dos cards da operação para aparecer a lista de motoristas */
+#abaTorre .svc-card {
+  height: 1350px !important;
+  min-height: 1350px !important;
+  max-height: 1350px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  border-radius: 18px !important;
+}
+
+/* Evita que o topo do card roube espaço da lista */
+#abaTorre .svc-card-header {
+  padding: 18px 22px !important;
+  flex-shrink: 0 !important;
+}
+
+#abaTorre .svc-card-header .svc-name {
+  font-size: 28px !important;
+}
+
+#abaTorre .svc-card-header .svc-total {
+  font-size: 13px !important;
+  line-height: 1.35 !important;
+}
+
+#abaTorre .svc-card-header .svc-cost,
+#abaTorre .svc-card-header .svc-hours {
+  padding: 7px 15px !important;
+  font-size: 14px !important;
+}
+
+/* Reduz um pouco blocos superiores para liberar espaço para motoristas */
+#abaTorre .svc-card-kpis {
+  min-height: 86px !important;
+  flex-shrink: 0 !important;
+}
+
+#abaTorre .svc-kpi-item {
+  padding: 12px 12px !important;
+}
+
+#abaTorre .svc-kpi-val {
+  font-size: 20px !important;
+}
+
+#abaTorre .svc-kpi-lbl {
+  font-size: 10px !important;
+}
+
+#abaTorre .svc-card-tabs {
+  flex-shrink: 0 !important;
+}
+
+#abaTorre .svc-tab-btn {
+  padding: 12px !important;
+  font-size: 13px !important;
+}
+
+/* Área ativa do card ocupa o restante da altura */
+#abaTorre .svc-tab-content.active {
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+/* Lista interna com bastante área útil e rolagem */
+#abaTorre .svc-card-scroll {
+  flex: 1 1 auto !important;
+  min-height: 760px !important;
+  max-height: none !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+}
+
+/* Deixa a lista de motoristas legível */
+#abaTorre .svc-table-motorista,
+#abaTorre .svc-table-mini {
+  font-size: 14px !important;
+}
+
+#abaTorre .svc-table-motorista th,
+#abaTorre .svc-table-mini th {
+  font-size: 11px !important;
+  padding: 11px 12px !important;
+}
+
+#abaTorre .svc-table-motorista td,
+#abaTorre .svc-table-mini td {
+  padding: 11px 12px !important;
+}
+
+#abaTorre .nome-motorista-cell {
+  max-width: 240px !important;
+  font-size: 14px !important;
+}
+
+#abaTorre .hora-cell {
+  font-size: 13px !important;
+}
+
+#abaTorre .placa-cell {
+  font-size: 12px !important;
+}
+
+#abaTorre .custo-cell {
+  font-size: 13px !important;
+}
+
+/* Modal/custo por modal não cresce demais, sobrando área para motoristas */
+#abaTorre .modal-analysis-grid {
+  grid-template-columns: repeat(auto-fill, minmax(145px, 1fr)) !important;
+  gap: 10px !important;
+}
+
+#abaTorre .modal-analysis-card {
+  padding: 10px 12px !important;
+  min-height: 100px !important;
+}
+
+/* Detalhamento completo menor com rolagem própria */
+#abaTorre .torre-main-table {
+  max-height: 420px !important;
+  overflow-y: auto !important;
+  overflow-x: auto !important;
+  padding: 14px 16px !important;
+  margin-top: 10px !important;
+}
+
+#abaTorre .torre-main-table h3 {
+  font-size: 14px !important;
+  margin-bottom: 10px !important;
+  position: sticky !important;
+  top: 0 !important;
+  background: white !important;
+  z-index: 4 !important;
+  padding: 8px 0 !important;
+}
+
+#abaTorre #tbl-torre {
+  font-size: 11px !important;
+}
+
+#abaTorre #tbl-torre thead th {
+  position: sticky !important;
+  top: 42px !important;
+  z-index: 3 !important;
+}
+
+#abaTorre #tbl-torre th {
+  font-size: 10px !important;
+  padding: 8px 10px !important;
+}
+
+#abaTorre #tbl-torre td {
+  font-size: 11px !important;
+  padding: 7px 10px !important;
+}
+
+/* Scrollbar discreta */
+#abaTorre .svc-card-scroll::-webkit-scrollbar,
+#abaTorre .torre-main-table::-webkit-scrollbar {
+  width: 8px !important;
+  height: 8px !important;
+}
+
+#abaTorre .svc-card-scroll::-webkit-scrollbar-thumb,
+#abaTorre .torre-main-table::-webkit-scrollbar-thumb {
+  background: #b0bec5 !important;
+  border-radius: 10px !important;
+}
+
+#abaTorre .svc-card-scroll::-webkit-scrollbar-track,
+#abaTorre .torre-main-table::-webkit-scrollbar-track {
+  background: #eef2ee !important;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+  #abaTorre .torre-svc-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  #abaTorre .svc-card {
+    height: auto !important;
+    min-height: 1200px !important;
+    max-height: none !important;
+  }
+
+  #abaTorre .svc-card-scroll {
+    min-height: 720px !important;
+  }
+
+  #abaTorre .torre-main-table {
+    max-height: 360px !important;
+  }
+}
+
+
+
+/* ===================================================================== */
+/* AJUSTE EXCLUSIVO: DETALHAMENTO COMPLETO MENOR COM BARRA DE ROLAGEM    */
+/* Somente aba Torre PCML                                                 */
+/* ===================================================================== */
+#abaTorre .torre-main-table {
+  max-height: 300px !important;
+  height: 300px !important;
+  overflow-y: auto !important;
+  overflow-x: auto !important;
+  padding: 10px 14px !important;
+  margin-top: 8px !important;
+  margin-bottom: 18px !important;
+  border-radius: 12px !important;
+}
+
+/* Título menor e fixo no topo da caixa */
+#abaTorre .torre-main-table h3 {
+  font-size: 13px !important;
+  line-height: 1.2 !important;
+  margin: 0 0 8px 0 !important;
+  padding: 6px 0 8px 0 !important;
+  position: sticky !important;
+  top: 0 !important;
+  background: #ffffff !important;
+  z-index: 5 !important;
+  border-bottom: 1px solid #eeeeee !important;
+}
+
+/* Cabeçalho da tabela fixo abaixo do título */
+#abaTorre #tbl-torre thead th {
+  position: sticky !important;
+  top: 36px !important;
+  z-index: 4 !important;
+}
+
+/* Tabela mais compacta */
+#abaTorre #tbl-torre th {
+  font-size: 9px !important;
+  padding: 6px 8px !important;
+}
+
+#abaTorre #tbl-torre td {
+  font-size: 10px !important;
+  padding: 5px 8px !important;
+}
+
+#abaTorre #tbl-torre .td-motorista {
+  max-width: 130px !important;
+  font-size: 10px !important;
+}
+
+#abaTorre #tbl-torre .td-horas,
+#abaTorre #tbl-torre .td-placa,
+#abaTorre #tbl-torre .td-custo {
+  font-size: 10px !important;
+}
+
+/* Barra de rolagem visual */
+#abaTorre .torre-main-table::-webkit-scrollbar {
+  width: 9px !important;
+  height: 9px !important;
+}
+
+#abaTorre .torre-main-table::-webkit-scrollbar-thumb {
+  background: #90a4ae !important;
+  border-radius: 10px !important;
+}
+
+#abaTorre .torre-main-table::-webkit-scrollbar-track {
+  background: #eef2ee !important;
+  border-radius: 10px !important;
+}
+
+
+
+/* ===================================================================== */
+/* CORREÇÃO FINAL - ABA TORRE PCML                                       */
+/* Detalhamento Completo compacto com rolagem para não alongar a página   */
+/* ===================================================================== */
+
+/* Caixa do detalhamento: reduzida e com rolagem */
+#abaTorre .torre-main-table,
+.tab-pane#abaTorre .torre-main-table {
+  height: 330px !important;
+  max-height: 330px !important;
+  min-height: 330px !important;
+  overflow-y: auto !important;
+  overflow-x: auto !important;
+  padding: 10px 14px !important;
+  margin-top: 10px !important;
+  margin-bottom: 18px !important;
+  border-radius: 12px !important;
+  display: block !important;
+}
+
+/* Título fixo e compacto */
+#abaTorre .torre-main-table h3,
+.tab-pane#abaTorre .torre-main-table h3 {
+  font-size: 13px !important;
+  line-height: 1.2 !important;
+  margin: 0 !important;
+  padding: 6px 0 8px 0 !important;
+  position: sticky !important;
+  top: 0 !important;
+  background: #ffffff !important;
+  z-index: 20 !important;
+  border-bottom: 1px solid #eeeeee !important;
+}
+
+/* Tabela compacta */
+#abaTorre .torre-main-table table,
+.tab-pane#abaTorre .torre-main-table table,
+#abaTorre #tbl-torre,
+.tab-pane#abaTorre #tbl-torre {
+  width: 100% !important;
+  border-collapse: collapse !important;
+}
+
+/* Cabeçalho fixo abaixo do título */
+#abaTorre #tbl-torre thead th,
+.tab-pane#abaTorre #tbl-torre thead th {
+  position: sticky !important;
+  top: 34px !important;
+  z-index: 15 !important;
+}
+
+/* Linhas menores para caber mais informação dentro da caixa */
+#abaTorre #tbl-torre th,
+.tab-pane#abaTorre #tbl-torre th {
+  font-size: 9px !important;
+  padding: 6px 8px !important;
+  line-height: 1.1 !important;
+}
+
+#abaTorre #tbl-torre td,
+.tab-pane#abaTorre #tbl-torre td {
+  font-size: 10px !important;
+  padding: 5px 8px !important;
+  line-height: 1.15 !important;
+}
+
+#abaTorre #tbl-torre .td-motorista,
+.tab-pane#abaTorre #tbl-torre .td-motorista {
+  max-width: 130px !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}
+
+/* Remove qualquer tentativa antiga de deixar o detalhamento gigante */
+#abaTorre .torre-main-table tbody,
+.tab-pane#abaTorre .torre-main-table tbody {
+  max-height: none !important;
+}
+
+/* Barra de rolagem visível e discreta */
+#abaTorre .torre-main-table::-webkit-scrollbar,
+.tab-pane#abaTorre .torre-main-table::-webkit-scrollbar {
+  width: 10px !important;
+  height: 10px !important;
+}
+
+#abaTorre .torre-main-table::-webkit-scrollbar-thumb,
+.tab-pane#abaTorre .torre-main-table::-webkit-scrollbar-thumb {
+  background: #90a4ae !important;
+  border-radius: 10px !important;
+}
+
+#abaTorre .torre-main-table::-webkit-scrollbar-track,
+.tab-pane#abaTorre .torre-main-table::-webkit-scrollbar-track {
+  background: #eef2ee !important;
+  border-radius: 10px !important;
+}
+
+/* Caso o navegador não esteja aplicando scroll no container por causa do conteúdo interno */
+#abaTorre .torre-main-table > *,
+.tab-pane#abaTorre .torre-main-table > * {
+  max-width: none !important;
+}
+
+
+
+/* ===================================================================== */
+/* AJUSTE EXCLUSIVO ABA TORRE PCML - AUMENTO VERTICAL DOS CARDS POR SVC  */
+/* Não aumenta largura. Só aumenta altura vertical de todos os cards.     */
+/* ===================================================================== */
+
+#abaTorre .torre-svc-grid,
+.tab-pane#abaTorre .torre-svc-grid {
+  grid-template-columns: repeat(auto-fill, minmax(520px, 1fr)) !important;
+  gap: 32px !important;
+  align-items: stretch !important;
+}
+
+/* Altura vertical reforçada para todos os cards das bases */
+#abaTorre .svc-card,
+.tab-pane#abaTorre .svc-card {
+  height: 1650px !important;
+  min-height: 1650px !important;
+  max-height: 1650px !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+/* Mantém topo compacto para sobrar mais espaço para motoristas */
+#abaTorre .svc-card-header,
+.tab-pane#abaTorre .svc-card-header {
+  flex-shrink: 0 !important;
+  padding: 18px 22px !important;
+}
+
+#abaTorre .svc-card-kpis,
+#abaTorre .svc-card-tabs,
+.tab-pane#abaTorre .svc-card-kpis,
+.tab-pane#abaTorre .svc-card-tabs {
+  flex-shrink: 0 !important;
+}
+
+/* Conteúdo ativo ocupa o restante do card */
+#abaTorre .svc-tab-content.active,
+.tab-pane#abaTorre .svc-tab-content.active {
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+/* Área da lista dos motoristas bem maior */
+#abaTorre .svc-card-scroll,
+.tab-pane#abaTorre .svc-card-scroll {
+  flex: 1 1 auto !important;
+  min-height: 1050px !important;
+  max-height: none !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+}
+
+/* Melhora leitura da lista */
+#abaTorre .svc-table-motorista td,
+#abaTorre .svc-table-mini td,
+.tab-pane#abaTorre .svc-table-motorista td,
+.tab-pane#abaTorre .svc-table-mini td {
+  padding-top: 12px !important;
+  padding-bottom: 12px !important;
+}
+
+/* Barra de rolagem interna mais visível */
+#abaTorre .svc-card-scroll::-webkit-scrollbar,
+.tab-pane#abaTorre .svc-card-scroll::-webkit-scrollbar {
+  width: 10px !important;
+}
+
+#abaTorre .svc-card-scroll::-webkit-scrollbar-thumb,
+.tab-pane#abaTorre .svc-card-scroll::-webkit-scrollbar-thumb {
+  background: #90a4ae !important;
+  border-radius: 10px !important;
+}
+
+#abaTorre .svc-card-scroll::-webkit-scrollbar-track,
+.tab-pane#abaTorre .svc-card-scroll::-webkit-scrollbar-track {
+  background: #eef2ee !important;
+}
+
+/* Responsivo: mantém alto também no mobile, mas sem travar limite máximo */
+@media (max-width: 768px) {
+  #abaTorre .svc-card,
+  .tab-pane#abaTorre .svc-card {
+    height: auto !important;
+    min-height: 1500px !important;
+    max-height: none !important;
+  }
+
+  #abaTorre .svc-card-scroll,
+  .tab-pane#abaTorre .svc-card-scroll {
+    min-height: 1000px !important;
+  }
+}
+
+
+
+/* ===================================================================== */
+/* AJUSTE EXTRA - ABA TORRE PCML                                         */
+/* Aumenta mais a altura vertical dos cards para exibir 5+ motoristas    */
+/* sem alterar as outras abas da plataforma                               */
+/* ===================================================================== */
+#abaTorre .torre-svc-grid,
+.tab-pane#abaTorre .torre-svc-grid {
+  grid-template-columns: repeat(auto-fill, minmax(520px, 1fr)) !important;
+  gap: 34px !important;
+  align-items: stretch !important;
+}
+
+#abaTorre .svc-card,
+.tab-pane#abaTorre .svc-card {
+  height: 2100px !important;
+  min-height: 2100px !important;
+  max-height: 2100px !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+/* Topo um pouco mais compacto para sobrar ainda mais espaço ao miolo */
+#abaTorre .svc-card-header,
+.tab-pane#abaTorre .svc-card-header {
+  padding: 16px 20px !important;
+  flex-shrink: 0 !important;
+}
+
+#abaTorre .svc-card-header .svc-name,
+.tab-pane#abaTorre .svc-card-header .svc-name {
+  font-size: 26px !important;
+}
+
+#abaTorre .svc-card-header .svc-total,
+.tab-pane#abaTorre .svc-card-header .svc-total {
+  font-size: 13px !important;
+  line-height: 1.3 !important;
+}
+
+#abaTorre .svc-card-kpis,
+#abaTorre .svc-card-tabs,
+.tab-pane#abaTorre .svc-card-kpis,
+.tab-pane#abaTorre .svc-card-tabs {
+  flex-shrink: 0 !important;
+}
+
+#abaTorre .svc-kpi-item,
+.tab-pane#abaTorre .svc-kpi-item {
+  padding: 10px 12px !important;
+}
+
+#abaTorre .svc-kpi-val,
+.tab-pane#abaTorre .svc-kpi-val {
+  font-size: 18px !important;
+}
+
+#abaTorre .svc-kpi-lbl,
+.tab-pane#abaTorre .svc-kpi-lbl {
+  font-size: 10px !important;
+}
+
+#abaTorre .svc-tab-btn,
+.tab-pane#abaTorre .svc-tab-btn {
+  padding: 10px 12px !important;
+  font-size: 12px !important;
+}
+
+#abaTorre .svc-tab-content.active,
+.tab-pane#abaTorre .svc-tab-content.active {
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+/* Miolo do card bem maior para exibir 5 ou mais motoristas */
+#abaTorre .svc-card-scroll,
+.tab-pane#abaTorre .svc-card-scroll {
+  flex: 1 1 auto !important;
+  min-height: 1500px !important;
+  max-height: none !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+}
+
+#abaTorre .svc-table-motorista,
+#abaTorre .svc-table-mini,
+.tab-pane#abaTorre .svc-table-motorista,
+.tab-pane#abaTorre .svc-table-mini {
+  font-size: 14px !important;
+}
+
+#abaTorre .svc-table-motorista th,
+#abaTorre .svc-table-mini th,
+.tab-pane#abaTorre .svc-table-motorista th,
+.tab-pane#abaTorre .svc-table-mini th {
+  font-size: 11px !important;
+  padding: 10px 12px !important;
+}
+
+#abaTorre .svc-table-motorista td,
+#abaTorre .svc-table-mini td,
+.tab-pane#abaTorre .svc-table-motorista td,
+.tab-pane#abaTorre .svc-table-mini td {
+  padding: 12px 12px !important;
+}
+
+#abaTorre .nome-motorista-cell,
+.tab-pane#abaTorre .nome-motorista-cell {
+  max-width: 240px !important;
+  font-size: 14px !important;
+}
+
+#abaTorre .svc-card-scroll::-webkit-scrollbar,
+.tab-pane#abaTorre .svc-card-scroll::-webkit-scrollbar {
+  width: 10px !important;
+}
+
+#abaTorre .svc-card-scroll::-webkit-scrollbar-thumb,
+.tab-pane#abaTorre .svc-card-scroll::-webkit-scrollbar-thumb {
+  background: #90a4ae !important;
+  border-radius: 10px !important;
+}
+
+#abaTorre .svc-card-scroll::-webkit-scrollbar-track,
+.tab-pane#abaTorre .svc-card-scroll::-webkit-scrollbar-track {
+  background: #eef2ee !important;
+}
+
+@media (max-width: 768px) {
+  #abaTorre .svc-card,
+  .tab-pane#abaTorre .svc-card {
+    height: auto !important;
+    min-height: 1900px !important;
+    max-height: none !important;
+  }
+
+  #abaTorre .svc-card-scroll,
+  .tab-pane#abaTorre .svc-card-scroll {
+    min-height: 1350px !important;
+  }
+}
+
+
+
+/* ===================================================================== */
+/* AJUSTE EXCLUSIVO ABA TORRE PCML - CARDS 15X MAIS ALTOS NA VERTICAL    */
+/* Objetivo: abrir muito mais espaço para visualizar motoristas           */
+/* Escopo: somente #abaTorre                                             */
+/* ===================================================================== */
+
+#abaTorre .torre-svc-grid,
+.tab-pane#abaTorre .torre-svc-grid {
+  grid-template-columns: repeat(auto-fill, minmax(520px, 1fr)) !important;
+  gap: 40px !important;
+  align-items: stretch !important;
+}
+
+/* 15x vertical: card extremamente alto para listar motoristas */
+#abaTorre .svc-card,
+.tab-pane#abaTorre .svc-card {
+  height: 9000px !important;
+  min-height: 9000px !important;
+  max-height: 9000px !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+/* Mantém o topo compacto para liberar espaço para a lista */
+#abaTorre .svc-card-header,
+.tab-pane#abaTorre .svc-card-header {
+  padding: 14px 18px !important;
+  flex-shrink: 0 !important;
+}
+
+#abaTorre .svc-card-header .svc-name,
+.tab-pane#abaTorre .svc-card-header .svc-name {
+  font-size: 26px !important;
+}
+
+#abaTorre .svc-card-header .svc-total,
+.tab-pane#abaTorre .svc-card-header .svc-total {
+  font-size: 13px !important;
+  line-height: 1.25 !important;
+}
+
+#abaTorre .svc-card-header .svc-cost,
+#abaTorre .svc-card-header .svc-hours,
+.tab-pane#abaTorre .svc-card-header .svc-cost,
+.tab-pane#abaTorre .svc-card-header .svc-hours {
+  padding: 6px 13px !important;
+  font-size: 13px !important;
+}
+
+/* Não deixa os blocos superiores crescerem */
+#abaTorre .svc-card-kpis,
+#abaTorre .svc-card-tabs,
+.tab-pane#abaTorre .svc-card-kpis,
+.tab-pane#abaTorre .svc-card-tabs {
+  flex-shrink: 0 !important;
+}
+
+#abaTorre .svc-kpi-item,
+.tab-pane#abaTorre .svc-kpi-item {
+  padding: 8px 10px !important;
+}
+
+#abaTorre .svc-kpi-val,
+.tab-pane#abaTorre .svc-kpi-val {
+  font-size: 18px !important;
+}
+
+#abaTorre .svc-kpi-lbl,
+.tab-pane#abaTorre .svc-kpi-lbl {
+  font-size: 10px !important;
+}
+
+#abaTorre .svc-tab-btn,
+.tab-pane#abaTorre .svc-tab-btn {
+  padding: 9px 10px !important;
+  font-size: 12px !important;
+}
+
+/* O conteúdo ativo usa praticamente toda a altura do card */
+#abaTorre .svc-tab-content.active,
+.tab-pane#abaTorre .svc-tab-content.active {
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+/* Miolo gigante para motoristas */
+#abaTorre .svc-card-scroll,
+.tab-pane#abaTorre .svc-card-scroll {
+  flex: 1 1 auto !important;
+  min-height: 8300px !important;
+  max-height: none !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+}
+
+/* Linhas confortáveis para leitura */
+#abaTorre .svc-table-motorista,
+#abaTorre .svc-table-mini,
+.tab-pane#abaTorre .svc-table-motorista,
+.tab-pane#abaTorre .svc-table-mini {
+  font-size: 14px !important;
+}
+
+#abaTorre .svc-table-motorista th,
+#abaTorre .svc-table-mini th,
+.tab-pane#abaTorre .svc-table-motorista th,
+.tab-pane#abaTorre .svc-table-mini th {
+  font-size: 11px !important;
+  padding: 10px 12px !important;
+}
+
+#abaTorre .svc-table-motorista td,
+#abaTorre .svc-table-mini td,
+.tab-pane#abaTorre .svc-table-motorista td,
+.tab-pane#abaTorre .svc-table-mini td {
+  padding: 12px 12px !important;
+}
+
+#abaTorre .nome-motorista-cell,
+.tab-pane#abaTorre .nome-motorista-cell {
+  max-width: 260px !important;
+  font-size: 14px !important;
+}
+
+#abaTorre .hora-cell,
+.tab-pane#abaTorre .hora-cell {
+  font-size: 13px !important;
+}
+
+#abaTorre .placa-cell,
+.tab-pane#abaTorre .placa-cell {
+  font-size: 12px !important;
+}
+
+#abaTorre .custo-cell,
+.tab-pane#abaTorre .custo-cell {
+  font-size: 13px !important;
+}
+
+/* Barra de rolagem interna dos cards */
+#abaTorre .svc-card-scroll::-webkit-scrollbar,
+.tab-pane#abaTorre .svc-card-scroll::-webkit-scrollbar {
+  width: 10px !important;
+}
+
+#abaTorre .svc-card-scroll::-webkit-scrollbar-thumb,
+.tab-pane#abaTorre .svc-card-scroll::-webkit-scrollbar-thumb {
+  background: #90a4ae !important;
+  border-radius: 10px !important;
+}
+
+#abaTorre .svc-card-scroll::-webkit-scrollbar-track,
+.tab-pane#abaTorre .svc-card-scroll::-webkit-scrollbar-track {
+  background: #eef2ee !important;
+}
+
+/* Mobile: mantém alto, mas libera crescimento natural */
+@media (max-width: 768px) {
+  #abaTorre .svc-card,
+  .tab-pane#abaTorre .svc-card {
+    height: auto !important;
+    min-height: 7000px !important;
+    max-height: none !important;
+  }
+
+  #abaTorre .svc-card-scroll,
+  .tab-pane#abaTorre .svc-card-scroll {
+    min-height: 6500px !important;
+  }
+}
+
 </style></head><body><div class="page">
   <div class="header">
     <div><h2>${title}</h2><small>${subtitle}</small></div>
@@ -5468,10 +6659,10 @@ function printTorreTabela() {
   if (!rows.length) { alert('Nenhum dado carregado.'); return; }
   const rowsHTML = rows.map(tr => {
     const tds = tr.querySelectorAll('td');
-    return `<tr><td>${tds[0]?.innerText?.trim()||''}</td><td style="font-family:monospace;font-weight:700;">${tds[1]?.innerText?.trim()||''}</td><td>${tds[2]?.innerText?.trim()||''}</td><td>${tds[3]?.innerText?.trim()||''}</td><td>${tds[4]?.innerText?.trim()||''}</td><td>${tds[5]?.innerText?.trim()||''}</td><td>${tds[6]?.innerText?.trim()||''}</td><td style="font-weight:900;color:#c0392b;">${tds[7]?.innerText?.trim()||''}</td><td style="font-size:11px;">${tds[8]?.innerText?.trim()||''}</td><td style="font-family:monospace;font-weight:700;color:#1565c0;">${tds[9]?.innerText?.trim()||''}</td></tr>`;
+    return `<tr><td>${tds[0]?.innerText?.trim()||''}</td><td style="font-family:monospace;font-weight:700;">${tds[1]?.innerText?.trim()||''}</td><td>${tds[2]?.innerText?.trim()||''}</td><td>${tds[3]?.innerText?.trim()||''}</td><td>${tds[4]?.innerText?.trim()||''}</td><td>${tds[5]?.innerText?.trim()||''}</td><td>${tds[6]?.innerText?.trim()||''}</td><td>${tds[7]?.innerText?.trim()||''}</td><td>${tds[8]?.innerText?.trim()||''}</td><td style="font-weight:900;color:#c0392b;">${tds[9]?.innerText?.trim()||''}</td><td style="font-size:11px;">${tds[10]?.innerText?.trim()||''}</td><td style="font-family:monospace;font-weight:700;color:#1565c0;">${tds[11]?.innerText?.trim()||''}</td></tr>`;
   }).join('');
   const label = document.getElementById('torre-count-label')?.textContent || '';
-  const tableHTML = `<p style="font-size:12px;color:#888;margin-bottom:14px;">${label}</p><table style="font-size:11px;"><thead><tr><th>Modal</th><th>Placa</th><th>SVC</th><th>09h</th><th>12h</th><th>15h</th><th>18h</th><th>21h</th><th>Custo R$</th><th>Motorista</th><th>Total Horas</th></tr></thead><tbody>${rowsHTML}</tbody></table>`;
+  const tableHTML = `<p style="font-size:12px;color:#888;margin-bottom:14px;">${label}</p><table style="font-size:11px;"><thead><tr><th>Modal</th><th>Placa</th><th>SVC</th><th>09h</th><th>12h</th><th>15h</th><th>18h</th><th>21h</th><th>23h</th><th>Custo R$</th><th>Motorista</th><th>Total Horas</th></tr></thead><tbody>${rowsHTML}</tbody></table>`;
   _openPrintWindow(_printWrap('🗼 Torre PCML — Detalhamento Completo', label, '#1a1a2e,#c0392b', tableHTML), 'Torre PCML Detalhamento');
 }
 
@@ -7284,5 +8475,66 @@ function exportTempoRealExcel(){ excelGraficoTempoReal('base'); }
 
 </script>
 <div id="exportToast" class="export-toast"></div>
+
+<script>
+(function(){
+  function ajustarDetalhamentoTorrePCML(){
+    var aba = document.getElementById('abaTorre');
+    if(!aba) return;
+
+    var bloco = aba.querySelector('.torre-main-table');
+    if(!bloco) return;
+
+    bloco.style.height = '330px';
+    bloco.style.maxHeight = '330px';
+    bloco.style.minHeight = '330px';
+    bloco.style.overflowY = 'auto';
+    bloco.style.overflowX = 'auto';
+    bloco.style.padding = '10px 14px';
+    bloco.style.marginTop = '10px';
+    bloco.style.marginBottom = '18px';
+    bloco.style.display = 'block';
+
+    var titulo = bloco.querySelector('h3');
+    if(titulo){
+      titulo.style.fontSize = '13px';
+      titulo.style.lineHeight = '1.2';
+      titulo.style.margin = '0';
+      titulo.style.padding = '6px 0 8px 0';
+      titulo.style.position = 'sticky';
+      titulo.style.top = '0';
+      titulo.style.background = '#fff';
+      titulo.style.zIndex = '20';
+      titulo.style.borderBottom = '1px solid #eee';
+    }
+
+    var ths = bloco.querySelectorAll('#tbl-torre thead th');
+    ths.forEach(function(th){
+      th.style.position = 'sticky';
+      th.style.top = '34px';
+      th.style.zIndex = '15';
+      th.style.fontSize = '9px';
+      th.style.padding = '6px 8px';
+      th.style.lineHeight = '1.1';
+    });
+
+    var tds = bloco.querySelectorAll('#tbl-torre td');
+    tds.forEach(function(td){
+      td.style.fontSize = '10px';
+      td.style.padding = '5px 8px';
+      td.style.lineHeight = '1.15';
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', ajustarDetalhamentoTorrePCML);
+  setTimeout(ajustarDetalhamentoTorrePCML, 500);
+  setTimeout(ajustarDetalhamentoTorrePCML, 1500);
+  window.ajustarDetalhamentoTorrePCML = ajustarDetalhamentoTorrePCML;
+})();
+</script>
+
+
+
+
 </body>
 </html>
