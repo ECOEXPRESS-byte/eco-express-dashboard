@@ -1142,6 +1142,44 @@ td { padding: 12px; border-bottom: 1px solid #ddd; white-space: nowrap; }
   flex: unset !important;
 }
 
+
+
+/* ===== AJUSTE VISUAL DO FILTRO REGIONAL MULTISELECT ===== */
+.regional-checkbox-wrap { position: relative; width: 100%; }
+.regional-checkbox-btn {
+  height: 40px !important;
+  background: #fff !important;
+  border: 1.5px solid #ddd !important;
+  border-radius: 8px !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  color: #333 !important;
+}
+.regional-checkbox-dropdown {
+  width: 100% !important;
+  min-width: 220px !important;
+  max-height: 260px !important;
+  padding: 0 !important;
+  z-index: 3000 !important;
+}
+.regional-checkbox-item {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  padding: 10px 12px !important;
+  margin: 0 !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  color: #333 !important;
+  background: #fff !important;
+  border-bottom: 1px solid #eee !important;
+}
+.regional-checkbox-item:hover { background: #f5f5f5 !important; }
+.regional-checkbox-item input {
+  margin: 0 8px 0 0 !important;
+  transform: scale(1.05) !important;
+  cursor: pointer !important;
+}
 </style>
 </head>
 <body>
@@ -1373,6 +1411,12 @@ td { padding: 12px; border-bottom: 1px solid #ddd; white-space: nowrap; }
         <label style="font-size:11px;font-weight:800;color:#888;text-transform:uppercase;letter-spacing:1px;display:block;margin-bottom:5px;">🔍 Motorista</label>
         <input type="text" id="pcml-search" class="filter-input" placeholder="Nome do motorista..." oninput="renderPCML_db()" style="height:40px;">
       </div>
+      <div style="flex:1;min-width:160px;">
+        <label style="font-size:11px;font-weight:800;color:#888;text-transform:uppercase;letter-spacing:1px;display:block;margin-bottom:5px;">🗺️ Regional</label>
+        <select id="pcml-regional" class="filter-input" onchange="renderPCML_db()" style="height:40px;">
+          <option value="TODOS">Todas</option>
+        </select>
+      </div>
       <div class="multi-select-container" style="flex:1;min-width:160px;">
         <label style="font-size:11px;font-weight:800;color:#888;text-transform:uppercase;letter-spacing:1px;display:block;margin-bottom:5px;">🏢 SVC</label>
         <button class="multi-select-btn" onclick="toggleDropdown('dd-svc-pcml')" style="height:40px;">Todos <i class="fas fa-chevron-down"></i></button>
@@ -1538,6 +1582,12 @@ td { padding: 12px; border-bottom: 1px solid #ddd; white-space: nowrap; }
       <div style="flex:2;min-width:200px;">
         <label style="font-size:11px;font-weight:800;color:#888;text-transform:uppercase;letter-spacing:1px;display:block;margin-bottom:5px;">🔍 Motorista</label>
         <input type="text" id="sc-search" class="filter-input" placeholder="Nome do motorista..." oninput="renderScorecard_db()" style="height:40px;">
+      </div>
+      <div style="flex:1;min-width:160px;">
+        <label style="font-size:11px;font-weight:800;color:#888;text-transform:uppercase;letter-spacing:1px;display:block;margin-bottom:5px;">🗺️ Regional</label>
+        <select id="sc-regional" class="filter-input" onchange="renderScorecard_db()" style="height:40px;">
+          <option value="TODOS">Todas</option>
+        </select>
       </div>
       <div class="multi-select-container" style="flex:1;min-width:160px;">
         <label style="font-size:11px;font-weight:800;color:#888;text-transform:uppercase;letter-spacing:1px;display:block;margin-bottom:5px;">🏢 SVC</label>
@@ -1806,6 +1856,12 @@ td { padding: 12px; border-bottom: 1px solid #ddd; white-space: nowrap; }
 
     <!-- Filtros -->
     <div class="tr-filters">
+      <div style="flex:1;min-width:180px;">
+        <label style="font-size:11px;font-weight:800;color:#888;text-transform:uppercase;letter-spacing:1px;display:block;margin-bottom:5px;">🗺️ Regional</label>
+        <select id="tr-regional" class="filter-input" onchange="aplicarFiltrosTreino()" style="height:40px;">
+          <option value="TODOS">Todas</option>
+        </select>
+      </div>
       <div class="multi-select-container" style="flex:1;min-width:200px;">
         <label style="font-size:11px;font-weight:800;color:#888;text-transform:uppercase;letter-spacing:1px;display:block;margin-bottom:5px;">🏢 SVC</label>
         <button class="multi-select-btn" onclick="toggleDropdown('dd-svc')" style="height:40px;">🏢 Selecionar SVCs <i class="fas fa-chevron-down"></i></button>
@@ -1968,6 +2024,12 @@ td { padding: 12px; border-bottom: 1px solid #ddd; white-space: nowrap; }
       <div>
         <label>🔍 Buscar Motorista / Placa:</label>
         <input type="text" id="torre-search" class="filter-input" placeholder="Digite nome ou placa..." oninput="renderTorre_db()" style="min-width:220px;">
+      </div>
+      <div>
+        <label>🗺️ Filtrar Regional:</label>
+        <select id="torre-regional" class="filter-input" onchange="renderTorre_db()" style="min-width:180px;">
+          <option value="TODOS">Todas</option>
+        </select>
       </div>
       <div class="multi-select-container">
         <label>🏢 Filtrar SVC:</label>
@@ -2151,6 +2213,7 @@ td { padding: 12px; border-bottom: 1px solid #ddd; white-space: nowrap; }
     </div>
     <div class="off-filters">
       <div style="flex:2;min-width:220px;"><label style="font-size:11px;font-weight:800;color:#888;text-transform:uppercase;letter-spacing:1px;display:block;margin-bottom:5px;">🔎 Buscar</label><input id="offSearch" class="filter-input" oninput="renderOffline()" placeholder="Veículo, placa, endereço ou série..." style="height:40px;"></div>
+      <div style="flex:1;min-width:160px;"><label style="font-size:11px;font-weight:800;color:#888;text-transform:uppercase;letter-spacing:1px;display:block;margin-bottom:5px;">🗺️ Regional</label><select id="offFilterRegional" class="filter-input" onchange="renderOffline()" style="height:40px;"><option value="TODOS">Todas</option></select></div>
       <div style="flex:1;min-width:160px;"><label style="font-size:11px;font-weight:800;color:#888;text-transform:uppercase;letter-spacing:1px;display:block;margin-bottom:5px;">🏢 SVC</label><select id="offFilterSVC" class="filter-input" onchange="renderOffline()" style="height:40px;"><option value="TODOS">Todos</option></select></div>
       <div style="flex:1;min-width:160px;"><label style="font-size:11px;font-weight:800;color:#888;text-transform:uppercase;letter-spacing:1px;display:block;margin-bottom:5px;">🚚 Modal</label><select id="offFilterModal" class="filter-input" onchange="renderOffline()" style="height:40px;"><option value="TODOS">Todos</option></select></div>
       <div style="flex:1;min-width:160px;"><label style="font-size:11px;font-weight:800;color:#888;text-transform:uppercase;letter-spacing:1px;display:block;margin-bottom:5px;">📊 Status</label><select id="offFilterStatus" class="filter-input" onchange="renderOffline()" style="height:40px;"><option value="TODOS">Todos</option><option value="OK">OK</option><option value="NAO_ATIVO">Não ativo</option><option value="OFFLINE">Offline</option><option value="CRITICO">Crítico +7d</option><option value="ATENCAO">Atenção 3-7d</option><option value="RECENTE">Recente 1-2d</option></select></div>
@@ -2402,6 +2465,275 @@ function ymdKey(v) {
 
 function normalizeString(s) { return s ? String(s).trim().toUpperCase() : ''; }
 
+// =============================
+// MAPA FIXO SVC → REGIONAL
+// Fonte: aba REGIONAL da planilha principal
+// Coluna A = REGIÃO | Coluna B = SVC/XPT
+// =============================
+let regionalMap = {};
+let regionalLoaded = false;
+let regionalLoading = false;
+let regionalCallbacks = [];
+
+function getRegionalBySvc(svc, fallback='N/A') {
+  const key = normalizeString(svc);
+  if (!key) return fallback || 'N/A';
+  return regionalMap[key] || fallback || 'N/A';
+}
+
+function getRegionaisDisponiveisPeloMapa() {
+  return [...new Set(Object.values(regionalMap).filter(Boolean))].sort();
+}
+
+// =============================
+// REGIONAL MULTISELECT
+// Permite selecionar mais de uma regional em todas as abas.
+// Mantém os selects de print como seleção única.
+// =============================
+const REGIONAL_MULTI_IDS = new Set([
+  'filterRegional',
+  'filterRegionalAnual',
+  'pcml-regional',
+  'sc-regional',
+  'tr-regional',
+  'torre-regional',
+  'offFilterRegional',
+  'trtFiltroRegional'
+]);
+
+function getSelectedRegionais(id) {
+  const el = document.getElementById(id);
+  if (!el) return ['TODOS'];
+  const vals = el.multiple
+    ? Array.from(el.selectedOptions).map(o => o.value).filter(Boolean)
+    : [el.value || 'TODOS'];
+  if (!vals.length || vals.includes('TODOS')) return ['TODOS'];
+  return vals;
+}
+
+function regionalFiltroAtivo(id) {
+  return !getSelectedRegionais(id).includes('TODOS');
+}
+
+function regionalPassaFiltro(id, regional) {
+  const selecionadas = getSelectedRegionais(id);
+  if (selecionadas.includes('TODOS')) return true;
+  return selecionadas.includes(String(regional || '').trim());
+}
+
+function limparSelectRegional(id) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  Array.from(el.options).forEach(o => o.selected = o.value === 'TODOS');
+}
+
+function normalizarRegionalMulti(id) {
+  const el = document.getElementById(id);
+  if (!el || !el.multiple) return;
+  const selecionadas = Array.from(el.selectedOptions).map(o => o.value);
+  if (!selecionadas.length) {
+    const todos = Array.from(el.options).find(o => o.value === 'TODOS');
+    if (todos) todos.selected = true;
+    return;
+  }
+  if (selecionadas.length > 1 && selecionadas.includes('TODOS')) {
+    const todos = Array.from(el.options).find(o => o.value === 'TODOS');
+    if (todos) todos.selected = false;
+  }
+}
+
+function toggleRegionalDropdown(id) {
+  const dd = document.getElementById('dd-regional-' + id);
+  if (!dd) return;
+  document.querySelectorAll('.regional-checkbox-dropdown').forEach(d => {
+    if (d.id !== 'dd-regional-' + id) d.classList.remove('show');
+  });
+  dd.classList.toggle('show');
+}
+
+function atualizarTextoBotaoRegional(id) {
+  const btn = document.getElementById('btn-regional-' + id);
+  const selecionadas = getSelectedRegionais(id);
+  if (!btn) return;
+
+  let texto = 'Todos';
+  if (!selecionadas.includes('TODOS')) {
+    texto = selecionadas.length === 1 ? selecionadas[0] : `${selecionadas.length} regionais selecionadas`;
+  }
+
+  btn.innerHTML = `<span>${texto}</span><i class="fas fa-chevron-down"></i>`;
+}
+
+function aplicarCheckboxRegional(id, onchangeFnName) {
+  const sel = document.getElementById(id);
+  if (!sel) return;
+
+  const checks = Array.from(document.querySelectorAll(`#dd-regional-${id} input[type="checkbox"]`));
+  let marcadas = checks.filter(c => c.checked).map(c => c.value);
+
+  if (!marcadas.length) marcadas = ['TODOS'];
+
+  if (marcadas.includes('TODOS') && marcadas.length > 1) {
+    const ultimo = document.activeElement?.value;
+    marcadas = ultimo === 'TODOS' ? ['TODOS'] : marcadas.filter(v => v !== 'TODOS');
+  }
+
+  checks.forEach(c => c.checked = marcadas.includes(c.value));
+  Array.from(sel.options).forEach(o => o.selected = marcadas.includes(o.value));
+
+  normalizarRegionalMulti(id);
+  atualizarTextoBotaoRegional(id);
+
+  if (onchangeFnName) {
+    try {
+      const fnName = String(onchangeFnName).replace(/\(\)\s*$/, '');
+      if (typeof window[fnName] === 'function') window[fnName]();
+      else eval(onchangeFnName);
+    } catch(e) {
+      console.error('Erro ao aplicar filtro regional:', e);
+    }
+  }
+}
+
+function montarDropdownRegionalVisual(id, onchangeFnName) {
+  const sel = document.getElementById(id);
+  if (!sel) return;
+
+  sel.style.display = 'none';
+  sel.multiple = true;
+  sel.size = 1;
+
+  let wrapper = document.getElementById('wrap-regional-' + id);
+  if (!wrapper) {
+    wrapper = document.createElement('div');
+    wrapper.id = 'wrap-regional-' + id;
+    wrapper.className = 'multi-select-container regional-checkbox-wrap';
+    wrapper.style.width = '100%';
+    wrapper.style.minWidth = '190px';
+    sel.insertAdjacentElement('afterend', wrapper);
+  }
+
+  const options = Array.from(sel.options).map(o => {
+    const checked = o.selected ? 'checked' : '';
+    const label = o.value === 'TODOS' ? 'Todos' : o.textContent;
+    return `
+      <label class="checkbox-item regional-checkbox-item">
+        <input type="checkbox" value="${String(o.value).replace(/"/g, '&quot;')}" ${checked} onchange="aplicarCheckboxRegional('${id}', '${String(onchangeFnName || '').replace(/'/g, "\\'")}')">
+        ${label}
+      </label>`;
+  }).join('');
+
+  wrapper.innerHTML = `
+    <button type="button" id="btn-regional-${id}" class="multi-select-btn regional-checkbox-btn" onclick="event.stopPropagation(); toggleRegionalDropdown('${id}')">
+      <span>Todos</span><i class="fas fa-chevron-down"></i>
+    </button>
+    <div id="dd-regional-${id}" class="multi-select-dropdown regional-checkbox-dropdown" onclick="event.stopPropagation();">
+      ${options}
+    </div>`;
+
+  atualizarTextoBotaoRegional(id);
+}
+
+function preencherSelectRegional(id, onchangeFnName, labelTodos='Todas') {
+  const sel = document.getElementById(id);
+  if (!sel) return;
+
+  const isMulti = REGIONAL_MULTI_IDS.has(id);
+  const valoresAtuais = sel.multiple
+    ? Array.from(sel.selectedOptions).map(o => o.value)
+    : [sel.value || 'TODOS'];
+
+  sel.innerHTML = `<option value="TODOS">${labelTodos}</option>`;
+  getRegionaisDisponiveisPeloMapa().forEach(r => sel.add(new Option(r, r)));
+
+  const existeValorAnterior = valoresAtuais.some(v => [...sel.options].some(o => o.value === v));
+  Array.from(sel.options).forEach(o => {
+    o.selected = existeValorAnterior ? valoresAtuais.includes(o.value) : o.value === 'TODOS';
+  });
+
+  if (isMulti) {
+    montarDropdownRegionalVisual(id, onchangeFnName);
+  } else {
+    sel.style.display = '';
+    sel.multiple = false;
+    if (onchangeFnName) {
+      sel.onchange = function() {
+        try {
+          const fnName = String(onchangeFnName).replace(/\(\)\s*$/, '');
+          if (typeof window[fnName] === 'function') window[fnName]();
+          else eval(onchangeFnName);
+        } catch(e) {
+          console.error('Erro ao aplicar filtro regional:', e);
+        }
+      };
+    }
+  }
+}
+
+function loadRegionalMap(callback) {
+  if (typeof callback === 'function') regionalCallbacks.push(callback);
+  if (regionalLoaded) {
+    const cbs = regionalCallbacks.splice(0);
+    cbs.forEach(cb => { try { cb(); } catch(e) { console.error(e); } });
+    return;
+  }
+  if (regionalLoading) return;
+  regionalLoading = true;
+
+  const oldScript = document.getElementById('script-regional-map');
+  if (oldScript) oldScript.remove();
+
+  window.google = window.google || {};
+  window.google.visualization = window.google.visualization || {};
+  window.google.visualization.Query = window.google.visualization.Query || {};
+
+  const prevCallback = window.google.visualization.Query.setResponse;
+
+  window.google.visualization.Query.setResponse = function(res) {
+    try {
+      if (res.status !== 'error' && res.table && res.table.rows) {
+        const map = {};
+        res.table.rows.forEach(r => {
+          const c = r.c || [];
+          // Aba REGIONAL:
+          // Coluna A = Região | Coluna B = SVC/XPT
+          const regional = c[0] ? String(c[0].f || c[0].v || '').trim() : '';
+          const svc = c[1] ? String(c[1].f || c[1].v || '').trim() : '';
+          if (svc && regional) map[normalizeString(svc)] = regional;
+        });
+        regionalMap = map;
+        regionalLoaded = true;
+      } else {
+        console.warn('Não foi possível carregar a aba REGIONAL. Usando regionais originais quando existirem.');
+      }
+    } catch (e) {
+      console.error('Erro ao montar mapa REGIONAL:', e);
+    } finally {
+      regionalLoading = false;
+      window.google.visualization.Query.setResponse = prevCallback || function(){};
+      preencherSelectRegional('filterRegional', 'triggerChecklistUpdate()', 'Todos');
+      preencherSelectRegional('filterRegionalAnual', 'triggerAnualUpdate()', 'Todos');
+      preencherSelectRegional('pcml-regional', 'renderPCML_db()', 'Todas');
+      preencherSelectRegional('sc-regional', 'renderScorecard_db()', 'Todas');
+      preencherSelectRegional('tr-regional', 'aplicarFiltrosTreino()', 'Todas');
+      preencherSelectRegional('torre-regional', 'renderTorre_db()', 'Todas');
+      preencherSelectRegional('offFilterRegional', 'renderOffline()', 'Todas');
+      preencherSelectRegional('trtFiltroRegional', 'renderTempoReal()', 'Todas');
+      preencherSelectRegional('selectRegionalPrintQ', null, 'Todas as Regionais');
+      preencherSelectRegional('selectRegionalPrintAnual', null, 'Todas as Regionais');
+
+      const cbs = regionalCallbacks.splice(0);
+      cbs.forEach(cb => { try { cb(); } catch(e) { console.error(e); } });
+    }
+  };
+
+  const script = document.createElement('script');
+  script.id = 'script-regional-map';
+  script.src = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=REGIONAL&range=A:B&headers=1&cache=${Date.now()}`;
+  document.body.appendChild(script);
+}
+
+
 const SHEET_ID = '1OzrdPS7am7FSHOrVlT3qD5NBGm0TE1NERvRVKnFGb90';
 const GID_CHECKLIST = '1226817368';
 const SHEET_NAME_TREINO = 'Consolidado treinamentos';
@@ -2448,17 +2780,17 @@ function mudarAba(aba) {
     if (pane) pane.classList.add('active');
 
     if ((aba === 'pcml' || aba === 'scorecard') && !ofensoresLoaded) {
-      loadOfensores();
+      loadRegionalMap(() => loadOfensores());
       ofensoresLoaded = true;
     }
     if (aba === 'tempoReal' && !tempoRealLoaded) {
-      loadTempoReal();
+      loadRegionalMap(() => loadTempoReal());
       tempoRealLoaded = true;
     }
-    if (aba === 'treinamentos' && !treinoLoaded) { carregarTreinamentos(); treinoLoaded = true; }
-    if (aba === 'torre' && !torreLoaded) { loadTorre(); torreLoaded = true; }
-    if (aba === 'offline' && !offlineLoaded) { loadOffline(); offlineLoaded = true; }
-    if (aba === 'checklistAnual' && !window._anualLoaded) { window._anualLoaded = true; loadChecklistAnual(); }
+    if (aba === 'treinamentos' && !treinoLoaded) { loadRegionalMap(() => carregarTreinamentos()); treinoLoaded = true; }
+    if (aba === 'torre' && !torreLoaded) { loadRegionalMap(() => loadTorre()); torreLoaded = true; }
+    if (aba === 'offline' && !offlineLoaded) { loadRegionalMap(() => loadOffline()); offlineLoaded = true; }
+    if (aba === 'checklistAnual' && !window._anualLoaded) { window._anualLoaded = true; loadRegionalMap(() => loadChecklistAnual()); }
   } catch (e) { console.error("Erro ao mudar aba:", e); }
 }
 
@@ -2467,10 +2799,10 @@ document.getElementById('abaTreinamentos'); // já existe
 // O ID da aba Torre é "abaTorre" — compatível com mudarAba('torre')
 
 window.addEventListener('load', () => {
-  // Carrega o checklist imediatamente com animação mínima
-  loadChecklist();
+  // Carrega primeiro o mapa fixo SVC → Regional e depois o checklist
+  loadRegionalMap(() => loadChecklist());
   // Atualização automática a cada 15 minutos (menos agressivo que 5 min)
-  setInterval(() => loadChecklist(true), 900000);
+  setInterval(() => loadRegionalMap(() => loadChecklist(true)), 900000);
 });
 
 window.onclick = function(event) {
@@ -2624,6 +2956,7 @@ function loadTorre(force=false) {
         modal:      colA.trim(),
         veiculo:    colB.trim(),
         svc,
+        regional:   getRegionalBySvc(svc, 'N/A'),
         h09: h09str, h12: h12str, h15: h15str, h18: h18str, h21: h21str, h23: h23str,
         s09, s12, s15, s18, s21, s23,
         rsStr,
@@ -2714,6 +3047,7 @@ function showTorreError(msg) {
 let activeSvcChips = new Set(); // SVCs selecionados pelos chips
 
 function setupTorre() {
+  preencherSelectRegional('torre-regional', 'renderTorre_db()', 'Todas');
   const svcs = [...new Set(dataTorre.map(d => d.svc).filter(Boolean))].sort();
   const modais = [...new Set(dataTorre.map(d => d.modal).filter(Boolean))].sort();
   setupMultiSelect('dd-svc-torre', svcs, renderTorre);
@@ -2805,11 +3139,14 @@ function limparFiltroSVC() {
 
 function renderTorre() {
   const search = (document.getElementById('torre-search')?.value || '').toLowerCase();
+  const regionalSelecionadas = getSelectedRegionais('torre-regional');
   const svcsSelected = getSelectedValues('dd-svc-torre');
   const modaisSelected = getSelectedValues('dd-modal-torre');
   const filtroCusto = document.getElementById('torre-filter-custo')?.value || 'TODOS';
 
   let filtered = dataTorre.filter(d => {
+    // Regional fixa via aba REGIONAL
+    if (!regionalSelecionadas.includes('TODOS') && !regionalSelecionadas.includes(getRegionalBySvc(d.svc, d.regional))) return false;
     // Chips têm prioridade sobre o multi-select de SVC
     if (activeSvcChips.size > 0 && !activeSvcChips.has(d.svc)) return false;
     if (activeSvcChips.size === 0 && svcsSelected.length > 0 && !svcsSelected.includes(d.svc)) return false;
@@ -4834,6 +5171,7 @@ function loadOffline(force=false){
           endereco,diasMovTxt:_offCell(r,C.diasMov),diasComTxt:_offCell(r,C.diasCom),
           statusInstalacao:_offCell(r,C.statusInstalacao),
           placa:_offCell(r,C.placa),modal:_offCell(r,C.modal),svc:_offCell(r,C.svc),
+          regional:getRegionalBySvc(_offCell(r,C.svc), 'N/A'),
           statusAtivo:_offCell(r,C.statusAtivo),statusComunicacao:_offCell(r,C.statusComunicacao),
           latitude:latRaw,longitude:lonRaw,atualizado:_offCell(r,C.atualizado),
           myGeotabOriginal
@@ -4864,9 +5202,9 @@ function loadOffline(force=false){
   };
   document.body.appendChild(script);
 }
-function setupOfflineFilters(){ const fill=(id,vals)=>{ const el=document.getElementById(id); if(!el)return; const cur=el.value; el.innerHTML='<option value="TODOS">Todos</option>'+[...new Set(vals.filter(Boolean))].sort().map(v=>`<option value="${String(v).replace(/"/g,'&quot;')}">${v}</option>`).join(''); if([...el.options].some(o=>o.value===cur)) el.value=cur; }; fill('offFilterSVC',dataOffline.map(d=>d.svc)); fill('offFilterModal',dataOffline.map(d=>d.modal)); }
-function clearOfflineFilters(){ activeOfflineChartFilter=null; document.getElementById('offSearch').value=''; document.getElementById('offFilterSVC').value='TODOS'; document.getElementById('offFilterModal').value='TODOS'; document.getElementById('offFilterStatus').value='TODOS'; renderOffline(); }
-function getOfflineFiltered(){ const q=(document.getElementById('offSearch')?.value||'').toLowerCase(), svc=document.getElementById('offFilterSVC')?.value||'TODOS', modal=document.getElementById('offFilterModal')?.value||'TODOS', st=document.getElementById('offFilterStatus')?.value||'TODOS'; return dataOffline.filter(d=>{ if(q && !`${d.veiculo} ${d.placa} ${d.endereco} ${d.serie} ${d.svc} ${d.modal}`.toLowerCase().includes(q)) return false; if(svc!=='TODOS'&&d.svc!==svc)return false; if(modal!=='TODOS'&&d.modal!==modal)return false; if(st==='OK'&&d.criticidade!=='OK')return false; if(st==='NAO_ATIVO'&&!_isNaoAtivoOffline(d))return false; if(st==='OFFLINE'&&(d.criticidade==='OK'||_isNaoAtivoOffline(d)))return false; if(['CRITICO','ATENCAO','RECENTE'].includes(st)&&(d.criticidade!==st||_isNaoAtivoOffline(d)))return false;
+function setupOfflineFilters(){ const fill=(id,vals,label='Todos')=>{ const el=document.getElementById(id); if(!el)return; const atuais=el.multiple?Array.from(el.selectedOptions).map(o=>o.value):[el.value||'TODOS']; el.innerHTML=`<option value="TODOS">${label}</option>`+[...new Set(vals.filter(Boolean))].sort().map(v=>`<option value="${String(v).replace(/"/g,'&quot;')}">${v}</option>`).join(''); const existe=atuais.some(v=>[...el.options].some(o=>o.value===v)); Array.from(el.options).forEach(o=>o.selected=existe?atuais.includes(o.value):o.value==='TODOS'); }; preencherSelectRegional('offFilterRegional', 'renderOffline()', 'Todas'); fill('offFilterSVC',dataOffline.map(d=>d.svc)); fill('offFilterModal',dataOffline.map(d=>d.modal)); }
+function clearOfflineFilters(){ activeOfflineChartFilter=null; document.getElementById('offSearch').value=''; limparSelectRegional('offFilterRegional'); document.getElementById('offFilterSVC').value='TODOS'; document.getElementById('offFilterModal').value='TODOS'; document.getElementById('offFilterStatus').value='TODOS'; renderOffline(); }
+function getOfflineFiltered(){ const q=(document.getElementById('offSearch')?.value||'').toLowerCase(), regionaisSelecionadas=getSelectedRegionais('offFilterRegional'), svc=document.getElementById('offFilterSVC')?.value||'TODOS', modal=document.getElementById('offFilterModal')?.value||'TODOS', st=document.getElementById('offFilterStatus')?.value||'TODOS'; return dataOffline.filter(d=>{ if(q && !`${d.veiculo} ${d.placa} ${d.endereco} ${d.serie} ${d.svc} ${d.modal} ${d.regional}`.toLowerCase().includes(q)) return false; if(!regionaisSelecionadas.includes('TODOS')&&!regionaisSelecionadas.includes(getRegionalBySvc(d.svc,d.regional)))return false; if(svc!=='TODOS'&&d.svc!==svc)return false; if(modal!=='TODOS'&&d.modal!==modal)return false; if(st==='OK'&&d.criticidade!=='OK')return false; if(st==='NAO_ATIVO'&&!_isNaoAtivoOffline(d))return false; if(st==='OFFLINE'&&(d.criticidade==='OK'||_isNaoAtivoOffline(d)))return false; if(['CRITICO','ATENCAO','RECENTE'].includes(st)&&(d.criticidade!==st||_isNaoAtivoOffline(d)))return false;
   if(activeOfflineChartFilter){
     const f=activeOfflineChartFilter;
     if(f.type==='svc' && d.svc!==f.value) return false;
@@ -5482,8 +5820,8 @@ function analyzeChecklist(data) {
   if(now.getDate()<=15) { dIni=new Date(now.getFullYear(),now.getMonth(),1); dFim=new Date(now.getFullYear(),now.getMonth(),15,23,59,59); } else { dIni=new Date(now.getFullYear(),now.getMonth(),16); dFim=new Date(now.getFullYear(),now.getMonth()+1,0,23,59,59); }
   const grouped = {};
   data.forEach(row => {
-    const reg = row.REGIONAL || row.Regional || 'N/A';
     const svc = row.SVC || row.Svc || 'N/A';
+    const reg = getRegionalBySvc(svc, row.REGIONAL || row.Regional || 'N/A');
     const placa = row.PLACA || row.Placa || row.placa || 'N/D';
     const consta = (row['CONSTA NA VEC'] || row['Consta na VEC'] || '').toUpperCase();
     const isNC = consta.includes('NO CONSTA')||consta.includes('NÃO CONSTA');
@@ -6934,12 +7272,12 @@ function updateCheckUI(data) {
       else if (activeChecklistFilter.value === 'Crítico') flt = flt.filter(d => d.perc < 50);
     }
   }
-  const reg = document.getElementById('filterRegional').value;
+  const regSelecionadas = getSelectedRegionais('filterRegional');
   const sts = document.getElementById('filterStatus').value;
   const svcs = getSelectedValues('dd-svc-checklist');
   // O _updateMultiBtn já cuida do label do botão
   if(svcs.length > 0) { flt = flt.filter(d => svcs.includes(d.svc)); }
-  if(reg!=='TODOS') flt=flt.filter(d=>d.regional===reg);
+  if(!regSelecionadas.includes('TODOS')) flt=flt.filter(d=>regSelecionadas.includes(d.regional));
   if(sts!=='TODOS') { if(sts==='verde') flt=flt.filter(d=>d.perc>=80); else if(sts==='amarelo') flt=flt.filter(d=>d.perc>=50&&d.perc<80); else if(sts==='vermelho') flt=flt.filter(d=>d.perc<50); else if(sts==='PENDENTE') flt=flt.filter(d=>d.faltando>0); }
   const tot=flt.reduce((s,i)=>s+i.validos,0), rea=flt.reduce((s,i)=>s+i.real,0);
   const nc=flt.reduce((s,i)=>s+i.nao_consta,0);
@@ -7068,7 +7406,7 @@ function loadOfensores(force=false) {
         return '';
       };
       return {
-        dt: getV('DATA'), nome: getV('MOTORISTA'), svc: getV('SVC'), reg: getV('REGIONAL'),
+        dt: getV('DATA'), nome: getV('MOTORISTA'), svc: getV('SVC'), reg: getRegionalBySvc(getV('SVC'), getV('REGIONAL')),
         placa: getV('PLACA'), tipo: getV('TIPO'), val: getV('VALOR_PRINCIPAL') || getV('VALOR'),
         ac: getV('ACEL'), fr: getV('FRE'), cu: getV('CURVA'), ve: getV('VEL'), cin: getV('CINTO'),
         modal: getV('MODAL'), gasto: getV('GASTO')
@@ -7539,7 +7877,10 @@ function carregarTreinamentos(force=false) {
   window.google.visualization.Query.setResponse = function(response) {
     if(response.status==='error'){alert('Erro Treino');return;}
     const rows = response.table.rows;
-    dadosTreinoAll = rows.slice(1).map(r=>({ nome: r.c[0]?.v || '', id: r.c[1]?.v || '', svc: r.c[2]?.v || '', curso: r.c[3]?.v || '', ultimaRota: r.c[5]?.v || '', status: 'Vencido' })).filter(d => d.nome && d.id);
+    dadosTreinoAll = rows.slice(1).map(r=>{
+      const svc = r.c[2]?.v || '';
+      return { nome: r.c[0]?.v || '', id: r.c[1]?.v || '', svc, regional: getRegionalBySvc(svc, 'N/A'), curso: r.c[3]?.v || '', ultimaRota: r.c[5]?.v || '', status: 'Vencido' };
+    }).filter(d => d.nome && d.id);
     setupMultiSelect('dd-svc', [...new Set(dadosTreinoAll.map(d=>d.svc))].sort(), aplicarFiltrosTreino);
     setupMultiSelect('dd-curso', [...new Set(dadosTreinoAll.map(d=>d.curso))].sort(), aplicarFiltrosTreino);
     aplicarFiltrosTreino();
@@ -7551,10 +7892,12 @@ function carregarTreinamentos(force=false) {
 
 function aplicarFiltrosTreino() {
   const svcs = getSelectedValues('dd-svc'); const curs = getSelectedValues('dd-curso');
+  const regionalSelecionadas = getSelectedRegionais('tr-regional');
   const busca = (document.getElementById('tr-search')?.value||'').toLowerCase();
   dadosTreinoFiltered = dadosTreinoAll.filter(d => {
     if (activeFilterSVC_Treino && d.svc !== activeFilterSVC_Treino) return false;
     if (activeFilterCurso_Treino && d.curso !== activeFilterCurso_Treino) return false;
+    if (!regionalSelecionadas.includes('TODOS') && !regionalSelecionadas.includes(getRegionalBySvc(d.svc, d.regional))) return false;
     if (!activeFilterSVC_Treino && svcs.length > 0 && !svcs.includes(d.svc)) return false;
     if (!activeFilterCurso_Treino && curs.length > 0 && !curs.includes(d.curso)) return false;
     if (busca && !d.nome.toLowerCase().includes(busca)) return false;
@@ -7583,7 +7926,7 @@ function aplicarFiltrosTreino() {
     tb.innerHTML = html;
     document.getElementById('contadorTreino').innerText = `Mostrando ${Math.min(dadosTreinoFiltered.length, 500)} de ${dadosTreinoFiltered.length} registros`;
   }
-  let chartData = dadosTreinoAll.filter(d => { if (svcs.length > 0 && !svcs.includes(d.svc)) return false; if (curs.length > 0 && !curs.includes(d.curso)) return false; return true; });
+  let chartData = dadosTreinoAll.filter(d => { if (!regionalSelecionadas.includes('TODOS') && !regionalSelecionadas.includes(getRegionalBySvc(d.svc, d.regional))) return false; if (svcs.length > 0 && !svcs.includes(d.svc)) return false; if (curs.length > 0 && !curs.includes(d.curso)) return false; return true; });
   atualizarGraficosTreino(chartData);
 }
 
@@ -7731,7 +8074,7 @@ function exportChecklistExcel(){ if(!dashData)return; const wb=XLSX.utils.book_n
 function exportarTreinoExcel(){ if(dadosTreinoFiltered.length===0)return; const wb=XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(dadosTreinoFiltered),"Treinamentos"); XLSX.writeFile(wb,"Treinamentos.xlsx"); }
 function exportarOfensores() { const wb = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(dataOfensores), "Ofensores"); XLSX.writeFile(wb, "Relatorio_Ofensores.xlsx"); }
 function clearChecklistFilters(){
-  document.getElementById('filterRegional').value='TODOS';
+  limparSelectRegional('filterRegional');
   document.getElementById('filterStatus').value='TODOS';
   document.querySelectorAll('#dd-svc-checklist input[type="checkbox"]').forEach(i => i.checked = false);
   _updateMultiBtn('dd-svc-checklist');
@@ -7749,6 +8092,70 @@ function exportPendentesExcel() {
   const wb = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(exportData), "Placas_Pendentes"); XLSX.writeFile(wb, "Placas_Pendentes.xlsx");
 }
 
+
+
+// ═══════════════════════════════════════════════
+// PERFORMANCE PCML / SCORECARD
+// Pré-processa os dados uma única vez e evita recalcular datas, valores e regionais a cada filtro.
+// ═══════════════════════════════════════════════
+function ensureOfensoresFastCache() {
+  if (window._ofensoresFastCache && window._ofensoresFastCache._src === dataOfensores && window._ofensoresFastCache._len === dataOfensores.length && window._ofensoresFastCache._regionalLoaded === regionalLoaded) {
+    return window._ofensoresFastCache;
+  }
+
+  const pcml = [];
+  const sc = [];
+
+  for (const d of dataOfensores) {
+    const tipoNorm = normalizeString(d.tipo);
+    d._tipoNorm = tipoNorm;
+    d._nomeLow = String(d.nome || '').toLowerCase();
+    d._dateKey = ymdKey(d.dt);
+    d._lastMs = d.dt ? parseDateAny(d.dt).getTime() : 0;
+    d._regionalFix = getRegionalBySvc(d.svc, d.reg);
+
+    if (tipoNorm === 'PCML') {
+      d._gastoNum = parseRealBRL_of(d.gasto);
+      d._valSecs = timeToSeconds(d.val);
+      d._modalShort = shortModal(d.modal || 'N/I');
+      pcml.push(d);
+    } else if (tipoNorm === 'SCORECARD') {
+      d._ve = parseNum(d.ve);
+      d._ac = parseNum(d.ac);
+      d._fr = parseNum(d.fr);
+      d._cu = parseNum(d.cu);
+      d._cin = parseNum(d.cin);
+      d._infraTotal = d._ve + d._ac + d._fr + d._cu + d._cin;
+      sc.push(d);
+    }
+  }
+
+  window._ofensoresFastCache = {
+    _src: dataOfensores,
+    _len: dataOfensores.length,
+    _regionalLoaded: regionalLoaded,
+    pcml,
+    sc
+  };
+
+  return window._ofensoresFastCache;
+}
+
+function updateChartFast(chartRefName, ctx, configFactory, labels, values, backgroundColor) {
+  if (!ctx) return null;
+  let chart = window[chartRefName];
+  if (!chart) {
+    chart = configFactory();
+    window[chartRefName] = chart;
+    return chart;
+  }
+  chart.data.labels = labels;
+  chart.data.datasets[0].data = values;
+  if (backgroundColor) chart.data.datasets[0].backgroundColor = backgroundColor;
+  chart.update('none');
+  return chart;
+}
+
 // ═══════════════════════════════════════════════
 // ABA PCML — render independente
 // ═══════════════════════════════════════════════
@@ -7757,6 +8164,7 @@ let _activeSvcPCML = null, _activeModalPCML = null;
 
 function limparFiltrosPCML() {
   document.getElementById('pcml-search').value = '';
+  limparSelectRegional('pcml-regional');
   document.getElementById('pcml-ini').value = '';
   document.getElementById('pcml-fim').value = '';
   document.querySelectorAll('#dd-svc-pcml input[type="checkbox"]').forEach(i=>i.checked=false);
@@ -7769,232 +8177,170 @@ function limparFiltrosPCML() {
 
 function renderPCML() {
   const search  = (document.getElementById('pcml-search')?.value||'').toLowerCase().trim();
-  const svcs    = getSelectedValues('dd-svc-pcml');
-  const modais  = getSelectedValues('dd-modal-pcml');
+  const svcsArr = getSelectedValues('dd-svc-pcml');
+  const modaisArr = getSelectedValues('dd-modal-pcml');
+  const regionalSelecionadas = getSelectedRegionais('pcml-regional');
   const iniRaw  = document.getElementById('pcml-ini')?.value||'';
   const fimRaw  = document.getElementById('pcml-fim')?.value||'';
+  const iniK = iniRaw ? ymdKey(parseDateAny(iniRaw)) : 0;
+  const fimK = fimRaw ? ymdKey(parseDateAny(fimRaw)) : 99999999;
+  const svcs = svcsArr.length ? new Set(svcsArr) : null;
+  const modais = modaisArr.length ? new Set(modaisArr) : null;
 
-  // ── Base: só registros PCML — cache por length para evitar refiltro desnecessário
-  let data = (window._cachePCML && window._cachePCML._srcLen === dataOfensores.length && !search && !svcs.length && !modais.length && !iniRaw && !fimRaw && !_activeSvcPCML && !_activeModalPCML)
-    ? window._cachePCML.data
-    : dataOfensores.filter(d => normalizeString(d.tipo) === 'PCML');
+  const cache = ensureOfensoresFastCache();
+  let data = [];
 
-  // ── Filtro de data: funciona com qualquer um dos dois preenchidos
-  if (iniRaw || fimRaw) {
-    const iniK = iniRaw ? ymdKey(parseDateAny(iniRaw)) : 0;
-    const fimK = fimRaw ? ymdKey(parseDateAny(fimRaw)) : 99999999;
-    data = data.filter(d => {
-      const k = ymdKey(d.dt);
-      if (!k) return false;
-      return k >= iniK && k <= fimK;
-    });
+  for (const d of cache.pcml) {
+    if ((iniRaw || fimRaw) && (!d._dateKey || d._dateKey < iniK || d._dateKey > fimK)) continue;
+    if (!regionalSelecionadas.includes('TODOS') && !regionalSelecionadas.includes(d._regionalFix)) continue;
+    if (_activeSvcPCML) { if (d.svc !== _activeSvcPCML) continue; }
+    else if (svcs && !svcs.has(d.svc)) continue;
+    if (_activeModalPCML) { if (d._modalShort !== _activeModalPCML) continue; }
+    else if (modais && !modais.has(d.modal)) continue;
+    if (search && !d._nomeLow.includes(search)) continue;
+    data.push(d);
   }
 
-  // ── Filtro SVC: clique no gráfico tem prioridade sobre dropdown
-  if (_activeSvcPCML) {
-    data = data.filter(d => d.svc === _activeSvcPCML);
-  } else if (svcs.length) {
-    data = data.filter(d => svcs.includes(d.svc));
-  }
-
-  // ── Filtro Modal: clique no gráfico tem prioridade sobre dropdown
-  if (_activeModalPCML) {
-    data = data.filter(d => shortModal(d.modal||'') === _activeModalPCML);
-  } else if (modais.length) {
-    data = data.filter(d => modais.includes(d.modal));
-  }
-
-  // ── Filtro nome motorista
-  if (search) data = data.filter(d => (d.nome||'').toLowerCase().includes(search));
-
-  // ── Indicador visual de filtro ativo
-  const filtroAtivo = iniRaw || fimRaw || svcs.length || modais.length || search || _activeSvcPCML || _activeModalPCML;
+  const filtroAtivo = iniRaw || fimRaw || regionalFiltroAtivo('pcml-regional') || svcsArr.length || modaisArr.length || search || _activeSvcPCML || _activeModalPCML;
   const counterEl = document.getElementById('pcml-counter');
 
-  // ── KPIs
-  const totalGasto = data.reduce((a,d)=>a+parseRealBRL_of(d.gasto),0);
-  const totalSecs  = data.reduce((a,d)=>a+timeToSeconds(d.val),0);
-  const motoristas = new Set(data.map(d=>d.nome)).size;
-  const svcsAtivos = new Set(data.map(d=>d.svc)).size;
-  const set = (id,v) => { const el=document.getElementById(id); if(el) el.textContent=v; };
-  set('pcml-kpi-eventos',   data.length.toLocaleString('pt-BR'));
-  set('pcml-kpi-custo',     fmtBRL(totalGasto));
-  set('pcml-kpi-tempo',     secondsToTimeFormatted(totalSecs));
-  set('pcml-kpi-motoristas',motoristas.toLocaleString('pt-BR'));
-  set('pcml-kpi-svcs',      svcsAtivos.toLocaleString('pt-BR'));
-
-  // ── Gráfico 1: Ocorrências por SVC
+  let totalGasto = 0, totalSecs = 0;
+  const motoristasSet = new Set();
+  const svcsSet = new Set();
   const svcCount = {};
-  data.forEach(d => { if(d.svc) svcCount[d.svc] = (svcCount[d.svc]||0) + 1; });
+  const svcGasto = {};
+  const modGasto = {};
+  const motoMap = {};
+
+  for (const d of data) {
+    const g = d._gastoNum || 0;
+    const secs = d._valSecs || 0;
+    const svc = d.svc || 'N/I';
+    const nome = d.nome || 'N/I';
+    const modalShort = d._modalShort || 'N/I';
+
+    totalGasto += g;
+    totalSecs += secs;
+    motoristasSet.add(nome);
+    if (d.svc) svcsSet.add(d.svc);
+    if (d.svc) {
+      svcCount[d.svc] = (svcCount[d.svc] || 0) + 1;
+      svcGasto[d.svc] = (svcGasto[d.svc] || 0) + g;
+    }
+    modGasto[modalShort] = (modGasto[modalShort] || 0) + g;
+
+    if (!motoMap[nome]) motoMap[nome] = {nome, svc:d.svc, modal:d.modal||'N/I', placa:d.placa, eventos:0,totalSecs:0,totalGasto:0,porModal:{},lastDate:d.dt,_lastMs:0};
+    const mObj = motoMap[nome];
+    if ((d._lastMs || 0) > mObj._lastMs) { mObj._lastMs = d._lastMs || 0; mObj.lastDate = d.dt; mObj.svc = d.svc; mObj.placa = d.placa || mObj.placa; }
+    mObj.eventos++;
+    mObj.totalSecs += secs;
+    mObj.totalGasto += g;
+    if (!mObj.porModal[modalShort]) mObj.porModal[modalShort] = {secs:0,gasto:0,count:0};
+    mObj.porModal[modalShort].secs += secs;
+    mObj.porModal[modalShort].gasto += g;
+    mObj.porModal[modalShort].count++;
+  }
+
+  const set = (id,v) => { const el=document.getElementById(id); if(el) el.textContent=v; };
+  set('pcml-kpi-eventos', data.length.toLocaleString('pt-BR'));
+  set('pcml-kpi-custo', fmtBRL(totalGasto));
+  set('pcml-kpi-tempo', secondsToTimeFormatted(totalSecs));
+  set('pcml-kpi-motoristas', motoristasSet.size.toLocaleString('pt-BR'));
+  set('pcml-kpi-svcs', svcsSet.size.toLocaleString('pt-BR'));
+
   const sL = Object.keys(svcCount).sort((a,b)=>svcCount[b]-svcCount[a]).slice(0,20);
   const ctx1 = document.getElementById('chartPCML_SVC')?.getContext('2d');
   if(ctx1) {
-    if(_chartPCML_SVC){try{_chartPCML_SVC.destroy();}catch(e){}}
-    _chartPCML_SVC = new Chart(ctx1, {
-      type:'bar',
-      data:{labels:sL, datasets:[{data:sL.map(k=>svcCount[k]),
-        backgroundColor:sL.map(k=>(_activeSvcPCML&&_activeSvcPCML!==k)?'#ffccbc':'#e65100'),
-        borderRadius:4}]},
-      options:{responsive:true,maintainAspectRatio:false,
-        plugins:{legend:{display:false},
-          datalabels:{
-            display:true,
-            color:'#333',
-            anchor:'end',align:'top',
-            font:{weight:'bold',size:10},
-            formatter:v=>v
-          }
-        },
-        scales:{y:{beginAtZero:true, grid:{color:'#f5f5f5'}}},
-        layout:{padding:{top:16}},
-        onClick:(e,el)=>{
-          if(el.length>0){
-            const s=sL[el[0].index];
-            _activeSvcPCML=(_activeSvcPCML===s)?null:s;
-            renderPCML();
-          }
-        }
-      }
-    });
+    const bg = sL.map(k=>(_activeSvcPCML&&_activeSvcPCML!==k)?'#ffccbc':'#e65100');
+    if(_chartPCML_SVC){
+      _chartPCML_SVC.data.labels = sL;
+      _chartPCML_SVC.data.datasets[0].data = sL.map(k=>svcCount[k]);
+      _chartPCML_SVC.data.datasets[0].backgroundColor = bg;
+      _chartPCML_SVC.update('none');
+    } else {
+      _chartPCML_SVC = new Chart(ctx1, {type:'bar',data:{labels:sL,datasets:[{data:sL.map(k=>svcCount[k]),backgroundColor:bg,borderRadius:4}]},
+        options:{animation:false,responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},datalabels:{display:true,color:'#333',anchor:'end',align:'top',font:{weight:'bold',size:10},formatter:v=>v}},scales:{y:{beginAtZero:true,grid:{color:'#f5f5f5'}}},layout:{padding:{top:16}},onClick:(e,el)=>{if(el.length>0){const s=sL[el[0].index];_activeSvcPCML=(_activeSvcPCML===s)?null:s;renderPCML();}}}
+      });
+    }
   }
 
-  // ── Gráfico 2: Custo R$ por SVC (NOVO)
-  const svcGasto = {};
-  data.forEach(d => { if(d.svc) svcGasto[d.svc] = (svcGasto[d.svc]||0) + parseRealBRL_of(d.gasto); });
   const sGL = Object.keys(svcGasto).sort((a,b)=>svcGasto[b]-svcGasto[a]).slice(0,20);
   const ctxSvcRs = document.getElementById('chartPCML_SVC_RS')?.getContext('2d');
   if(ctxSvcRs) {
-    if(window._chartPCML_SVC_RS){try{window._chartPCML_SVC_RS.destroy();}catch(e){}}
-    window._chartPCML_SVC_RS = new Chart(ctxSvcRs, {
-      type:'bar',
-      data:{labels:sGL, datasets:[{data:sGL.map(k=>svcGasto[k]),
-        backgroundColor:sGL.map(k=>(_activeSvcPCML&&_activeSvcPCML!==k)?'#ffcdd2':'#c0392b'),
-        borderRadius:4}]},
-      options:{responsive:true,maintainAspectRatio:false,
-        plugins:{legend:{display:false},
-          datalabels:{
-            display:true,
-            color:'#333',
-            anchor:'end',align:'top',
-            font:{weight:'bold',size:9},
-            formatter:v=>v>0?'R$'+v.toFixed(0):''
-          }
-        },
-        scales:{y:{beginAtZero:true, grid:{color:'#f5f5f5'}, ticks:{callback:v=>'R$'+v.toFixed(0)}}},
-        layout:{padding:{top:16}},
-        onClick:(e,el)=>{
-          if(el.length>0){
-            const s=sGL[el[0].index];
-            _activeSvcPCML=(_activeSvcPCML===s)?null:s;
-            renderPCML();
-          }
-        }
-      }
-    });
+    const bg = sGL.map(k=>(_activeSvcPCML&&_activeSvcPCML!==k)?'#ffcdd2':'#c0392b');
+    if(window._chartPCML_SVC_RS){
+      window._chartPCML_SVC_RS.data.labels = sGL;
+      window._chartPCML_SVC_RS.data.datasets[0].data = sGL.map(k=>svcGasto[k]);
+      window._chartPCML_SVC_RS.data.datasets[0].backgroundColor = bg;
+      window._chartPCML_SVC_RS.update('none');
+    } else {
+      window._chartPCML_SVC_RS = new Chart(ctxSvcRs, {type:'bar',data:{labels:sGL,datasets:[{data:sGL.map(k=>svcGasto[k]),backgroundColor:bg,borderRadius:4}]},
+        options:{animation:false,responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},datalabels:{display:true,color:'#333',anchor:'end',align:'top',font:{weight:'bold',size:9},formatter:v=>v>0?'R$'+v.toFixed(0):''}},scales:{y:{beginAtZero:true,grid:{color:'#f5f5f5'},ticks:{callback:v=>'R$'+v.toFixed(0)}}},layout:{padding:{top:16}},onClick:(e,el)=>{if(el.length>0){const s=sGL[el[0].index];_activeSvcPCML=(_activeSvcPCML===s)?null:s;renderPCML();}}}
+      });
+    }
   }
 
-  // ── Gráfico 3: Custo por Modal
-  const modGasto = {};
-  data.forEach(d => { const m=shortModal(d.modal||'N/I'); modGasto[m]=(modGasto[m]||0)+parseRealBRL_of(d.gasto); });
   const mL = Object.keys(modGasto).sort((a,b)=>modGasto[b]-modGasto[a]);
   const ctx2 = document.getElementById('chartPCML_Modal')?.getContext('2d');
   if(ctx2) {
-    if(_chartPCML_Modal){try{_chartPCML_Modal.destroy();}catch(e){}}
-    _chartPCML_Modal = new Chart(ctx2, {
-      type:'bar',
-      data:{labels:mL, datasets:[{data:mL.map(k=>modGasto[k]),
-        backgroundColor:mL.map(k=>(_activeModalPCML&&_activeModalPCML!==k)?'#bbdefb':'#1565c0'),borderRadius:4}]},
-      options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,
-        plugins:{legend:{display:false},
-          datalabels:{color:'#fff',anchor:'center',align:'center',font:{weight:'bold',size:11},
-            formatter:v=>v>0?fmtBRL(v):''}},
-        onClick:(e,el)=>{
-          if(el.length>0){
-            const m=mL[el[0].index];
-            _activeModalPCML=(_activeModalPCML===m)?null:m;
-            renderPCML();
-          }
-        }
-      }
-    });
+    const bg = mL.map(k=>(_activeModalPCML&&_activeModalPCML!==k)?'#bbdefb':'#1565c0');
+    if(_chartPCML_Modal){
+      _chartPCML_Modal.data.labels = mL;
+      _chartPCML_Modal.data.datasets[0].data = mL.map(k=>modGasto[k]);
+      _chartPCML_Modal.data.datasets[0].backgroundColor = bg;
+      _chartPCML_Modal.update('none');
+    } else {
+      _chartPCML_Modal = new Chart(ctx2, {type:'bar',data:{labels:mL,datasets:[{data:mL.map(k=>modGasto[k]),backgroundColor:bg,borderRadius:4}]},
+        options:{animation:false,indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},datalabels:{color:'#fff',anchor:'center',align:'center',font:{weight:'bold',size:11},formatter:v=>v>0?fmtBRL(v):''}},onClick:(e,el)=>{if(el.length>0){const m=mL[el[0].index];_activeModalPCML=(_activeModalPCML===m)?null:m;renderPCML();}}}
+      });
+    }
   }
 
-  // ── Agrega por motorista
-  const motoMap = {};
-  data.forEach(d => {
-    const k = d.nome||'N/I';
-    if(!motoMap[k]) motoMap[k]={nome:k,svc:d.svc,modal:d.modal||'N/I',placa:d.placa,eventos:0,totalSecs:0,totalGasto:0,porModal:{},lastDate:d.dt,_lastMs:0};
-    const curMs = (d.dt?parseDateAny(d.dt).getTime():0);
-    if(curMs>motoMap[k]._lastMs){motoMap[k]._lastMs=curMs;motoMap[k].lastDate=d.dt;motoMap[k].svc=d.svc;}
-    motoMap[k].eventos++;
-    motoMap[k].totalSecs += timeToSeconds(d.val);
-    const g = parseRealBRL_of(d.gasto); motoMap[k].totalGasto += g;
-    const m = shortModal(d.modal||'N/I');
-    if(!motoMap[k].porModal[m]) motoMap[k].porModal[m]={secs:0,gasto:0,count:0};
-    motoMap[k].porModal[m].secs  += timeToSeconds(d.val);
-    motoMap[k].porModal[m].gasto += g;
-    motoMap[k].porModal[m].count++;
-  });
   const lista = Object.values(motoMap).sort((a,b)=>b.totalGasto-a.totalGasto||b.totalSecs-a.totalSecs);
   const maxG = lista[0]?.totalGasto||1;
 
-  // ── Gráfico 4: Top 10 Motoristas
   const ctx3 = document.getElementById('chartPCML_TopMot')?.getContext('2d');
   if(ctx3) {
-    if(window._chartPCML_TopMot){try{window._chartPCML_TopMot.destroy();}catch(e){}}
     const top10  = lista.slice(0,10);
     const names10 = top10.map(m=>m.nome.split(' ').slice(0,2).join(' '));
     const vals10  = top10.map(m=>m.totalGasto);
-    window._chartPCML_TopMot = new Chart(ctx3, {
-      type:'bar',
-      data:{labels:names10, datasets:[{data:vals10,
-        backgroundColor:vals10.map((_,i)=>i===0?'#6a1b9a':i<3?'#8e24aa':'#ab47bc'),borderRadius:5}]},
-      options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,
-        plugins:{legend:{display:false},
-          datalabels:{color:'white',anchor:'center',align:'center',font:{weight:'bold',size:10},
-            formatter:v=>v>0?fmtBRL(v):''}},
-        scales:{x:{beginAtZero:true,ticks:{callback:v=>'R$'+v.toFixed(0)}}}}
-    });
+    const bg = vals10.map((_,i)=>i===0?'#6a1b9a':i<3?'#8e24aa':'#ab47bc');
+    if(window._chartPCML_TopMot){
+      window._chartPCML_TopMot.data.labels = names10;
+      window._chartPCML_TopMot.data.datasets[0].data = vals10;
+      window._chartPCML_TopMot.data.datasets[0].backgroundColor = bg;
+      window._chartPCML_TopMot.update('none');
+    } else {
+      window._chartPCML_TopMot = new Chart(ctx3, {type:'bar',data:{labels:names10,datasets:[{data:vals10,backgroundColor:bg,borderRadius:5}]},
+        options:{animation:false,indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},datalabels:{color:'white',anchor:'center',align:'center',font:{weight:'bold',size:10},formatter:v=>v>0?fmtBRL(v):''}},scales:{x:{beginAtZero:true,ticks:{callback:v=>'R$'+v.toFixed(0)}}}}
+      });
+    }
   }
 
-  // ── Tabela
   const tbody = document.getElementById('tbody-pcml');
   if(!tbody) return;
-  const frag = document.createDocumentFragment();
+  let html = '';
   lista.forEach((m,i) => {
     const barW=((m.totalGasto/maxG)*100).toFixed(1);
     const rec=getRecencyClass(m.lastDate);
     const modalPrincipal=Object.keys(m.porModal).sort((a,b)=>m.porModal[b].gasto-m.porModal[a].gasto)[0]||'N/I';
     const rowBg=i%2===0?'#fff':'#fafafa';
     const modalRows=Object.entries(m.porModal).sort((a,b)=>b[1].gasto-a[1].gasto)
-      .map(([mod,v])=>`<div style="display:flex;justify-content:space-between;gap:6px;padding:3px 0;border-bottom:1px solid #f5f5f5;font-size:11px;">
-        <span style="color:#555;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${mod}</span>
-        <span style="font-weight:700;color:#c0392b;white-space:nowrap;">${v.gasto>0?fmtBRL(v.gasto):'--'}</span>
-        <span style="color:#aaa;white-space:nowrap;font-family:monospace;">${secsToHHMMSS(v.secs)}</span>
-        <span style="color:#bbb;white-space:nowrap;">${v.count}x</span>
-      </div>`).join('');
-    const tr = document.createElement('tr');
-    tr.style.background = rowBg;
-    tr.onmouseover = function(){ this.style.background='#fff8f0'; };
-    tr.onmouseout  = function(){ this.style.background=rowBg; };
-    tr.innerHTML=`
+      .map(([mod,v])=>`<div style="display:flex;justify-content:space-between;gap:6px;padding:3px 0;border-bottom:1px solid #f5f5f5;font-size:11px;"><span style="color:#555;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${mod}</span><span style="font-weight:700;color:#c0392b;white-space:nowrap;">${v.gasto>0?fmtBRL(v.gasto):'--'}</span><span style="color:#aaa;white-space:nowrap;font-family:monospace;">${secsToHHMMSS(v.secs)}</span><span style="color:#bbb;white-space:nowrap;">${v.count}x</span></div>`).join('');
+    html += `<tr style="background:${rowBg};" onmouseover="this.style.background='#fff8f0'" onmouseout="this.style.background='${rowBg}'">
       <td style="padding:10px 14px;text-align:center;font-weight:900;color:#bbb;">${i+1}</td>
       <td style="padding:10px 14px;"><a onclick="openDriverModal('${m.nome.replace(/'/g,"\\'")}')" class="driver-link" style="font-weight:700;font-size:13px;">${m.nome}</a></td>
       <td style="padding:10px 14px;font-weight:700;">${m.svc||'--'}</td>
       <td style="padding:10px 14px;"><span class="modal-tag ${getModalClass(modalPrincipal)}">${modalPrincipal}</span></td>
       <td style="padding:10px 14px;font-family:monospace;font-size:11px;color:#777;">${m.placa||'--'}</td>
-      <td style="padding:10px 14px;">
-        <div style="font-size:17px;font-weight:900;color:${m.totalGasto>0?'#c0392b':'#bbb'};">${m.totalGasto>0?fmtBRL(m.totalGasto):'R$ 0,00'}</div>
-        <div style="margin-top:5px;height:4px;background:#f0f0f0;border-radius:2px;"><div style="width:${barW}%;height:4px;background:linear-gradient(90deg,#e65100,#c0392b);border-radius:2px;"></div></div>
-      </td>
+      <td style="padding:10px 14px;"><div style="font-size:17px;font-weight:900;color:${m.totalGasto>0?'#c0392b':'#bbb'};">${m.totalGasto>0?fmtBRL(m.totalGasto):'R$ 0,00'}</div><div style="margin-top:5px;height:4px;background:#f0f0f0;border-radius:2px;"><div style="width:${barW}%;height:4px;background:linear-gradient(90deg,#e65100,#c0392b);border-radius:2px;"></div></div></td>
       <td style="padding:10px 14px;font-family:monospace;font-weight:700;color:#e65100;font-size:13px;">${secsToHHMMSS(m.totalSecs)}</td>
       <td style="padding:10px 14px;text-align:center;font-weight:700;font-size:15px;">${m.eventos}</td>
       <td style="padding:10px 14px;"><span class="recency-badge ${rec.class}">${rec.label}</span></td>
-      <td style="padding:10px 14px;">${modalRows||'--'}</td>`;
-    frag.appendChild(tr);
+      <td style="padding:10px 14px;">${modalRows||'--'}</td>
+    </tr>`;
   });
-  tbody.innerHTML = '';
-  tbody.appendChild(frag);
+  tbody.innerHTML = html;
 
   if(counterEl) {
     const filtroTxt = filtroAtivo ? ` <span style="color:#e65100;font-weight:700;">· Filtro ativo</span>` : '';
@@ -8031,42 +8377,49 @@ function limparFiltrosSC() {
 
 function renderScorecard() {
   const search    = (document.getElementById('sc-search')?.value||'').toLowerCase().trim();
-  const svcs      = getSelectedValues('dd-svc-sc');
+  const svcsArr   = getSelectedValues('dd-svc-sc');
+  const regionalSelecionadas  = getSelectedRegionais('sc-regional');
   const iniRaw    = document.getElementById('sc-ini')?.value||'';
   const fimRaw    = document.getElementById('sc-fim')?.value||'';
   const tipoFiltro= document.getElementById('sc-tipo-infra')?.value||'TODOS';
+  const iniK = iniRaw ? ymdKey(parseDateAny(iniRaw)) : 0;
+  const fimK = fimRaw ? ymdKey(parseDateAny(fimRaw)) : 99999999;
+  const svcs = svcsArr.length ? new Set(svcsArr) : null;
 
-  // Cache por length para evitar refiltro desnecessário
-  let data = (window._cacheSC && window._cacheSC._srcLen === dataOfensores.length && !search && !svcs.length && !iniRaw && !fimRaw && !_activeSvcSC && tipoFiltro==='TODOS')
-    ? window._cacheSC.data
-    : dataOfensores.filter(d=>normalizeString(d.tipo)==='SCORECARD');
+  const cache = ensureOfensoresFastCache();
+  let data = [];
 
-  // ── Filtro de data: funciona com qualquer um dos dois preenchidos
-  if (iniRaw || fimRaw) {
-    const iniK = iniRaw ? ymdKey(parseDateAny(iniRaw)) : 0;
-    const fimK = fimRaw ? ymdKey(parseDateAny(fimRaw)) : 99999999;
-    data = data.filter(d => {
-      const k = ymdKey(d.dt);
-      if (!k) return false;
-      return k >= iniK && k <= fimK;
-    });
+  for (const d of cache.sc) {
+    if ((iniRaw || fimRaw) && (!d._dateKey || d._dateKey < iniK || d._dateKey > fimK)) continue;
+    if (!regionalSelecionadas.includes('TODOS') && !regionalSelecionadas.includes(d._regionalFix)) continue;
+    if (_activeSvcSC) { if (d.svc !== _activeSvcSC) continue; }
+    else if (svcs && !svcs.has(d.svc)) continue;
+    if (search && !d._nomeLow.includes(search)) continue;
+    data.push(d);
   }
 
-  // ── Filtro SVC: clique no gráfico tem prioridade
-  if(_activeSvcSC)       data = data.filter(d=>d.svc===_activeSvcSC);
-  else if(svcs.length)   data = data.filter(d=>svcs.includes(d.svc));
+  let totVel=0, totAcel=0, totFre=0, totCur=0, totCin=0;
+  const motSet = new Set();
+  const svcInfra = {};
+  const scMap = {};
 
-  // ── Filtro texto motorista
-  if(search) data = data.filter(d=>(d.nome||'').toLowerCase().includes(search));
+  for (const d of data) {
+    const vel=d._ve||0, acel=d._ac||0, fre=d._fr||0, cur=d._cu||0, cin=d._cin||0;
+    const total = d._infraTotal || 0;
+    const nome = d.nome || 'N/I';
+    totVel += vel; totAcel += acel; totFre += fre; totCur += cur; totCin += cin;
+    motSet.add(nome);
+    if (d.svc) svcInfra[d.svc] = (svcInfra[d.svc] || 0) + total;
 
-  // ── KPIs
-  const totVel =data.reduce((a,d)=>a+parseNum(d.ve),0);
-  const totAcel=data.reduce((a,d)=>a+parseNum(d.ac),0);
-  const totFre =data.reduce((a,d)=>a+parseNum(d.fr),0);
-  const totCur =data.reduce((a,d)=>a+parseNum(d.cu),0);
-  const totCin =data.reduce((a,d)=>a+parseNum(d.cin),0);
+    if(!scMap[nome]) scMap[nome]={nome,svc:d.svc,placa:d.placa,count:0,vel:0,acel:0,fre:0,cur:0,cin:0,totalInfra:0,lastDate:d.dt,_lastMs:0};
+    const m = scMap[nome];
+    if((d._lastMs || 0) > m._lastMs){m._lastMs=d._lastMs || 0; m.lastDate=d.dt; m.svc=d.svc; m.placa=d.placa || m.placa;}
+    m.count++;
+    m.vel += vel; m.acel += acel; m.fre += fre; m.cur += cur; m.cin += cin;
+    m.totalInfra += total;
+  }
+
   const totInfra=totVel+totAcel+totFre+totCur+totCin;
-  const totMots =new Set(data.map(d=>d.nome)).size;
   const set=(id,v)=>{const el=document.getElementById(id);if(el)el.textContent=v;};
   set('sc-kpi-total',totInfra.toLocaleString('pt-BR'));
   set('sc-kpi-vel',  totVel.toLocaleString('pt-BR'));
@@ -8076,63 +8429,56 @@ function renderScorecard() {
   set('sc-kpi-fre', totFre.toLocaleString('pt-BR'));
   set('sc-kpi-cur', totCur.toLocaleString('pt-BR'));
   set('sc-kpi-cin', totCin.toLocaleString('pt-BR'));
-  set('sc-kpi-motoristas',totMots.toLocaleString('pt-BR'));
+  set('sc-kpi-motoristas',motSet.size.toLocaleString('pt-BR'));
 
-  // ── Gráfico 1: Infrações por SVC
-  const svcInfra={};
-  data.forEach(d=>{if(d.svc){const inf=parseNum(d.ve)+parseNum(d.ac)+parseNum(d.fr)+parseNum(d.cu)+parseNum(d.cin);svcInfra[d.svc]=(svcInfra[d.svc]||0)+inf;}});
   const sL=Object.keys(svcInfra).sort((a,b)=>svcInfra[b]-svcInfra[a]).slice(0,20);
   const ctx1=document.getElementById('chartSC_SVC')?.getContext('2d');
   if(ctx1){
-    if(_chartSC_SVC){try{_chartSC_SVC.destroy();}catch(e){}}
-    _chartSC_SVC=new Chart(ctx1,{type:'bar',data:{labels:sL,datasets:[{data:sL.map(k=>svcInfra[k]),
-      backgroundColor:sL.map(k=>(_activeSvcSC&&_activeSvcSC!==k)?'#e1bee7':'#9c27b0'),borderRadius:4}]},
-      options:{responsive:true,maintainAspectRatio:false,
-        plugins:{legend:{display:false},datalabels:{color:'#555',anchor:'end',align:'top',font:{weight:'bold',size:10},formatter:v=>v.toLocaleString('pt-BR')}},
-        scales:{y:{beginAtZero:true}},
-        onClick:(e,el)=>{if(el.length>0){const s=sL[el[0].index];_activeSvcSC=(_activeSvcSC===s)?null:s;renderScorecard();}}}});
+    const bg = sL.map(k=>(_activeSvcSC&&_activeSvcSC!==k)?'#e1bee7':'#9c27b0');
+    if(_chartSC_SVC){
+      _chartSC_SVC.data.labels = sL;
+      _chartSC_SVC.data.datasets[0].data = sL.map(k=>svcInfra[k]);
+      _chartSC_SVC.data.datasets[0].backgroundColor = bg;
+      _chartSC_SVC.update('none');
+    } else {
+      _chartSC_SVC=new Chart(ctx1,{type:'bar',data:{labels:sL,datasets:[{data:sL.map(k=>svcInfra[k]),backgroundColor:bg,borderRadius:4}]},
+        options:{animation:false,responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},datalabels:{color:'#555',anchor:'end',align:'top',font:{weight:'bold',size:10},formatter:v=>v.toLocaleString('pt-BR')}},scales:{y:{beginAtZero:true}},onClick:(e,el)=>{if(el.length>0){const s=sL[el[0].index];_activeSvcSC=(_activeSvcSC===s)?null:s;renderScorecard();}}}});
+    }
   }
 
   const tiposData=[{label:'Excesso Vel. 8%+',val:totVel,color:'#c62828'},{label:'Aceleração',val:totAcel,color:'#e67e22'},{label:'Freada',val:totFre,color:'#f39c12'},{label:'Curva',val:totCur,color:'#2980b9'},{label:'Cinto',val:totCin,color:'#27ae60'}].filter(t=>t.val>0);
 
-  // ── Constrói scMap
-  const scMap={};
-  data.forEach(d=>{
-    const k=d.nome||'N/I';
-    if(!scMap[k])scMap[k]={nome:k,svc:d.svc,placa:d.placa,count:0,vel:0,acel:0,fre:0,cur:0,cin:0,totalInfra:0,lastDate:d.dt,_lastMs:0};
-    const curMs=(d.dt?parseDateAny(d.dt).getTime():0);
-    if(curMs>scMap[k]._lastMs){scMap[k]._lastMs=curMs;scMap[k].lastDate=d.dt;scMap[k].svc=d.svc;}
-    scMap[k].count++;
-    scMap[k].vel +=parseNum(d.ve);scMap[k].acel+=parseNum(d.ac);scMap[k].fre+=parseNum(d.fr);
-    scMap[k].cur +=parseNum(d.cu);scMap[k].cin +=parseNum(d.cin);
-    scMap[k].totalInfra=scMap[k].vel+scMap[k].acel+scMap[k].fre+scMap[k].cur+scMap[k].cin;
-  });
-
-  // ── Gráfico 2: Distribuição por tipo
   const ctx2=document.getElementById('chartSC_Tipo')?.getContext('2d');
   if(ctx2){
-    if(_chartSC_Tipo){try{_chartSC_Tipo.destroy();}catch(e){}}
-    const totD=tiposData.reduce((a,t)=>a+t.val,0);
-    _chartSC_Tipo=new Chart(ctx2,{type:'doughnut',data:{labels:tiposData.map(t=>t.label),datasets:[{data:tiposData.map(t=>t.val),backgroundColor:tiposData.map(t=>t.color)}]},
-      options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'right',labels:{font:{size:11},padding:12}},
-        datalabels:{color:'white',font:{weight:'bold',size:12},formatter:v=>totD>0?((v/totD)*100).toFixed(0)+'%':''}}}});
+    const labels = tiposData.map(t=>t.label), vals = tiposData.map(t=>t.val), colors = tiposData.map(t=>t.color);
+    const totD=vals.reduce((a,v)=>a+v,0);
+    if(_chartSC_Tipo){
+      _chartSC_Tipo.data.labels = labels;
+      _chartSC_Tipo.data.datasets[0].data = vals;
+      _chartSC_Tipo.data.datasets[0].backgroundColor = colors;
+      _chartSC_Tipo.options.plugins.datalabels.formatter = v=>totD>0?((v/totD)*100).toFixed(0)+'%':'';
+      _chartSC_Tipo.update('none');
+    } else {
+      _chartSC_Tipo=new Chart(ctx2,{type:'doughnut',data:{labels,datasets:[{data:vals,backgroundColor:colors}]},options:{animation:false,responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'right',labels:{font:{size:11},padding:12}},datalabels:{color:'white',font:{weight:'bold',size:12},formatter:v=>totD>0?((v/totD)*100).toFixed(0)+'%':''}}}});
+    }
   }
 
-  // ── Gráfico 3: Top 10 Motoristas
   const ctx3=document.getElementById('chartSC_TopMotoristas')?.getContext('2d');
   if(ctx3){
-    if(window._chartSC_TopMot){try{window._chartSC_TopMot.destroy();}catch(e){}}
     const topMots=[...Object.values(scMap)].sort((a,b)=>b.totalInfra-a.totalInfra).slice(0,10);
     const names=topMots.map(m=>m.nome.split(' ').slice(0,2).join(' '));
     const vals=topMots.map(m=>m.totalInfra);
     const colors=topMots.map((m,i)=>m.vel>0?'#c62828':['#7b1fa2','#8e24aa','#9c27b0','#ab47bc','#ba68c8','#ce93d8'][i%6]);
-    window._chartSC_TopMot=new Chart(ctx3,{type:'bar',data:{labels:names,datasets:[{data:vals,backgroundColor:colors,borderRadius:5}]},
-      options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,
-        plugins:{legend:{display:false},datalabels:{color:'white',anchor:'center',align:'center',font:{weight:'bold',size:10},formatter:v=>v>0?v.toLocaleString('pt-BR'):''}},
-        scales:{x:{beginAtZero:true}}}});
+    if(window._chartSC_TopMot){
+      window._chartSC_TopMot.data.labels = names;
+      window._chartSC_TopMot.data.datasets[0].data = vals;
+      window._chartSC_TopMot.data.datasets[0].backgroundColor = colors;
+      window._chartSC_TopMot.update('none');
+    } else {
+      window._chartSC_TopMot=new Chart(ctx3,{type:'bar',data:{labels:names,datasets:[{data:vals,backgroundColor:colors,borderRadius:5}]},options:{animation:false,indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},datalabels:{color:'white',anchor:'center',align:'center',font:{weight:'bold',size:10},formatter:v=>v>0?v.toLocaleString('pt-BR'):''}},scales:{x:{beginAtZero:true}}}});
+    }
   }
 
-  // ── Filtro por tipo de infração para tabela
   let lista=Object.values(scMap);
   if(tipoFiltro==='VEL') lista=lista.filter(m=>m.vel>0);
   if(tipoFiltro==='ACEL')lista=lista.filter(m=>m.acel>0);
@@ -8141,7 +8487,6 @@ function renderScorecard() {
   if(tipoFiltro==='CIN') lista=lista.filter(m=>m.cin>0);
   lista.sort((a,b)=>b.totalInfra-a.totalInfra);
 
-  // ── Tabela
   const tbody=document.getElementById('tbody-scorecard');
   if(!tbody) return;
   let html='';
@@ -8156,12 +8501,7 @@ function renderScorecard() {
       <td style="padding:10px 14px;text-align:center;font-weight:900;color:#bbb;">${i+1}</td>
       <td style="padding:10px 14px;"><a onclick="openDriverModal('${m.nome.replace(/'/g,"\\'")}')" class="driver-link" style="font-weight:700;font-size:13px;">${m.nome}</a></td>
       <td style="padding:10px 14px;font-weight:700;">${m.svc||'--'}</td>
-      <td style="padding:10px 14px;">
-        <div style="font-size:18px;font-weight:900;color:#9c27b0;">${m.totalInfra.toLocaleString('pt-BR')}</div>
-        <div style="margin-top:4px;height:5px;background:#f0f0f0;border-radius:3px;display:flex;overflow:hidden;">
-          ${barras.map(b=>`<div style="width:${((b.v/total)*100).toFixed(1)}%;background:${b.c};"></div>`).join('')}
-        </div>
-      </td>
+      <td style="padding:10px 14px;"><div style="font-size:18px;font-weight:900;color:#9c27b0;">${m.totalInfra.toLocaleString('pt-BR')}</div><div style="margin-top:4px;height:5px;background:#f0f0f0;border-radius:3px;display:flex;overflow:hidden;">${barras.map(b=>`<div style="width:${((b.v/total)*100).toFixed(1)}%;background:${b.c};"></div>`).join('')}</div></td>
       <td style="padding:10px 14px;text-align:center;">${m.vel>0?`<div style="font-size:17px;font-weight:900;color:#c62828;">⚠️ ${m.vel.toLocaleString('pt-BR')}</div><div style="font-size:10px;color:#c62828;font-weight:700;">${((m.vel/total)*100).toFixed(1)}%</div>`:`<div style="color:#ddd;font-size:16px;">—</div>`}</td>
       <td style="padding:10px 14px;text-align:center;">${m.acel>0?`<div style="font-weight:700;font-size:16px;color:#e67e22;">${m.acel.toLocaleString('pt-BR')}</div><div style="font-size:10px;color:#e67e22;font-weight:700;">${((m.acel/total)*100).toFixed(1)}%</div>`:`<div style="color:#ddd;font-size:16px;">—</div>`}</td>
       <td style="padding:10px 14px;text-align:center;">${m.fre>0?`<div style="font-weight:700;font-size:16px;color:#f39c12;">${m.fre.toLocaleString('pt-BR')}</div><div style="font-size:10px;color:#f39c12;font-weight:700;">${((m.fre/total)*100).toFixed(1)}%</div>`:`<div style="color:#ddd;font-size:16px;">—</div>`}</td>
@@ -8173,7 +8513,7 @@ function renderScorecard() {
   });
   tbody.innerHTML=html;
 
-  const filtroAtivo = iniRaw||fimRaw||svcs.length||search||_activeSvcSC||tipoFiltro!=='TODOS';
+  const filtroAtivo = iniRaw||fimRaw||svcsArr.length||search||_activeSvcSC||tipoFiltro!=='TODOS'||regionalFiltroAtivo('sc-regional');
   const scCounter=document.getElementById('sc-counter');
   if(scCounter) {
     const filtroTxt = filtroAtivo ? ` <span style="color:#9c27b0;font-weight:700;">· Filtro ativo</span>` : '';
@@ -8535,9 +8875,19 @@ function trSet(id,v){ const el=document.getElementById(id); if(el) el.innerHTML=
 function trUniqueSelect(id,values,first='Todos'){ const el=document.getElementById(id); if(!el)return; const old=el.value; const arr=[...new Set(values.map(trInfo).filter(v=>v&&v!=='Não informado'))].sort((a,b)=>a.localeCompare(b,'pt-BR',{numeric:true})); el.innerHTML=`<option value="TODOS">${first}</option>`+arr.map(v=>`<option value="${trHtml(v)}">${trHtml(v)}</option>`).join(''); if([...el.options].some(o=>o.value===old)) el.value=old; }
 function trGroup(rows,getter){ const m={}; (rows||[]).forEach((r,idx)=>{ const key=trInfo(getter(r)) || 'Não informado'; if(!m[key]) m[key]={label:key, rows:[], count:0, ocorr:0, scoreSum:0, scoreN:0, idx}; const g=m[key]; g.rows.push(r); g.count++; g.ocorr+=trOcorr(r); const s=trScore(r); if(s){g.scoreSum+=s;g.scoreN++;} }); return Object.values(m).map(g=>({...g,score:g.scoreN?g.scoreSum/g.scoreN:0})); }
 function trAggSorted(rows,getter,limit=10,sort='ocorr'){ return trGroup(rows,getter).sort((a,b)=> sort==='score' ? (a.score-b.score||b.ocorr-a.ocorr) : (b.ocorr-a.ocorr||a.score-b.score)).slice(0,limit); }
-function setupTempoRealFilters(){ trUniqueSelect('trtFiltroPeriodo',dataTempoReal.map(r=>trVal(r,'Período')),'Todos'); trUniqueSelect('trtFiltroRegional',dataTempoReal.map(r=>trVal(r,'Regional')),'Todas'); trUniqueSelect('trtFiltroSVC',dataTempoReal.map(r=>trVal(r,'SVC')),'Todas'); trUniqueSelect('trtFiltroMLP',dataTempoReal.map(r=>trVal(r,'MLP')),'Todos'); trUniqueSelect('trtFiltroGrupo',dataTempoReal.map(r=>trVal(r,'Grupo')),'Todos'); trUniqueSelect('trtFiltroMotorista',dataTempoReal.map(r=>trVal(r,'motorista')),'Todos'); trUniqueSelect('trtFiltroPlaca',dataTempoReal.map(r=>trVal(r,'placa')),'Todas'); trUniqueSelect('trtFiltroVeiculo',dataTempoReal.map(r=>trVal(r,'Veículo')),'Todos'); trUniqueSelect('trtFiltroClassificacao',dataTempoReal.map(r=>trVal(r,'Classificação da pontuação')),'Todas'); }
-function getTempoRealFiltered(){ const f=id=>document.getElementById(id)?.value||'TODOS'; const q=trNorm(document.getElementById('trtBusca')?.value||''); const inicio=document.getElementById('trtFiltroInicio')?.value||''; return dataTempoReal.filter(r=>{ if(f('trtFiltroPeriodo')!=='TODOS'&&trInfo(trVal(r,'Período'))!==f('trtFiltroPeriodo'))return false; if(inicio&&trDateKey(trVal(r,'Início do período'))!==inicio)return false; if(f('trtFiltroRegional')!=='TODOS'&&trInfo(trVal(r,'Regional'))!==f('trtFiltroRegional'))return false; if(f('trtFiltroSVC')!=='TODOS'&&trInfo(trVal(r,'SVC'))!==f('trtFiltroSVC'))return false; if(f('trtFiltroMLP')!=='TODOS'&&trInfo(trVal(r,'MLP'))!==f('trtFiltroMLP'))return false; if(f('trtFiltroGrupo')!=='TODOS'&&trInfo(trVal(r,'Grupo'))!==f('trtFiltroGrupo'))return false; if(f('trtFiltroMotorista')!=='TODOS'&&trInfo(trVal(r,'motorista'))!==f('trtFiltroMotorista'))return false; if(f('trtFiltroPlaca')!=='TODOS'&&trInfo(trVal(r,'placa'))!==f('trtFiltroPlaca'))return false; if(f('trtFiltroVeiculo')!=='TODOS'&&trInfo(trVal(r,'Veículo'))!==f('trtFiltroVeiculo'))return false; if(f('trtFiltroClassificacao')!=='TODOS'&&trInfo(trVal(r,'Classificação da pontuação'))!==f('trtFiltroClassificacao'))return false; const faixa=f('trtFiltroFaixa'), s=trScore(r); if(faixa==='ABAIXO_90'&&!(s<90))return false; if(faixa==='90_94'&&!(s>=90&&s<95))return false; if(faixa==='95_100'&&!(s>=95))return false; if(f('trtFiltroEvento')!=='TODOS'&&trMainEvent(r)!==f('trtFiltroEvento'))return false; if(q&&!trNorm([trVal(r,'motorista'),trVal(r,'placa'),trVal(r,'Veículo'),trVal(r,'SVC'),trVal(r,'MLP'),trVal(r,'Regional'),trVal(r,'Grupo')].join(' ')).includes(q))return false; return true; }); }
-function loadTempoReal(force=false){ const loading=document.getElementById('loadingOverlay'), txt=document.getElementById('loadingText'); if(loading) loading.classList.add('active'); if(txt) txt.textContent='Carregando análise em tempo real...'; const url=`https://docs.google.com/spreadsheets/d/${SHEET_ID_TEMPO_REAL}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(SHEET_NAME_TEMPO_REAL)}`; const old=document.getElementById('script-tempo-real'); if(old) old.remove(); window.google=window.google||{}; window.google.visualization=window.google.visualization||{}; window.google.visualization.Query=window.google.visualization.Query||{}; const oldCb=window.google.visualization.Query.setResponse; window.google.visualization.Query.setResponse=function(res){ try{ if(!res||!res.table||!Array.isArray(res.table.rows)) throw new Error('Resposta inválida da planilha'); const headers=res.table.cols.map((c,i)=>trText(c.label||c.id||`COL_${i+1}`)||`COL_${i+1}`); dataTempoReal=res.table.rows.map(row=>{ const obj={}; headers.forEach((h,i)=>{ const cell=row.c&&row.c[i]?row.c[i]:null; obj[h]=cell?(cell.f??cell.v??''):''; }); return obj; }).filter(r=>Object.values(r).some(v=>trText(v))); setupTempoRealFilters(); renderTempoReal(); }catch(e){ console.error(e); dataTempoReal=[]; renderTempoReal(); const empty=document.getElementById('trtEmptyState'); if(empty){ empty.style.display='block'; empty.textContent='Não foi possível carregar os dados da aba Tempo Real. Verifique a leitura da base existente.'; }}finally{ if(loading) loading.classList.remove('active'); window.google.visualization.Query.setResponse=oldCb||window.google.visualization.Query.setResponse; }}; const sc=document.createElement('script'); sc.id='script-tempo-real'; sc.src=url; sc.onerror=function(){ if(loading) loading.classList.remove('active'); const empty=document.getElementById('trtEmptyState'); if(empty){empty.style.display='block';empty.textContent='Não foi possível carregar os dados da aba Tempo Real. Verifique a leitura da base existente.';} }; document.body.appendChild(sc); }
+function setupTempoRealFilters(){ trUniqueSelect('trtFiltroPeriodo',dataTempoReal.map(r=>trVal(r,'Período')),'Todos'); preencherSelectRegional('trtFiltroRegional', 'renderTempoReal()', 'Todas'); trUniqueSelect('trtFiltroSVC',dataTempoReal.map(r=>trVal(r,'SVC')),'Todas'); trUniqueSelect('trtFiltroMLP',dataTempoReal.map(r=>trVal(r,'MLP')),'Todos'); trUniqueSelect('trtFiltroGrupo',dataTempoReal.map(r=>trVal(r,'Grupo')),'Todos'); trUniqueSelect('trtFiltroMotorista',dataTempoReal.map(r=>trVal(r,'motorista')),'Todos'); trUniqueSelect('trtFiltroPlaca',dataTempoReal.map(r=>trVal(r,'placa')),'Todas'); trUniqueSelect('trtFiltroVeiculo',dataTempoReal.map(r=>trVal(r,'Veículo')),'Todos'); trUniqueSelect('trtFiltroClassificacao',dataTempoReal.map(r=>trVal(r,'Classificação da pontuação')),'Todas'); }
+function getTempoRealFiltered(){ const f=id=>document.getElementById(id)?.value||'TODOS'; const q=trNorm(document.getElementById('trtBusca')?.value||''); const inicio=document.getElementById('trtFiltroInicio')?.value||''; return dataTempoReal.filter(r=>{ if(f('trtFiltroPeriodo')!=='TODOS'&&trInfo(trVal(r,'Período'))!==f('trtFiltroPeriodo'))return false; if(inicio&&trDateKey(trVal(r,'Início do período'))!==inicio)return false; if(!regionalPassaFiltro('trtFiltroRegional', getRegionalBySvc(trVal(r,'SVC'), trInfo(trVal(r,'Regional')))))return false; if(f('trtFiltroSVC')!=='TODOS'&&trInfo(trVal(r,'SVC'))!==f('trtFiltroSVC'))return false; if(f('trtFiltroMLP')!=='TODOS'&&trInfo(trVal(r,'MLP'))!==f('trtFiltroMLP'))return false; if(f('trtFiltroGrupo')!=='TODOS'&&trInfo(trVal(r,'Grupo'))!==f('trtFiltroGrupo'))return false; if(f('trtFiltroMotorista')!=='TODOS'&&trInfo(trVal(r,'motorista'))!==f('trtFiltroMotorista'))return false; if(f('trtFiltroPlaca')!=='TODOS'&&trInfo(trVal(r,'placa'))!==f('trtFiltroPlaca'))return false; if(f('trtFiltroVeiculo')!=='TODOS'&&trInfo(trVal(r,'Veículo'))!==f('trtFiltroVeiculo'))return false; if(f('trtFiltroClassificacao')!=='TODOS'&&trInfo(trVal(r,'Classificação da pontuação'))!==f('trtFiltroClassificacao'))return false; const faixa=f('trtFiltroFaixa'), s=trScore(r); if(faixa==='ABAIXO_90'&&!(s<90))return false; if(faixa==='90_94'&&!(s>=90&&s<95))return false; if(faixa==='95_100'&&!(s>=95))return false; if(f('trtFiltroEvento')!=='TODOS'&&trMainEvent(r)!==f('trtFiltroEvento'))return false; if(q&&!trNorm([trVal(r,'motorista'),trVal(r,'placa'),trVal(r,'Veículo'),trVal(r,'SVC'),trVal(r,'MLP'),trVal(r,'Regional'),trVal(r,'Grupo')].join(' ')).includes(q))return false; return true; }); }
+function loadTempoReal(force=false){ const loading=document.getElementById('loadingOverlay'), txt=document.getElementById('loadingText'); if(loading) loading.classList.add('active'); if(txt) txt.textContent='Carregando análise em tempo real...'; const url=`https://docs.google.com/spreadsheets/d/${SHEET_ID_TEMPO_REAL}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(SHEET_NAME_TEMPO_REAL)}`; const old=document.getElementById('script-tempo-real'); if(old) old.remove(); window.google=window.google||{}; window.google.visualization=window.google.visualization||{}; window.google.visualization.Query=window.google.visualization.Query||{}; const oldCb=window.google.visualization.Query.setResponse; window.google.visualization.Query.setResponse=function(res){ try{ if(!res||!res.table||!Array.isArray(res.table.rows)) throw new Error('Resposta inválida da planilha'); const headers=res.table.cols.map((c,i)=>trText(c.label||c.id||`COL_${i+1}`)||`COL_${i+1}`); dataTempoReal=res.table.rows.map(row=>{ const obj={}; headers.forEach((h,i)=>{ const cell=row.c&&row.c[i]?row.c[i]:null; obj[h]=cell?(cell.f??cell.v??''):''; }); obj['Regional'] = getRegionalBySvc(obj['SVC'], obj['Regional'] || 'N/A'); return obj; }).filter(r=>Object.values(r).some(v=>trText(v))); setupTempoRealFilters(); renderTempoReal(); }catch(e){ console.error(e); dataTempoReal=[]; renderTempoReal(); const empty=document.getElementById('trtEmptyState'); if(empty){ empty.style.display='block'; empty.textContent='Não foi possível carregar os dados da aba Tempo Real. Verifique a leitura da base existente.'; }}finally{ if(loading) loading.classList.remove('active'); window.google.visualization.Query.setResponse=oldCb||window.google.visualization.Query.setResponse; }}; const sc=document.createElement('script'); sc.id='script-tempo-real'; sc.src=url; sc.onerror=function(){ if(loading) loading.classList.remove('active'); const empty=document.getElementById('trtEmptyState'); if(empty){empty.style.display='block';empty.textContent='Não foi possível carregar os dados da aba Tempo Real. Verifique a leitura da base existente.';} }; document.body.appendChild(sc); }
+
+function clearTempoRealFilters(){
+  ['trtFiltroPeriodo','trtFiltroRegional','trtFiltroSVC','trtFiltroMLP','trtFiltroGrupo','trtFiltroMotorista','trtFiltroPlaca','trtFiltroVeiculo','trtFiltroClassificacao','trtFiltroFaixa','trtFiltroEvento'].forEach(id=>{
+    const el=document.getElementById(id); if(el) { if(id==='trtFiltroRegional') limparSelectRegional(id); else el.value='TODOS'; }
+  });
+  const ini=document.getElementById('trtFiltroInicio'); if(ini) ini.value='';
+  const busca=document.getElementById('trtBusca'); if(busca) busca.value='';
+  renderTempoReal();
+}
+
 function renderTempoReal(){ dataTempoRealFiltered=getTempoRealFiltered(); const empty=document.getElementById('trtEmptyState'); if(empty) empty.style.display=(dataTempoReal.length && !dataTempoRealFiltered.length)?'block':'none'; updateTempoRealCards(); updateTempoRealResumo(); updateTempoRealCharts(); updateTempoRealSvcCards(); updateTempoRealTables(); }
 function trStats(rows=dataTempoRealFiltered){ const scores=rows.map(trScore).filter(Boolean); const media=scores.length?scores.reduce((a,b)=>a+b,0)/scores.length:0; const below=rows.filter(r=>trScore(r)<90).length; const placasBelow=new Set(rows.filter(r=>trScore(r)<90).map(r=>trInfo(trVal(r,'placa'))).filter(v=>v!=='Não informado')).size; const totalOc=rows.reduce((a,r)=>a+trOcorr(r),0); const semMot=rows.filter(r=>trInfo(trVal(r,'motorista'))==='Não informado').length; const semRota=rows.filter(r=>['MLP','Grupo','SVC','Regional'].some(k=>trInfo(trVal(r,k))==='Não informado')).length; const svcTop=trAggSorted(rows,r=>trVal(r,'SVC'),1)[0]||{label:'--',ocorr:0}; const evTop=TR_EVENTS.map(([label,key])=>({label,value:rows.reduce((a,r)=>a+trNum(trVal(r,key)),0)})).sort((a,b)=>b.value-a.value)[0]||{label:'--',value:0}; return {media,below,placasBelow,totalOc,semMot,semRota,svcTop,evTop}; }
 function updateTempoRealCards(){ const d=dataTempoRealFiltered, st=trStats(d); const placas=new Set(d.map(r=>trInfo(trVal(r,'placa'))).filter(v=>v!=='Não informado')).size; const motos=new Set(d.map(r=>trInfo(trVal(r,'motorista'))).filter(v=>v!=='Não informado')).size; const svcs=new Set(d.map(r=>trInfo(trVal(r,'SVC'))).filter(v=>v!=='Não informado')).size; const k=[['blue',trBR(d.length),'Total de registros','linhas carregadas'],['orange',trBR(motos),'Motoristas únicos','condutores identificados'],['purple',trBR(svcs),'SVCs monitoradas','bases com dados'],[st.media<90?'red':st.media<95?'orange':'green',st.media?trBR(st.media,1):'--','Média de pontuação','score geral filtrado'],['red',trBR(st.below),'Motoristas abaixo de 90','risco imediato'],['orange',trBR(st.totalOc),'Total de ocorrências','eventos comportamentais'],['red',trBR(st.semMot),'Sem motorista','pendência crítica'],['gray',trBR(st.semRota),'Sem MLP/rota','cadastro/identificação'],['blue',trHtml(st.svcTop.label),'SVC mais ofensora',`${trBR(st.svcTop.ocorr)} ocorrências`],['red',trHtml(st.evTop.label),'Evento crítico principal',`${trBR(st.evTop.value)} registros`]]; const el=document.getElementById('trtKpis'); if(el) el.innerHTML=k.map(x=>`<div class="trt-kpi ${x[0]}"><div class="trt-kpi-val">${x[1]}</div><div class="trt-kpi-lbl">${x[2]}</div><div class="trt-kpi-sub">${x[3]}</div></div>`).join(''); const last=d.map(r=>trInfo(trVal(r,'Atualizado em'))).filter(v=>v!=='Não informado').pop() || dataTempoReal.map(r=>trInfo(trVal(r,'Atualizado em'))).filter(v=>v!=='Não informado').pop() || '--'; trSet('trtLastUpdate',''); const status=st.media<90||st.below>20||st.semMot>0?'critico':st.media<95||st.below>0?'atencao':'ok'; const badge=document.getElementById('trtStatusBadge'); if(badge){badge.className='trt-status-badge '+(status==='ok'?'':status);} trSet('trtStatusText', status==='critico'?'Crítico':status==='atencao'?'Atenção':'Estável'); }
@@ -8753,8 +9103,8 @@ function loadChecklistAnual(force=false) {
         return (c.f !== undefined && c.f !== null && c.f !== '') ? c.f : (c.v !== null && c.v !== undefined ? c.v : '');
       };
 
-      const regional = getCellVal(colMap.REGIONAL || colMap.Regional || 0) || 'N/A';
       const svc      = getCellVal(colMap.SVC || colMap.Svc || 1) || 'N/A';
+      const regional = getRegionalBySvc(svc, getCellVal(colMap.REGIONAL || colMap.Regional || 0) || 'N/A');
       const placa    = getCellVal(colMap.PLACA || colMap.Placa || colMap.placa || 4) || 'N/D';
       const consta   = String(getCellVal(colMap['CONSTA NA VEC'] || colMap['Consta na VEC'] || 5) || '').toUpperCase();
       const isNC     = consta.includes('NO CONSTA') || consta.includes('NÃO CONSTA');
@@ -8844,13 +9194,13 @@ function updateAnualUI(data) {
   if(!data) return;
   let flt = data;
 
-  const reg  = document.getElementById('filterRegionalAnual')?.value || 'TODOS';
+  const regSelecionadas  = getSelectedRegionais('filterRegionalAnual');
   const sts  = document.getElementById('filterStatusAnual')?.value || 'TODOS';
   const svcs = getSelectedValues('dd-svc-anual');
 
   // Filtros dos dropdowns/selects
   if(svcs.length > 0) flt = flt.filter(d => svcs.includes(d.svc));
-  if(reg !== 'TODOS') flt = flt.filter(d => d.regional === reg);
+  if(!regSelecionadas.includes('TODOS')) flt = flt.filter(d => regSelecionadas.includes(d.regional));
   if(sts === 'emdia')   flt = flt.filter(d => d.status === 'emdia');
   if(sts === 'vencido') flt = flt.filter(d => d.status === 'vencido');
   if(sts === 'nc')      flt = flt.filter(d => d.status === 'nc');
