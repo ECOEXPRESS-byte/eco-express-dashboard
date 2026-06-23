@@ -5485,6 +5485,25 @@ function _isNaoAtivoOffline(d){
   const txt = normalizeString(`${d?.statusAtivo||''} ${d?.status||''} ${d?.statusDisp||''}`);
   return txt.includes('NAO ATIVO') || txt.includes('NÃO ATIVO') || txt.includes('ENCERRADO') || txt.includes('INACTIVE');
 }
+
+function _cleanRouteIdEco(v){
+  const s = String(v || '').trim();
+  if(!s || s === '--') return '';
+  const m = s.match(/\d{5,}/);
+  return m ? m[0] : '';
+}
+function _routeMeliUrlEco(v){
+  const id = _cleanRouteIdEco(v);
+  return id ? `https://envios.adminml.com/logistics/monitoring-distribution/detail/${id}?site=MLB` : '';
+}
+function _routeMeliLinkEco(v){
+  const raw = String(v || '').trim();
+  const id = _cleanRouteIdEco(raw);
+  if(!id) return _esc(raw || '--');
+  const url = _routeMeliUrlEco(id);
+  return `<a href="${_esc(url)}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation();" style="color:#1565c0;font-weight:900;text-decoration:none;border-bottom:1px dotted #1565c0;">${_esc(raw || id)}</a>`;
+}
+
 function _offLinkHtml(url, label='Abrir'){
   const u = String(url||'').trim();
   if(!u) return '--';
@@ -6028,7 +6047,7 @@ function renderOfflineTable(data){
         <div style="font-size:10px;color:#888;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${_esc(d.veiculo||'')}">${_esc((d.veiculo||'').split('|').slice(1).join('|').trim()||d.veiculo||'')}</div>
       </td>
       <td style="font-weight:700;max-width:180px;overflow:hidden;text-overflow:ellipsis;" title="${_esc(d.motoristaEco||'')}">${_esc(d.motoristaEco||'--')}</td>
-      <td style="font-size:11px;color:#455a64;max-width:140px;overflow:hidden;text-overflow:ellipsis;" title="${_esc(d.rotaEco||'')}">${_esc(d.rotaEco||'--')}</td>
+      <td style="font-size:11px;color:#455a64;max-width:140px;overflow:hidden;text-overflow:ellipsis;" title="${_esc(_routeMeliUrlEco(d.rotaEco) || d.rotaEco || '')}">${_routeMeliLinkEco(d.rotaEco)}</td>
       <td>${_ecoStatusBadge(d.statusVeiculoEco)}</td>
       <td style="font-weight:700;">${_esc(d.svc||'--')}</td>
       <td><span class="modal-tag ${getModalClass(d.modal)}">${_esc(shortModal(_cleanOfflineModal(d.modal)))}</span></td>
@@ -6132,7 +6151,7 @@ function printOfflineTabela(){
     <tr>
       <td style="font-weight:800;color:#1565c0;">${_esc(d.placa||d.veiculo||'--')}</td>
       <td>${_esc(d.motoristaEco||'--')}</td>
-      <td>${_esc(d.rotaEco||'--')}</td>
+      <td>${_routeMeliLinkEco(d.rotaEco)}</td>
       <td>${_esc(_ecoStatusLabel(d.statusVeiculoEco))}</td>
       <td>${_esc(d.svc||'--')}</td>
       <td>${_esc(_cleanOfflineModal(d.modal))}</td>
@@ -6158,7 +6177,7 @@ function printVehicleProfile(){
   _openPrintWindow(_printWrap('📡 Perfil do Veículo', 'Detalhamento operacional do dispositivo', '#10242b,#2c5364', html), 'Perfil Veiculo');
 }
 
-function exportOfflineExcel(){ const data=(dataOfflineFiltered.length?dataOfflineFiltered:getOfflineFiltered()).map(d=>({Veiculo:d.veiculo,Placa:d.placa,Motorista_EcoExpress:d.motoristaEco,Rota_EcoExpress:d.rotaEco,Status_Veiculo_EcoExpress:_ecoStatusLabel(d.statusVeiculoEco),Fonte_Status_EcoExpress:d.statusVeiculoEcoFonte,SVC:d.svc,Modal:_cleanOfflineModal(d.modal),Status:d.status,Criticidade:d.criticidade,Status_Ativo_Geotab:d.statusAtivo,Status_Comunicacao:d.statusComunicacao,Plano:d.plano,Ultima_Comunicacao:_formatOfflineDateText(d.ultima),Ultimo_Registro_Viagem:_formatOfflineDateText(d.ultimoRegistroViagem),Ultimo_Registro_GPS:_formatOfflineDateText(d.ultimoGPS),Movimento_Dispositivo:d.movimento,Status_Dispositivo:d.statusDisp,Info:d.info,Dias_Movimento:d.diasMovTxt,Dias_Comunicacao:_formatOfflineDateText(d.diasComTxt),Status_Instalacao:d.statusInstalacao,Endereco:d.endereco,Link_Google_Maps:d.googleMaps||d.mapa,Link_MyGeotab:d.myGeotab,Latitude:d._lat!=null?d._lat:d.latitude,Longitude:d._lon!=null?d._lon:d.longitude,Link_Maps_Real:d.googleMaps||'',Link_Geotab_Real:d.myGeotab||'',Grupo:d.grupo,Serie:d.serie,Atualizado_Em:_formatOfflineDateText(d.atualizado),Modal_Fonte:d.modalFonte||'Planilha'})); const wb=XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(data),'Dispositivo Offline'); XLSX.writeFile(wb,'Dispositivo_Offline.xlsx'); }
+function exportOfflineExcel(){ const data=(dataOfflineFiltered.length?dataOfflineFiltered:getOfflineFiltered()).map(d=>({Veiculo:d.veiculo,Placa:d.placa,Motorista_EcoExpress:d.motoristaEco,Rota_EcoExpress:d.rotaEco,Link_Rota_Mercado_Livre:_routeMeliUrlEco(d.rotaEco),Status_Veiculo_EcoExpress:_ecoStatusLabel(d.statusVeiculoEco),Fonte_Status_EcoExpress:d.statusVeiculoEcoFonte,SVC:d.svc,Modal:_cleanOfflineModal(d.modal),Status:d.status,Criticidade:d.criticidade,Status_Ativo_Geotab:d.statusAtivo,Status_Comunicacao:d.statusComunicacao,Plano:d.plano,Ultima_Comunicacao:_formatOfflineDateText(d.ultima),Ultimo_Registro_Viagem:_formatOfflineDateText(d.ultimoRegistroViagem),Ultimo_Registro_GPS:_formatOfflineDateText(d.ultimoGPS),Movimento_Dispositivo:d.movimento,Status_Dispositivo:d.statusDisp,Info:d.info,Dias_Movimento:d.diasMovTxt,Dias_Comunicacao:_formatOfflineDateText(d.diasComTxt),Status_Instalacao:d.statusInstalacao,Endereco:d.endereco,Link_Google_Maps:d.googleMaps||d.mapa,Link_MyGeotab:d.myGeotab,Latitude:d._lat!=null?d._lat:d.latitude,Longitude:d._lon!=null?d._lon:d.longitude,Link_Maps_Real:d.googleMaps||'',Link_Geotab_Real:d.myGeotab||'',Grupo:d.grupo,Serie:d.serie,Atualizado_Em:_formatOfflineDateText(d.atualizado),Modal_Fonte:d.modalFonte||'Planilha'})); const wb=XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(data),'Dispositivo Offline'); XLSX.writeFile(wb,'Dispositivo_Offline.xlsx'); }
 function excelGraficoOffline(tipo){
   if(tipo === 'heatmap'){
     const rows = (dataOfflineFiltered.length ? dataOfflineFiltered : getOfflineFiltered())
