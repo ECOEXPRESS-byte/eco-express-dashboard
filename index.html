@@ -2989,6 +2989,13 @@ function loadRegionalMap(callback) {
   const script = document.createElement('script');
   script.id = 'script-regional-map';
   script.src = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=REGIONAL&range=A:B&headers=1&cache=${Date.now()}`;
+  script.onerror = function(){
+    console.warn('Falha ao carregar REGIONAL. Prosseguindo sem travar.');
+    try { regionalLoading = false; regionalLoaded = true; } catch(e){}
+    try { window.google.visualization.Query.setResponse = prevCallback || function(){}; } catch(e){}
+    const cbs = regionalCallbacks.splice(0);
+    cbs.forEach(cb => { try { cb(); } catch(e) { console.error(e); } });
+  };
   document.body.appendChild(script);
 }
 
@@ -6218,23 +6225,95 @@ function excelGraficoOffline(tipo){
    CHECKLIST LOGIC
 ============================= */
 function loadChecklist(silent=false) {
-  if(!silent) { document.getElementById('loadingOverlay').classList.add('active'); document.getElementById('loadingText').textContent = 'Carregando Checklist...'; }
+  const loading = document.getElementById('loadingOverlay');
+  const loadingText = document.getElementById('loadingText');
+  if(!silent && loading) {
+    loading.classList.add('active');
+    if(loadingText) loadingText.textContent = 'Carregando Checklist...';
+  }
+
   // Remove script anterior para evitar duplicatas
   const oldCLScript = document.getElementById('script-checklist-q');
   if(oldCLScript) oldCLScript.remove();
-  const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&gid=${GID_CHECKLIST}&headers=1`;
-  const script = document.createElement('script'); script.id = 'script-checklist-q'; script.src = url;
-  window.google = window.google || {}; window.google.visualization = window.google.visualization || {}; window.google.visualization.Query = window.google.visualization.Query || {};
-  window.google.visualization.Query.setResponse = function(response) {
-    if(response.status === 'error') { if(!silent) alert('Erro Checklist.'); document.getElementById('loadingOverlay').classList.remove('active'); return; }
-    const cols = response.table.cols; const rows = response.table.rows;
-    const colMap = {}; cols.forEach((c, i) => { if(c.label) colMap[c.label.trim()] = i; });
-    const data = rows.map(r => { const rowObj = {}; Object.keys(colMap).forEach(key => { const idx = colMap[key]; rowObj[key] = (r.c[idx]) ? (r.c[idx].f || r.c[idx].v) : ''; }); return rowObj; });
-    analyzeChecklist(data);
-  };
-  document.body.appendChild(script);
-}
 
+  const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&gid=${GID_CHECKLIST}&headers=1&cache=${Date.now()}`;
+  const script = document.createElement('script');
+  script.id = 'script-checklist-q';
+  script.src = url;
+
+  window.google = window.google || {};
+  window.google.visualization = window.google.visualization || {};
+  window.google.visualization.Query = window.google.visualization.Query || {};
+
+  let checklistRespondido = false;
+
+  function finalizarChecklistLoading() {
+    checklistRespondido = true;
+    if(!silent && loading) loading.classList.remove('active');
+  }
+
+  function mostrarErroChecklist(msg) {
+    console.warn(msg);
+    const tableBody = document.getElementById('tableBody');
+    if(tableBody && !silent) {
+      tableBody.innerHTML = `<tr><td colspan="7" style="padding:18px;color:#c62828;font-weight:800;">${msg}</td></tr>`;
+    }
+    finalizarChecklistLoading();
+  }
+
+  window.google.visualization.Query.setResponse = function(response) {
+    try {
+      if(response && response.status === 'error') {
+        mostrarErroChecklist('Erro ao carregar Checklist. Verifique a planilha e tente atualizar a tela.');
+        return;
+      }
+      if(!response || !response.table || !Array.isArray(response.table.cols) || !Array.isArray(response.table.rows)) {
+        mostrarErroChecklist('Resposta inválida do Checklist. Tente atualizar a tela.');
+        return;
+      }
+
+      const cols = response.table.cols;
+      const rows = response.table.rows;
+      const labels = cols.map(c => String(c.label || c.id || '').trim().toUpperCase());
+      const pareceChecklist = labels.some(l => l.includes('PLACA')) &&
+        (labels.some(l => l.includes('REALIZADO')) || labels.some(l => l.includes('CONSTA')));
+
+      // Se uma resposta atrasada da aba REGIONAL cair aqui, ignora para não quebrar a página.
+      if(!pareceChecklist) {
+        console.warn('Resposta ignorada no Checklist porque não parece ser a base de checklist:', labels.join(' | '));
+        return;
+      }
+
+      const colMap = {};
+      cols.forEach((c, i) => { if(c.label) colMap[c.label.trim()] = i; });
+      const data = rows.map(r => {
+        const rowObj = {};
+        Object.keys(colMap).forEach(key => {
+          const idx = colMap[key];
+          rowObj[key] = (r.c && r.c[idx]) ? (r.c[idx].f || r.c[idx].v || '') : '';
+        });
+        return rowObj;
+      });
+      analyzeChecklist(data);
+      checklistRespondido = true;
+    } catch(e) {
+      console.error('Erro ao processar Checklist:', e);
+      mostrarErroChecklist('Erro ao processar Checklist. Abra o console para ver o detalhe técnico.');
+    }
+  };
+
+  script.onerror = function(){
+    mostrarErroChecklist('Não foi possível carregar o Checklist. Verifique conexão/acesso à planilha.');
+  };
+
+  document.body.appendChild(script);
+
+  setTimeout(function(){
+    if(!checklistRespondido) {
+      mostrarErroChecklist('Checklist demorou para responder. Tente atualizar a tela novamente.');
+    }
+  }, 18000);
+}
 function analyzeChecklist(data) {
   const now = new Date(); let dIni, dFim;
   if(now.getDate()<=15) { dIni=new Date(now.getFullYear(),now.getMonth(),1); dFim=new Date(now.getFullYear(),now.getMonth(),15,23,59,59); } else { dIni=new Date(now.getFullYear(),now.getMonth(),16); dFim=new Date(now.getFullYear(),now.getMonth()+1,0,23,59,59); }
@@ -10569,6 +10648,17 @@ function acPrintPendentes(){
       setTimeout(function(){
         if(!called){
           console.warn('Timeout ao carregar mapa regional. Prosseguindo com a aba.');
+          // Evita que uma resposta atrasada da aba REGIONAL use o callback do Checklist
+          // e quebre o carregamento da tela inteira.
+          try {
+            const sc = document.getElementById('script-regional-map');
+            if(sc) sc.remove();
+          } catch(e){}
+          try {
+            if(window.google && window.google.visualization && window.google.visualization.Query){
+              window.google.visualization.Query.setResponse = function(){};
+            }
+          } catch(e){}
           try { regionalLoading = false; regionalLoaded = true; } catch(e){}
           safeCallback();
         }
