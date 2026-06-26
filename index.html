@@ -1321,6 +1321,194 @@ td { padding: 12px; border-bottom: 1px solid #ddd; white-space: nowrap; }
 .ac-mini-sub{font-size:11px;color:#777;font-weight:700;margin-top:3px}
 @media(max-width:900px){.ac-charts,.ac-charts3{grid-template-columns:1fr}}
 
+
+
+/* ===== TREINAMENTOS DRIVERS - REFORMULADO ===== */
+#abaTreinamentos .tr-resumo-exec{
+  background:white;
+  border-left:5px solid #c62828;
+  border-radius:14px;
+  padding:18px 22px;
+  margin-bottom:18px;
+  box-shadow:0 3px 14px rgba(0,0,0,.08);
+  display:grid;
+  grid-template-columns:1.5fr repeat(4,minmax(120px,1fr));
+  gap:14px;
+  align-items:center;
+}
+#abaTreinamentos .tr-resumo-eyebrow{
+  font-size:10px;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  color:#888;
+  font-weight:900;
+  margin-bottom:6px;
+}
+#abaTreinamentos .tr-resumo-title{
+  font-size:18px;
+  font-weight:900;
+  color:#1a1a2e;
+  line-height:1.25;
+}
+#abaTreinamentos .tr-resumo-text{
+  font-size:12px;
+  color:#555;
+  line-height:1.45;
+  font-weight:600;
+  margin-top:6px;
+}
+#abaTreinamentos .tr-resumo-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:10px;
+}
+#abaTreinamentos .tr-mini{
+  background:#fafafa;
+  border-radius:12px;
+  padding:10px 12px;
+  border:1px solid #eee;
+}
+#abaTreinamentos .tr-mini-label{
+  display:block;
+  font-size:9px;
+  color:#999;
+  text-transform:uppercase;
+  letter-spacing:1px;
+  font-weight:900;
+  margin-bottom:4px;
+}
+#abaTreinamentos .tr-mini-val{
+  font-size:14px;
+  color:#203a43;
+  font-weight:900;
+}
+#abaTreinamentos .tr-mini-sub{
+  display:block;
+  font-size:10px;
+  color:#666;
+  margin-top:3px;
+  font-weight:600;
+}
+#abaTreinamentos .tr-charts{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:18px;
+  margin-bottom:18px;
+}
+#abaTreinamentos .tr-charts3{
+  display:grid;
+  grid-template-columns:minmax(360px,0.85fr) minmax(680px,1.65fr);
+  gap:18px;
+  margin-bottom:18px;
+}
+#abaTreinamentos .tr-chart-box{
+  background:white;
+  border-radius:14px;
+  padding:16px;
+  box-shadow:0 3px 14px rgba(0,0,0,.07);
+  min-height:300px;
+}
+#abaTreinamentos .tr-chart-title{
+  font-size:14px;
+  font-weight:900;
+  color:#222;
+  margin-bottom:12px;
+  display:flex;
+  align-items:center;
+}
+#abaTreinamentos .tr-tab-row{
+  display:flex;
+  gap:6px;
+  margin-bottom:14px;
+  flex-wrap:wrap;
+}
+#abaTreinamentos .tr-tab-btn{
+  background:white;
+  border:1px solid #ddd;
+  border-radius:10px;
+  padding:10px 16px;
+  font-weight:800;
+  cursor:pointer;
+  font-size:12px;
+  color:#475569;
+}
+#abaTreinamentos .tr-tab-btn.active{
+  background:#0f5f2b;
+  color:white;
+  border-color:#0f5f2b;
+}
+#abaTreinamentos .tr-tab-pane{
+  display:none;
+}
+#abaTreinamentos .tr-tab-pane.active{
+  display:block;
+}
+#abaTreinamentos .tr-table-wrap{
+  background:white;
+  border-radius:14px;
+  padding:18px 20px;
+  box-shadow:0 3px 14px rgba(0,0,0,.07);
+  margin-bottom:18px;
+}
+#abaTreinamentos .tr-table-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:14px;
+  flex-wrap:wrap;
+  gap:10px;
+}
+#abaTreinamentos .tr-table{
+  width:100%;
+  border-collapse:collapse;
+}
+#abaTreinamentos .tr-table th{
+  background:#0f5f2b;
+  color:white;
+  padding:10px 8px;
+  text-align:left;
+  font-size:11px;
+  font-weight:900;
+  cursor:pointer;
+}
+#abaTreinamentos .tr-table td{
+  padding:8px;
+  border-bottom:1px solid #eee;
+  font-size:12px;
+}
+#abaTreinamentos .tr-cards-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(320px,1fr));
+  gap:14px;
+  margin-bottom:18px;
+}
+#abaTreinamentos .tr-pendentes-grid{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+#abaTreinamentos .tr-kpi.teal{border-top-color:#00838f;}
+#abaTreinamentos .tr-kpi.crit{border-top-color:#b71c1c;}
+#abaTreinamentos .tr-kpi-bar{
+  height:4px;
+  background:#e5e7eb;
+  border-radius:999px;
+  margin-top:6px;
+  overflow:hidden;
+}
+#abaTreinamentos .tr-kpi-bar-fill{
+  height:100%;
+  background:linear-gradient(90deg,#16a34a,#22c55e);
+  border-radius:999px;
+  transition:width .4s;
+}
+@media(max-width:1100px){
+  #abaTreinamentos .tr-resumo-exec{grid-template-columns:1fr;}
+  #abaTreinamentos .tr-resumo-grid{grid-template-columns:repeat(2,1fr);}
+  #abaTreinamentos .tr-charts,#abaTreinamentos .tr-charts3{grid-template-columns:1fr;}
+}
+#abaTreinamentos .tr-table tbody tr:hover{background:#f3f5ff;}
+
 </style>
 </head>
 <body>
@@ -1980,121 +2168,230 @@ td { padding: 12px; border-bottom: 1px solid #ddd; white-space: nowrap; }
 <!-- ===== ABA TREINAMENTOS ===== -->
 <div id="abaTreinamentos" class="tab-pane">
   <div class="container">
-
-    <!-- Header -->
     <div class="tr-header">
       <div style="position:relative;">
-        <div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;opacity:0.55;margin-bottom:5px;">Gestão de Capacitação</div>
+        <div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;opacity:.55;margin-bottom:5px;">ECO EXPRESS 360º · CAPACITAÇÃO OPERACIONAL</div>
         <h2 style="font-size:22px;font-weight:900;text-transform:uppercase;letter-spacing:2px;margin:0;">🎓 TREINAMENTOS DRIVERS</h2>
-        <p style="font-size:12px;opacity:0.7;margin-top:6px;">Pendências e conformidade operacional · Monitoramento por SVC e curso</p>
+        <p style="font-size:12px;opacity:.7;margin-top:6px;">Leitura gerencial de aderência por curso, driver, regional e facility · Base: Consolidado treinamentos</p>
       </div>
-      <div style="display:flex;gap:10px;flex-wrap:wrap;position:relative;">
-        <button onclick="carregarTreinamentos(true)" class="btn-action btn-update" style="height:38px;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);">🔄 Atualizar</button>
-        <button onclick="exportarTreinoExcel()" class="btn-action btn-excel" style="height:38px;">📥 Excel</button>
-        <span id="lastUpdate-treino" style="font-size:11px;opacity:0.7;font-weight:600;align-self:center;"></span>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;position:relative;align-items:center;">
+        <button onclick="carregarTreinamentos(true)" class="btn-action btn-update" style="height:38px;background:rgba(255,255,255,0.18);border:1px solid rgba(255,255,255,0.38);">🔄 Atualizar</button>
+        <button onclick="exportarTreinoExcel()" class="btn-action btn-excel" style="height:38px;background:#005f73;border:1px solid #0a9396;">📥 Excel</button>
+        <span id="lastUpdate-treino" style="font-size:11px;opacity:.7;font-weight:600;align-self:center;"></span>
       </div>
     </div>
 
-    <!-- KPIs -->
-    <div class="tr-kpis-row">
+    <div class="tr-kpis-row" style="grid-template-columns:repeat(auto-fit,minmax(180px,1fr));">
       <div class="tr-kpi red">
-        <div class="tr-kpi-val" id="tkpi-vencidos">0</div>
-        <div class="tr-kpi-lbl">⚠️ Volume de Pendências</div>
-        <div class="tr-kpi-sub">treinamentos em atraso</div>
-      </div>
-      <div class="tr-kpi blue">
-        <div class="tr-kpi-val" id="tkpi-total">0</div>
-        <div class="tr-kpi-lbl">👥 Total Monitorado</div>
-        <div class="tr-kpi-sub">base de motoristas</div>
-      </div>
-      <div class="tr-kpi orange">
-        <div class="tr-kpi-val" id="tkpi-svcs-pend">0</div>
-        <div class="tr-kpi-lbl">🏢 SVCs com Pendências</div>
-        <div class="tr-kpi-sub">operações afetadas</div>
+        <div class="tr-kpi-val" id="tkpi-pendentes">0</div>
+        <div class="tr-kpi-lbl">⚠️ Pendências</div>
+        <div class="tr-kpi-sub">cursos em aberto</div>
       </div>
       <div class="tr-kpi green">
-        <div class="tr-kpi-val" id="tkpi-cursos-pend">0</div>
-        <div class="tr-kpi-lbl">📚 Cursos em Atraso</div>
-        <div class="tr-kpi-sub">modalidades pendentes</div>
+        <div class="tr-kpi-val" id="tkpi-concluidos">0</div>
+        <div class="tr-kpi-lbl">✅ Concluídos</div>
+        <div class="tr-kpi-sub">cursos finalizados</div>
+        <div class="tr-kpi-bar"><div class="tr-kpi-bar-fill" id="tr-bar-conc" style="width:0%"></div></div>
+      </div>
+      <div class="tr-kpi blue">
+        <div class="tr-kpi-val" id="tkpi-drivers">0</div>
+        <div class="tr-kpi-lbl">👥 Drivers</div>
+        <div class="tr-kpi-sub">motoristas monitorados</div>
+      </div>
+      <div class="tr-kpi teal">
+        <div class="tr-kpi-val" id="tkpi-conformidade">—</div>
+        <div class="tr-kpi-lbl">🛡️ Conformidade</div>
+        <div class="tr-kpi-sub">índice geral</div>
+      </div>
+      <div class="tr-kpi orange">
+        <div class="tr-kpi-val" id="tkpi-cursos">0</div>
+        <div class="tr-kpi-lbl">📚 Cursos</div>
+        <div class="tr-kpi-sub">cursos distintos</div>
+      </div>
+      <div class="tr-kpi crit">
+        <div class="tr-kpi-val" id="tkpi-criticos">0</div>
+        <div class="tr-kpi-lbl">🔴 Críticos</div>
+        <div class="tr-kpi-sub">3+ pendências</div>
       </div>
     </div>
 
-    <!-- Filtros -->
+    <div class="tr-resumo-exec" id="trResumoExec">
+      <div>
+        <div class="tr-resumo-eyebrow">Aderência dos cursos por DRIVER_ID</div>
+        <div class="tr-resumo-title" id="trResumoTitle">Aguardando carregamento...</div>
+        <div class="tr-resumo-text" id="trResumoText">Carregando análise...</div>
+      </div>
+      <div class="tr-resumo-grid">
+        <div class="tr-mini"><div class="tr-mini-label">Driver mais crítico</div><div class="tr-mini-val" id="trMiniDrvCrit">—</div><div class="tr-mini-sub" id="trMiniDrvCritSub">pendências</div></div>
+        <div class="tr-mini"><div class="tr-mini-label">Curso mais pendente</div><div class="tr-mini-val" id="trMiniCurCrit">—</div><div class="tr-mini-sub" id="trMiniCurCritSub">drivers pendentes</div></div>
+        <div class="tr-mini"><div class="tr-mini-label">Facility mais crítica</div><div class="tr-mini-val" id="trMiniFacCrit">—</div><div class="tr-mini-sub" id="trMiniFacCritSub">pendências</div></div>
+        <div class="tr-mini"><div class="tr-mini-label">Regional mais crítica</div><div class="tr-mini-val" id="trMiniRegCrit">—</div><div class="tr-mini-sub" id="trMiniRegCritSub">pendências</div></div>
+        <div class="tr-mini"><div class="tr-mini-label">Taxa de conclusão</div><div class="tr-mini-val" id="trMiniTaxa">—</div><div class="tr-mini-sub">do total de cursos</div></div>
+      </div>
+    </div>
+
     <div class="tr-filters">
-      <div style="flex:1;min-width:180px;">
-        <label style="font-size:11px;font-weight:800;color:#888;text-transform:uppercase;letter-spacing:1px;display:block;margin-bottom:5px;">🗺️ Regional</label>
-        <select id="tr-regional" class="filter-input" onchange="aplicarFiltrosTreino()" style="height:40px;">
+      <div style="flex:2;min-width:200px;">
+        <label style="font-size:11px;font-weight:800;color:#888;text-transform:uppercase;letter-spacing:1px;display:block;margin-bottom:5px;">🔍 Driver / DRIVER_ID</label>
+        <input type="text" id="trSearch" class="filter-input" placeholder="Digite nome, DRIVER_ID, MLP, curso ou SVC..." oninput="renderTreinamentos()" style="height:40px;">
+      </div>
+      <div style="flex:1;min-width:170px;">
+        <label style="font-size:11px;font-weight:800;color:#888;text-transform:uppercase;letter-spacing:1px;display:block;margin-bottom:5px;">🌎 Regional</label>
+        <select id="tr-regional" class="filter-input" onchange="renderTreinamentos()" style="height:40px;">
           <option value="TODOS">Todas</option>
         </select>
       </div>
-      <div class="multi-select-container" style="flex:1;min-width:200px;">
-        <label style="font-size:11px;font-weight:800;color:#888;text-transform:uppercase;letter-spacing:1px;display:block;margin-bottom:5px;">🏢 SVC</label>
-        <button class="multi-select-btn" onclick="toggleDropdown('dd-svc')" style="height:40px;">🏢 Selecionar SVCs <i class="fas fa-chevron-down"></i></button>
-        <div id="dd-svc" class="multi-select-dropdown"></div>
+      <div style="flex:1;min-width:160px;">
+        <label style="font-size:11px;font-weight:800;color:#888;text-transform:uppercase;letter-spacing:1px;display:block;margin-bottom:5px;">🏢 Facility/SVC</label>
+        <select id="trFilterSVC" class="filter-input" onchange="renderTreinamentos()" style="height:40px;">
+          <option value="TODOS">Todos</option>
+        </select>
       </div>
-      <div class="multi-select-container" style="flex:1;min-width:200px;">
+      <div class="multi-select-container" style="flex:1;min-width:180px;">
         <label style="font-size:11px;font-weight:800;color:#888;text-transform:uppercase;letter-spacing:1px;display:block;margin-bottom:5px;">📚 Curso</label>
-        <button class="multi-select-btn" onclick="toggleDropdown('dd-curso')" style="height:40px;">📚 Selecionar Cursos <i class="fas fa-chevron-down"></i></button>
-        <div id="dd-curso" class="multi-select-dropdown"></div>
+        <button class="multi-select-btn" onclick="toggleDropdown('dd-tr-curso')" style="height:40px;">Todos <i class="fas fa-chevron-down"></i></button>
+        <div id="dd-tr-curso" class="multi-select-dropdown"></div>
       </div>
-      <div style="flex:1;min-width:200px;">
-        <label style="font-size:11px;font-weight:800;color:#888;text-transform:uppercase;letter-spacing:1px;display:block;margin-bottom:5px;">🔍 Buscar Motorista</label>
-        <input type="text" id="tr-search" class="filter-input" placeholder="Nome do motorista..." oninput="aplicarFiltrosTreino()" style="height:40px;">
+      <div style="flex:1;min-width:140px;">
+        <label style="font-size:11px;font-weight:800;color:#888;text-transform:uppercase;letter-spacing:1px;display:block;margin-bottom:5px;">📊 Status</label>
+        <select id="trFilterStatus" class="filter-input" onchange="renderTreinamentos()" style="height:40px;">
+          <option value="TODOS">Todos</option>
+          <option value="PENDENTE">⏳ Pendentes</option>
+          <option value="CONCLUIDO">✅ Concluídos</option>
+          <option value="CRITICO">🔴 Críticos (3+)</option>
+        </select>
       </div>
+      <button onclick="clearTrFilters()" style="height:40px;padding:0 16px;border:1px solid #ddd;border-radius:8px;background:white;cursor:pointer;font-size:12px;color:#888;align-self:flex-end;">✕ Limpar</button>
     </div>
 
-    <!-- Gráficos -->
     <div class="tr-charts">
-      <div class="tr-chart-box" style="position:relative;" id="wrap-chartTreinoSVC">
-        <div class="tr-chart-title">🏢 Pendências por SVC <span style="font-size:11px;color:#bbb;font-weight:400;margin-left:auto;">clique para filtrar</span>
-          <div style="display:flex;gap:5px;margin-left:4px;">
-            <button class="btn-export-img" onclick="printGrafico('chartTreinoSVC','Pendências por SVC — Treinamentos','Treino_Pendencias_SVC')" title="Print"><i class="fas fa-camera"></i> Print</button>
-            <button class="btn-export-img" onclick="excelGraficoTreino('svc')" style="background:linear-gradient(135deg,#27ae60,#1e8449);" title="Excel"><i class="fas fa-file-excel"></i> Excel</button>
+      <div class="tr-chart-box">
+        <div class="tr-chart-title">📚 Pendências por Curso
+          <div style="margin-left:auto;display:flex;gap:5px;">
+            <button class="btn-export-img" onclick="trPrintChart('trChartCurso','Pendências por Curso','Treinamento_Curso')"><i class="fas fa-camera"></i> Print</button>
+            <button class="btn-export-img" onclick="trExcelChart('trChartCurso','Curso','Treinamento_Curso','Por_Curso')" style="background:linear-gradient(135deg,#27ae60,#1e8449);"><i class="fas fa-file-excel"></i> Excel</button>
           </div>
         </div>
-        <div style="height:300px;"><canvas id="chartTreinoSVC"></canvas></div>
-        <small style="color:#bbb;font-size:11px;margin-top:6px;display:block;">Clique na barra para filtrar/limpar.</small>
+        <div style="height:280px;"><canvas id="trChartCurso"></canvas></div>
       </div>
-      <div class="tr-chart-box" style="position:relative;" id="wrap-chartCursosTreino">
-        <div class="tr-chart-title">📚 Pendências por Curso <span style="font-size:11px;color:#bbb;font-weight:400;margin-left:auto;">clique para filtrar</span>
-          <div style="display:flex;gap:5px;margin-left:4px;">
-            <button class="btn-export-img" onclick="printGrafico('graficoCursosTreino','Pendências por Curso — Treinamentos','Treino_Pendencias_Curso')" title="Print"><i class="fas fa-camera"></i> Print</button>
-            <button class="btn-export-img" onclick="excelGraficoTreino('curso')" style="background:linear-gradient(135deg,#27ae60,#1e8449);" title="Excel"><i class="fas fa-file-excel"></i> Excel</button>
+      <div class="tr-chart-box">
+        <div class="tr-chart-title">🏢 Pendências por Facility/SVC
+          <div style="margin-left:auto;display:flex;gap:5px;">
+            <button class="btn-export-img" onclick="trPrintChart('trChartSVC','Pendências por Facility','Treinamento_SVC')"><i class="fas fa-camera"></i> Print</button>
+            <button class="btn-export-img" onclick="trExcelChart('trChartSVC','Facility','Treinamento_SVC','Por_SVC')" style="background:linear-gradient(135deg,#27ae60,#1e8449);"><i class="fas fa-file-excel"></i> Excel</button>
           </div>
         </div>
-        <div style="height:300px;"><canvas id="graficoCursosTreino"></canvas></div>
-        <small style="color:#bbb;font-size:11px;margin-top:6px;display:block;">Clique na barra para filtrar/limpar.</small>
+        <div style="height:280px;"><canvas id="trChartSVC"></canvas></div>
       </div>
     </div>
 
-    <!-- Tabela -->
-    <div class="tr-table-wrap" id="wrap-treino-tabela">
-      <div class="tr-table-head">
-        <div>
-          <h3 style="font-size:15px;font-weight:800;color:#222;margin:0;">📋 Detalhamento Operacional</h3>
-          <p style="font-size:12px;color:#aaa;margin-top:3px;" id="contadorTreino"></p>
+    <div class="tr-charts3" style="grid-template-columns:minmax(360px,0.85fr) minmax(680px,1.65fr);">
+      <div class="tr-chart-box">
+        <div class="tr-chart-title" style="color:#c62828;">🏆 Top 10 Mais Pendentes
+          <div style="margin-left:auto;display:flex;gap:5px;">
+            <button class="btn-export-img" onclick="trPrintChart('trChartTopPend','Top 10 Mais Pendentes','Treinamento_Top_Pend')"><i class="fas fa-camera"></i> Print</button>
+            <button class="btn-export-img" onclick="trExcelChart('trChartTopPend','Driver','Treinamento_Top_Pend','Top_Pendentes')" style="background:linear-gradient(135deg,#27ae60,#1e8449);"><i class="fas fa-file-excel"></i> Excel</button>
+          </div>
         </div>
-        <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-          <button class="btn-export-img" onclick="printTreinoTabela()" title="Imprimir tabela completa"><i class="fas fa-print"></i> Print</button>
-          <button class="btn-export-img" onclick="exportarTreinoExcel()" style="background:linear-gradient(135deg,#27ae60,#1e8449);" title="Excel"><i class="fas fa-file-excel"></i> Excel</button>
-        </div>
+        <div style="height:300px;"><canvas id="trChartTopPend"></canvas></div>
       </div>
-      <div style="overflow-x:auto;max-height:560px;overflow-y:auto;">
-        <table class="tr-table" id="tabelaTreino">
-          <thead>
-            <tr>
-              <th>Motorista</th>
-              <th>SVC</th>
-              <th>Curso</th>
-              <th>Status</th>
-              <th>Referência / Última Rota</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
+      <div class="tr-chart-box">
+        <div class="tr-chart-title" style="color:#2e7d32;">🏅 Aderência por Facility
+          <div style="margin-left:auto;display:flex;gap:5px;">
+            <button class="btn-export-img" onclick="trPrintChart('trChartAder','Aderência por Facility','Treinamento_Aderencia')"><i class="fas fa-camera"></i> Print</button>
+            <button class="btn-export-img" onclick="trExcelChart('trChartAder','Facility','Treinamento_Aderencia','Aderencia_SVC')" style="background:linear-gradient(135deg,#27ae60,#1e8449);"><i class="fas fa-file-excel"></i> Excel</button>
+          </div>
+        </div>
+        <div style="height:300px;"><canvas id="trChartAder"></canvas></div>
       </div>
     </div>
 
+
+    <div class="tr-charts tr-charts-v52" style="grid-template-columns:1fr 1fr;">
+      <div class="tr-chart-box tr-floating-panel">
+        <div class="tr-chart-title" style="color:#2e7d32;">📚 Aderência por Curso
+          <div style="margin-left:auto;display:flex;gap:5px;">
+            <button class="btn-export-img" onclick="trPrintChart('trChartCursoAder','Aderência por Curso','Treinamento_Aderencia_Curso')"><i class="fas fa-camera"></i> Print</button>
+            <button class="btn-export-img" onclick="trExcelChart('trChartCursoAder','Curso','Treinamento_Aderencia_Curso','Aderencia_Curso')" style="background:linear-gradient(135deg,#27ae60,#1e8449);"><i class="fas fa-file-excel"></i> Excel</button>
+          </div>
+        </div>
+        <div style="height:300px;"><canvas id="trChartCursoAder"></canvas></div>
+      </div>
+      <div class="tr-chart-box tr-floating-panel">
+        <div class="tr-chart-title" style="color:#1565c0;">🌎 Aderência por Regionais
+          <div style="margin-left:auto;display:flex;gap:5px;">
+            <button class="btn-export-img" onclick="trPrintChart('trChartRegAder','Aderência por Regionais','Treinamento_Aderencia_Regional')"><i class="fas fa-camera"></i> Print</button>
+            <button class="btn-export-img" onclick="trExcelChart('trChartRegAder','Regional','Treinamento_Aderencia_Regional','Aderencia_Regional')" style="background:linear-gradient(135deg,#27ae60,#1e8449);"><i class="fas fa-file-excel"></i> Excel</button>
+          </div>
+        </div>
+        <div style="height:300px;"><canvas id="trChartRegAder"></canvas></div>
+      </div>
+    </div>
+
+    <div class="tr-tab-row">
+      <button class="tr-tab-btn active" onclick="switchTrTab('tabela')">📋 Tabela Geral</button>
+      <button class="tr-tab-btn" onclick="switchTrTab('cards')">📚 Aderência dos Cursos</button>
+      <button class="tr-tab-btn" onclick="switchTrTab('pendentes')">🚨 Pendências Detalhadas</button>
+      <button class="tr-tab-btn" onclick="switchTrTab('cursos')">📚 Visão por Curso</button>
+    </div>
+
+    <div class="tr-tab-pane active" id="trTabTabela">
+      <div class="tr-table-wrap">
+        <div class="tr-table-head">
+          <div>
+            <h3 style="font-size:15px;font-weight:800;color:#222;margin:0;">📋 Detalhamento por Driver e Curso</h3>
+            <p style="font-size:12px;color:#aaa;margin-top:3px;" id="trTableCounter">Aguardando dados...</p>
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+            <button class="btn-export-img" onclick="trPrintTabela()"><i class="fas fa-print"></i> Print</button>
+            <button class="btn-export-img" onclick="exportarTreinoExcel()" style="background:linear-gradient(135deg,#27ae60,#1e8449);"><i class="fas fa-file-excel"></i> Excel</button>
+          </div>
+        </div>
+        <div style="overflow-x:auto;max-height:620px;overflow-y:auto;">
+          <table class="tr-table" id="trTable">
+            <thead>
+              <tr>
+                <th onclick="sortTr('nome')">DRIVER ↕</th>
+                <th onclick="sortTr('driver_id')">DRIVER_ID ↕</th>
+                <th onclick="sortTr('mlp')">MLP ↕</th>
+                <th onclick="sortTr('regional')">REGIONAL ↕</th>
+                <th onclick="sortTr('curso')">CURSO ↕</th>
+                <th onclick="sortTr('facility')">FACILITY ↕</th>
+                <th onclick="sortTr('progress')">PROGRESS ↕</th>
+                <th onclick="sortTr('primeira')">PRIMEIRA ROTA ↕</th>
+                <th onclick="sortTr('ultima')">ÚLTIMA ROTA ↕</th>
+                <th onclick="sortTr('status')">STATUS ↕</th>
+              </tr>
+            </thead>
+            <tbody id="trTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="tr-tab-pane" id="trTabCards">
+      <div id="trCardsGrid" class="tr-cards-grid"><div style="grid-column:1/-1;text-align:center;padding:40px;color:#888;">Carregando aderência dos cursos...</div></div>
+    </div>
+
+    <div class="tr-tab-pane" id="trTabPendentes">
+      <div style="background:white;border-radius:14px;padding:20px 24px;box-shadow:0 3px 14px rgba(0,0,0,.07);">
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:16px;">
+          <div>
+            <h3 id="trPendTitle" style="font-size:15px;font-weight:800;color:#e65100;margin:0;">⏳ Cursos Pendentes</h3>
+            <p style="font-size:12px;color:#aaa;margin-top:3px;">Drivers com ao menos um curso em aberto</p>
+          </div>
+          <div style="display:flex;gap:8px;">
+            <button class="btn-export-img" onclick="trPrintPendentes()"><i class="fas fa-print"></i> Print</button>
+            <button class="btn-export-img" onclick="exportarTreinoExcel()" style="background:linear-gradient(135deg,#27ae60,#1e8449);"><i class="fas fa-file-excel"></i> Excel</button>
+          </div>
+        </div>
+        <div id="trPendentesGrid" class="tr-pendentes-grid"><div style="color:#888;">Carregando...</div></div>
+      </div>
+    </div>
+
+    <div class="tr-tab-pane" id="trTabCursos">
+      <div id="trCursosGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:18px;"><div style="color:#888;padding:20px;">Carregando cursos...</div></div>
+    </div>
   </div>
 </div>
 
@@ -2973,7 +3270,7 @@ function loadRegionalMap(callback) {
       preencherSelectRegional('filterRegionalAnual', 'triggerAnualUpdate()', 'Todos');
       preencherSelectRegional('pcml-regional', 'renderPCML_db()', 'Todas');
       preencherSelectRegional('sc-regional', 'renderScorecard_db()', 'Todas');
-      preencherSelectRegional('tr-regional', 'aplicarFiltrosTreino()', 'Todas');
+      preencherSelectRegional('tr-regional', 'renderTreinamentos()', 'Todas');
       preencherSelectRegional('torre-regional', 'renderTorre_db()', 'Todas');
       preencherSelectRegional('ac-regional', 'renderAcademia()', 'Todas');
       preencherSelectRegional('offFilterRegional', 'renderOffline()', 'Todas');
@@ -3003,6 +3300,7 @@ function loadRegionalMap(callback) {
 const SHEET_ID = '1OzrdPS7am7FSHOrVlT3qD5NBGm0TE1NERvRVKnFGb90';
 const GID_CHECKLIST = '1226817368';
 const SHEET_NAME_TREINO = 'Consolidado treinamentos';
+const TREINAMENTO_GID = '1214710884';
 const SHEET_ID_OFENSORES = '1q0G9L8Tu9zI7ziE4zOx0E-ngWgAmqjzqfh16P045PM8';
 const SHEET_NAME_OFENSORES = 'DB_OFENSORES';
 
@@ -8366,131 +8664,476 @@ function exportarOfensores() { exportarOfensoresAba(); }
 function toggleOfensoresFilter(svc) { activeFilterSVC_Ofensores = (activeFilterSVC_Ofensores === svc) ? null : svc; renderOfensores(); }
 
 /* =============================
-   TREINAMENTOS LOGIC
+   TREINAMENTOS DRIVERS - REFORMULADO
 ============================= */
-function carregarTreinamentos(force=false) {
-  document.getElementById('loadingOverlay').classList.add('active');
-  const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(SHEET_NAME_TREINO)}&range=A:F&headers=1`;
-  const script = document.createElement('script'); script.src = url;
-  window.google = window.google||{}; window.google.visualization=window.google.visualization||{}; window.google.visualization.Query=window.google.visualization.Query||{};
-  window.google.visualization.Query.setResponse = function(response) {
-    if(response.status==='error'){alert('Erro Treino');return;}
-    const rows = response.table.rows;
-    dadosTreinoAll = rows.slice(1).map(r=>{
-      const svc = r.c[2]?.v || '';
-      return { nome: r.c[0]?.v || '', id: r.c[1]?.v || '', svc, regional: getRegionalBySvc(svc, 'N/A'), curso: r.c[3]?.v || '', ultimaRota: r.c[5]?.v || '', status: 'Vencido' };
-    }).filter(d => d.nome && d.id);
-    setupMultiSelect('dd-svc', [...new Set(dadosTreinoAll.map(d=>d.svc))].sort(), aplicarFiltrosTreino);
-    setupMultiSelect('dd-curso', [...new Set(dadosTreinoAll.map(d=>d.curso))].sort(), aplicarFiltrosTreino);
-    aplicarFiltrosTreino();
-    _setLastUpdate('lastUpdate-treino', new Date());
-    document.getElementById('loadingOverlay').classList.remove('active');
+let treinoData=[], treinoFiltered=[], treinoCharts={}, treinoSortK='nome', treinoSortD=1;
+// treinoLoaded ja foi declarado em linha 4990
+
+function trNorm(s){return String(s||'').trim().normalize('NFD').replace(/[̀-ͯ]/g,'').toUpperCase();}
+function trNormStatus(s){
+  const n=trNorm(s);
+  if(n.includes('PEND')||n.includes('ABERTO')||n.includes('NAO')||n.includes('NÃO')||n==='0'||n==='NO'||n===''||n.includes('ATRAS')||n.includes('AGUARD')||n.includes('INCOMPLETO'))return 'PENDENTE';
+  if(n.includes('COMPLET')||n.includes('CONC')||n.includes('REALIZ')||n==='SIM'||n==='YES'||n==='1'||n==='OK'||n.includes('APROVAD')||n.includes('FINALIZ'))return 'CONCLUIDO';
+  return 'OUTRO';
+}
+function trFmtCell(row,idx){
+  if(!row.c||!row.c[idx]) return '';
+  const c=row.c[idx]; if(c===null) return '';
+  const f=c.f!=null?String(c.f).trim():''; const v=c.v!=null?c.v:'';
+  return f!==''?f:String(v).trim();
+}
+function trFmtPct(v){
+  if(v==null||v===''||isNaN(v)) return '—';
+  const n=parseFloat(v);
+  return Math.round(n*10)/10+'%';
+}
+function trParsePercent(raw){
+  const original=String(raw??'').trim();
+  if(!original)return 0;
+  const hasPct=original.includes('%');
+  let cleaned=original.replace(/%/g,'').replace(/[^0-9,.-]/g,'').trim();
+  // Trata padrão BR 85,5 / 1,0 sem quebrar decimal com ponto 0.85.
+  if(cleaned.includes(',')) cleaned=cleaned.replace(/\./g,'').replace(',', '.');
+  const n=parseFloat(cleaned);
+  if(isNaN(n))return 0;
+  // Google Sheets/GViz às vezes envia percentual como decimal: 1 = 100%, 0.85 = 85%.
+  const pct=(!hasPct && n>0 && n<=1)?n*100:n;
+  return Math.max(0,Math.min(100,Math.round(pct*10)/10));
+}
+function trIsConcluido(progressRaw,statusRaw){
+  const pct=trParsePercent(progressRaw);
+  const st=trNormStatus(statusRaw||progressRaw);
+  return pct>=99.5 || st==='CONCLUIDO';
+}
+function carregarTreinamentos(force=false){
+  if(typeof treinoLoaded==='undefined') treinoLoaded=false;
+  if(!regionalLoaded){
+    loadRegionalMap(()=>carregarTreinamentos(force));
+    return;
+  }
+  const ov=document.getElementById('loadingOverlay'),lt=document.getElementById('loadingText');
+  if(ov)ov.classList.add('active');
+  if(lt)lt.textContent='Carregando Treinamentos Drivers...';
+  const old=document.getElementById('script-treino');if(old)old.remove();
+
+  // Tentar com sheet name E gid
+  const url=`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(SHEET_NAME_TREINO)}&gid=${TREINAMENTO_GID}&headers=1&cache=${Date.now()}`;
+
+  const script=document.createElement('script');script.id='script-treino';script.src=url;
+  window.google=window.google||{};window.google.visualization=window.google.visualization||{};window.google.visualization.Query=window.google.visualization.Query||{};
+  const prevCb=window.google.visualization.Query.setResponse;
+  window.google.visualization.Query.setResponse=function(res){
+    window.google.visualization.Query.setResponse=prevCb||(()=>{});
+    if(ov)ov.classList.remove('active');
+
+    if(!res){
+      console.error('Resposta vazia - tentando apenas com GID');
+      // Fallback: tentar apenas com GID
+      const url2=`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&gid=${TREINAMENTO_GID}&headers=1&cache=${Date.now()}`;
+      const script2=document.createElement('script');script2.id='script-treino2';script2.src=url2;
+      window.google.visualization.Query.setResponse=arguments.callee;
+      document.head.appendChild(script2);
+      return;
+    }
+
+    if(res.status==='error'){
+      console.error('Erro Treino:',res);
+      return;
+    }
+
+    try{
+      const cols=(res.table.cols||[]);
+      const rowsAll=(res.table.rows||[]);
+
+      console.log('[TREINO] Linhas recebidas:',rowsAll.length);
+      console.log('[TREINO] Colunas:',cols.map(c=>c.label||c.id).join(', '));
+
+      const headers=cols.map((c,i)=>String(c.label||c.id||`COL_${i+1}`).trim());
+      const hN=headers.map(h=>trNorm(h));
+
+      console.log('[TREINO] Headers normalizados:',hN);
+
+      const fi=(...cs)=>{for(const c of cs){let i=hN.indexOf(trNorm(c));if(i>=0)return i;i=hN.findIndex(h=>h.includes(trNorm(c)));if(i>=0)return i;}return -1;};
+
+      const iN=fi('NOME','DRIVER','MOTORISTA','COLABORADOR');
+      const iId=fi('DRIVER_ID','ID','DRIVER ID','ID DRIVER');
+      const iMlp=fi('MLP');
+      const iReg=fi('REGIONAIS','REGIONAL');
+      const iCurso=fi('COURSE_NAME','CURSO','MODULO','MÓDULO','TREINAMENTO');
+      const iFac=fi('FACILITY','SVC','BASE');
+      const iProg=fi('COURSE_PROGRESS','PROGRESS','PROGRESSO','ADERENCIA','ADERÊNCIA','%','PERCENTUAL','CONCLUSAO','CONCLUSÃO');
+      const iStatus=fi('STATUS','COURSE_STATUS','STATUS CURSO','SITUACAO','SITUAÇÃO','SITUACAO_CURSO','SITUAÇÃO_CURSO','RESULTADO');
+      const iPri=fi('PRIMEIRA_ROTA','PRIMEIRA ROTA');
+      const iUlt=fi('ULTIMA ROTA','ULTIMA_ROTA','ÚLTIMA ROTA');
+
+      console.log('[TREINO] Índices encontrados:',{iN,iId,iMlp,iReg,iCurso,iFac,iProg,iStatus,iPri,iUlt});
+
+      treinoData=[];
+      rowsAll.forEach((row,ri)=>{
+        const rN=iN>=0?trFmtCell(row,iN):'';
+        const rId=iId>=0?trFmtCell(row,iId):'';
+        const rMlp=iMlp>=0?trFmtCell(row,iMlp):'';
+        const rReg=iReg>=0?trFmtCell(row,iReg):'';
+        const rC=iCurso>=0?trFmtCell(row,iCurso):'';
+        const rFac=iFac>=0?trFmtCell(row,iFac):'';
+        const rProg=iProg>=0?trFmtCell(row,iProg):'';
+        const rStatus=iStatus>=0?trFmtCell(row,iStatus):'';
+        const rPri=iPri>=0?trFmtCell(row,iPri):'';
+        const rUlt=iUlt>=0?trFmtCell(row,iUlt):'';
+
+        if(!rN&&!rC)return;
+
+        const progressNum=trParsePercent(rProg);
+        const status=trIsConcluido(rProg,rStatus)?'CONCLUIDO':'PENDENTE';
+
+        treinoData.push({
+          nome:rN||'N/I',
+          driver_id:rId||'—',
+          mlp:rMlp||'—',
+          regional:rReg||'N/A',
+          curso:rC||'N/I',
+          facility:rFac||'N/I',
+          progress:progressNum,
+          progressRaw:rProg||'',
+          statusRaw:rStatus||'',
+          primeira_rota:rPri,
+          ultima_rota:rUlt,
+          statusNorm:status,
+          _row:ri
+        });
+      });
+
+      console.log('[TREINO] Dados carregados:',treinoData.length);
+
+      treinoLoaded=true;
+      trSetupFilters();
+      renderTreinamentos();
+
+      const el=document.getElementById('lastUpdate-treino');
+      if(el)el.textContent=''+new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+    }catch(e){
+      console.error('Erro Treinamentos:',e);
+    }
   };
   document.head.appendChild(script);
 }
 
-function aplicarFiltrosTreino() {
-  const svcs = getSelectedValues('dd-svc'); const curs = getSelectedValues('dd-curso');
-  const regionalSelecionadas = getSelectedRegionais('tr-regional');
-  const busca = (document.getElementById('tr-search')?.value||'').toLowerCase();
-  dadosTreinoFiltered = dadosTreinoAll.filter(d => {
-    if (activeFilterSVC_Treino && d.svc !== activeFilterSVC_Treino) return false;
-    if (activeFilterCurso_Treino && d.curso !== activeFilterCurso_Treino) return false;
-    if (!regionalSelecionadas.includes('TODOS') && !regionalSelecionadas.includes(getRegionalBySvc(d.svc, d.regional))) return false;
-    if (!activeFilterSVC_Treino && svcs.length > 0 && !svcs.includes(d.svc)) return false;
-    if (!activeFilterCurso_Treino && curs.length > 0 && !curs.includes(d.curso)) return false;
-    if (busca && !d.nome.toLowerCase().includes(busca)) return false;
+function trSetupFilters(){
+  const regSelect=document.getElementById('tr-regional');
+  if(regSelect){
+    const regionais=new Set(['TODOS']);
+    treinoData.forEach(d=>{if(d.regional&&d.regional!=='N/A')regionais.add(d.regional);});
+    regSelect.innerHTML=`<option value="TODOS">Todas</option>`+Array.from(regionais).filter(r=>r!=='TODOS').sort().map(r=>`<option value="${r}">${r}</option>`).join('');
+  }
+  const facSelect=document.getElementById('trFilterSVC');
+  if(facSelect){
+    const facs=new Set(['TODOS']);
+    treinoData.forEach(d=>{if(d.facility) facs.add(d.facility);});
+    facSelect.innerHTML=`<option value="TODOS">Todos</option>`+Array.from(facs).filter(f=>f!=='TODOS').sort().map(f=>`<option value="${f}">${f}</option>`).join('');
+  }
+  const cursos=[...new Set(treinoData.map(d=>d.curso))].filter(Boolean).sort();
+  setupMultiSelect('dd-tr-curso', cursos, renderTreinamentos);
+}
+
+function renderTreinamentos(){
+  const busca=(document.getElementById('trSearch')?.value||'').toLowerCase();
+  const regSel=document.getElementById('tr-regional')?.value||'TODOS';
+  const facSel=document.getElementById('trFilterSVC')?.value||'TODOS';
+  const statusSel=document.getElementById('trFilterStatus')?.value||'TODOS';
+  const cursosSel=getSelectedValues('dd-tr-curso');
+
+  treinoFiltered=treinoData.filter(d=>{
+    if(regSel!=='TODOS'&&d.regional!==regSel)return false;
+    if(facSel!=='TODOS'&&d.facility!==facSel)return false;
+    if(statusSel==='PENDENTE'&&d.statusNorm!=='PENDENTE')return false;
+    if(statusSel==='CONCLUIDO'&&d.statusNorm!=='CONCLUIDO')return false;
+    if(statusSel==='CRITICO'){
+      const pendCount=treinoData.filter(x=>x.nome===d.nome&&x.statusNorm==='PENDENTE').length;
+      if(pendCount<3)return false;
+    }
+    if(cursosSel.length>0&&!cursosSel.includes(d.curso))return false;
+    if(busca&&!d.nome.toLowerCase().includes(busca)&&!d.driver_id.toLowerCase().includes(busca))return false;
     return true;
   });
-  document.getElementById('tkpi-vencidos').innerText = dadosTreinoFiltered.length;
-  document.getElementById('tkpi-total').innerText = dadosTreinoAll.length;
-  // Novos KPIs
-  const svcsComPend = new Set(dadosTreinoFiltered.map(d=>d.svc)).size;
-  const cursosComPend = new Set(dadosTreinoFiltered.map(d=>d.curso)).size;
-  const svcsEl = document.getElementById('tkpi-svcs-pend'); if(svcsEl) svcsEl.innerText = svcsComPend;
-  const cursosEl = document.getElementById('tkpi-cursos-pend'); if(cursosEl) cursosEl.innerText = cursosComPend;
 
-  const tb = document.querySelector('#tabelaTreino tbody');
-  if(tb) {
-    let html = '';
-    dadosTreinoFiltered.slice(0, 500).forEach(d => {
-      html += `<tr>
-        <td style="font-weight:600;">${d.nome}</td>
-        <td><span class="tr-svc-tag">${d.svc}</span></td>
-        <td>${d.curso}</td>
-        <td><span class="tr-status-badge">⚠️ Vencido</span></td>
-        <td style="color:#999;font-size:12px;">${d.ultimaRota||'—'}</td>
-      </tr>`;
-    });
-    tb.innerHTML = html;
-    document.getElementById('contadorTreino').innerText = `Mostrando ${Math.min(dadosTreinoFiltered.length, 500)} de ${dadosTreinoFiltered.length} registros`;
+  const pendentes=treinoFiltered.filter(d=>d.statusNorm==='PENDENTE').length;
+  const concluidos=treinoFiltered.filter(d=>d.statusNorm==='CONCLUIDO').length;
+  const drivers=new Set(treinoFiltered.map(d=>d.nome)).size;
+  const cursos=new Set(treinoFiltered.map(d=>d.curso)).size;
+  const total=treinoFiltered.length;
+  const conformidade=total?Math.round((concluidos/total)*100):0;
+
+  document.getElementById('tkpi-pendentes').innerText=pendentes;
+  document.getElementById('tkpi-concluidos').innerText=concluidos;
+  document.getElementById('tkpi-drivers').innerText=drivers;
+  document.getElementById('tkpi-conformidade').innerText=conformidade+'%';
+  document.getElementById('tkpi-cursos').innerText=cursos;
+  const criticos=treinoFiltered.filter(d=>{
+    const pendCount=treinoData.filter(x=>x.nome===d.nome&&x.statusNorm==='PENDENTE').length;
+    return pendCount>=3;
+  }).length;
+  document.getElementById('tkpi-criticos').innerText=criticos;
+  const barConc=document.getElementById('tr-bar-conc');
+  if(barConc)barConc.style.width=conformidade+'%';
+
+  atualizarResumoTreino(treinoFiltered);
+  renderTrTabela();
+  renderTrCards();
+  renderTrPendentes();
+  renderTrCursos();
+  renderTrCharts(treinoFiltered);
+}
+
+function atualizarResumoTreino(data){
+  const pendentes=data.filter(d=>d.statusNorm==='PENDENTE').length;
+  const total=data.length;
+  if(total===0){
+    document.getElementById('trResumoTitle').innerText='Aguardando carregamento...';
+    document.getElementById('trResumoText').innerText='Carregando análise...';
+    return;
   }
-  let chartData = dadosTreinoAll.filter(d => { if (!regionalSelecionadas.includes('TODOS') && !regionalSelecionadas.includes(getRegionalBySvc(d.svc, d.regional))) return false; if (svcs.length > 0 && !svcs.includes(d.svc)) return false; if (curs.length > 0 && !curs.includes(d.curso)) return false; return true; });
-  atualizarGraficosTreino(chartData);
+  if(pendentes===0){
+    document.getElementById('trResumoTitle').innerText='✅ Cenário totalmente controlado!';
+    document.getElementById('trResumoText').innerHTML='Não há cursos pendentes. Todos os motoristas estão com treinamentos em dia.';
+    document.getElementById('trMiniDrvCrit').innerText='—';
+    document.getElementById('trMiniCurCrit').innerText='—';
+    document.getElementById('trMiniFacCrit').innerText='—';
+    document.getElementById('trMiniTaxa').innerText='100%';
+    return;
+  }
+  const drvCount={};
+  data.forEach(d=>{if(d.statusNorm==='PENDENTE')drvCount[d.nome]=(drvCount[d.nome]||0)+1;});
+  const curCount={};
+  data.forEach(d=>{if(d.statusNorm==='PENDENTE')curCount[d.curso]=(curCount[d.curso]||0)+1;});
+  const facCount={};
+  data.forEach(d=>{if(d.statusNorm==='PENDENTE')facCount[d.facility]=(facCount[d.facility]||0)+1;});
+  const topDrv=Object.entries(drvCount).sort((a,b)=>b[1]-a[1])[0];
+  const topCur=Object.entries(curCount).sort((a,b)=>b[1]-a[1])[0];
+  const topFac=Object.entries(facCount).sort((a,b)=>b[1]-a[1])[0];
+  const concluidos=data.filter(d=>d.statusNorm==='CONCLUIDO').length;
+  const taxa=Math.round((concluidos/total)*100);
+
+  document.getElementById('trResumoTitle').innerText=`⚠️ ${pendentes} pendência(s) · ${drvCount?Object.keys(drvCount).length:0} motoristas com curso em aberto`;
+  document.getElementById('trResumoText').innerHTML=`A taxa de conclusão atual é de <b>${taxa}%</b>. Os principais pontos de atenção são: <b>${topDrv?topDrv[0]:'—'}</b> (motorista com mais pendências), curso <b>${topCur?topCur[0]:'—'}</b> e facility <b>${topFac?topFac[0]:'—'}</b>.`;
+  document.getElementById('trMiniDrvCrit').innerText=topDrv?topDrv[0]:'—';
+  document.getElementById('trMiniDrvCritSub').innerText=topDrv?topDrv[1]+' pendência(s)':'sem dados';
+  document.getElementById('trMiniCurCrit').innerText=topCur?topCur[0]:'—';
+  document.getElementById('trMiniCurCritSub').innerText=topCur?topCur[1]+' drivers':'sem dados';
+  document.getElementById('trMiniFacCrit').innerText=topFac?topFac[0]:'—';
+  document.getElementById('trMiniFacCritSub').innerText=topFac?topFac[1]+' pendência(s)':'sem dados';
+  document.getElementById('trMiniTaxa').innerText=taxa+'%';
 }
 
-function atualizarGraficosTreino(data) {
-  // ── Gráfico Pendências por Curso
-  const countsCursos = {};
-  data.forEach(d => countsCursos[d.curso] = (countsCursos[d.curso]||0) + 1);
-  const lbls = Object.keys(countsCursos).sort((a,b) => countsCursos[b]-countsCursos[a]).slice(0,10);
-  const vals = lbls.map(k => countsCursos[k]);
-  const colsCurso = lbls.map(k => (activeFilterCurso_Treino && activeFilterCurso_Treino !== k) ? '#e0e0e0' : '#c62828');
-  const ctx = document.getElementById('graficoCursosTreino').getContext('2d');
-  if(chartTreinoInst) chartTreinoInst.destroy();
-  chartTreinoInst = new Chart(ctx, {
-    type:'bar',
-    data:{labels:lbls, datasets:[{label:'Pendências', data:vals, backgroundColor:colsCurso, borderRadius:5}]},
-    options:{
-      maintainAspectRatio:false,
-      layout:{padding:{top:20}},
-      plugins:{
-        legend:{display:false},
-        datalabels:{
-          display:true,
-          color:'#333',
-          anchor:'end', align:'top',
-          font:{weight:'bold', size:11},
-          formatter: v => v
-        }
-      },
-      scales:{y:{beginAtZero:true, grid:{color:'#f5f5f5'}}},
-      onClick:(e,el) => { if(el.length>0) toggleTreinoCursoFilter(lbls[el[0].index]); }
-    }
+function renderTrTabela(){
+  const tb=document.getElementById('trTableBody');
+  if(!tb)return;
+  let html='';
+  treinoFiltered.slice(0,500).forEach(d=>{
+    const statusClass=d.statusNorm==='CONCLUIDO'?'ac-status-ok':'ac-status-pend';
+    html+=`<tr>
+      <td style="font-weight:700;color:#0f172a;">${d.nome}</td>
+      <td><span style="background:#f1f5f9;padding:2px 8px;border-radius:6px;font-size:11px;font-weight:700;color:#475569;">${d.driver_id}</span></td>
+      <td>${d.mlp||'—'}</td>
+      <td>${d.regional||'—'}</td>
+      <td style="font-weight:600;">${d.curso}</td>
+      <td>${d.facility}</td>
+      <td><div style="background:#e5e7eb;border-radius:999px;height:6px;width:80px;overflow:hidden;"><div style="background:linear-gradient(90deg,#16a34a,#22c55e);height:100%;width:${d.progress||0}%"></div></div><small style="font-size:10px;color:#64748b;">${d.progress||0}%</small></td>
+      <td style="font-size:11px;color:#64748b;">${d.primeira_rota||'—'}</td>
+      <td style="font-size:11px;color:#64748b;">${d.ultima_rota||'—'}</td>
+      <td><span class="${statusClass}" style="background:${d.statusNorm==='CONCLUIDO'?'#dcfce7':'#fee2e2'};color:${d.statusNorm==='CONCLUIDO'?'#15803d':'#b91c1c'};padding:3px 10px;border-radius:999px;font-size:10px;font-weight:900;">${d.statusNorm==='CONCLUIDO'?'✅ CONCLUÍDO':'⏳ PENDENTE'}</span></td>
+    </tr>`;
   });
-
-  // ── Gráfico Pendências por SVC
-  const countsSVC = {};
-  data.forEach(d => countsSVC[d.svc] = (countsSVC[d.svc]||0) + 1);
-  const lblsSVC = Object.keys(countsSVC).sort((a,b) => countsSVC[b]-countsSVC[a]);
-  const valsSVC = lblsSVC.map(k => countsSVC[k]);
-  const colsSVC = lblsSVC.map(k => (activeFilterSVC_Treino && activeFilterSVC_Treino !== k) ? '#CFD8DC' : '#3949ab');
-  const ctxSVC = document.getElementById('chartTreinoSVC').getContext('2d');
-  if(chartTreinoSVCInst) chartTreinoSVCInst.destroy();
-  chartTreinoSVCInst = new Chart(ctxSVC, {
-    type:'bar',
-    data:{labels:lblsSVC, datasets:[{label:'Pendências', data:valsSVC, backgroundColor:colsSVC, borderRadius:5}]},
-    options:{
-      responsive:true, maintainAspectRatio:false,
-      layout:{padding:{top:20}},
-      plugins:{
-        legend:{display:false},
-        datalabels:{
-          display:true,
-          color:'#333',
-          anchor:'end', align:'top',
-          font:{weight:'bold', size:11},
-          formatter: v => v
-        }
-      },
-      scales:{y:{beginAtZero:true, grid:{color:'#f5f5f5'}}},
-      onClick:(e,el) => { if(el.length>0) toggleTreinoFilter(lblsSVC[el[0].index]); }
-    }
-  });
+  tb.innerHTML=html;
+  const cnt=document.getElementById('trTableCounter');
+  if(cnt)cnt.innerText=`Mostrando ${Math.min(treinoFiltered.length,500)} de ${treinoFiltered.length} registros`;
 }
 
-function toggleTreinoFilter(svc) { activeFilterSVC_Treino = (activeFilterSVC_Treino === svc) ? null : svc; aplicarFiltrosTreino(); }
-function toggleTreinoCursoFilter(curso) { activeFilterCurso_Treino = (activeFilterCurso_Treino === curso) ? null : curso; aplicarFiltrosTreino(); }
+function renderTrCards(){
+  const grid=document.getElementById('trCardsGrid');
+  if(!grid)return;
+  const driversMap={};
+  treinoData.forEach(d=>{
+    if(!driversMap[d.nome])driversMap[d.nome]={nome:d.nome,driver_id:d.driver_id,mlp:d.mlp,regional:d.regional,facility:d.facility,cursos:[],total:0,pend:0};
+    driversMap[d.nome].cursos.push(d);
+    driversMap[d.nome].total++;
+    if(d.statusNorm==='PENDENTE')driversMap[d.nome].pend++;
+  });
+  const sorted=Object.values(driversMap).sort((a,b)=>b.pend-a.pend).slice(0,20);
+  grid.innerHTML=sorted.map(dr=>{
+    const pendList=dr.cursos.filter(c=>c.statusNorm==='PENDENTE').map(c=>`<li>${c.curso} (${c.progress||0}%)</li>`).join('');
+    return `<div style="background:white;border-radius:14px;padding:16px;box-shadow:0 2px 10px rgba(0,0,0,.06);border-left:5px solid ${dr.pend>=3?'#dc2626':dr.pend>=1?'#f97316':'#16a34a'};">
+      <div style="font-weight:900;font-size:14px;color:#0f172a;margin-bottom:4px;">${dr.nome}</div>
+      <div style="font-size:11px;color:#64748b;margin-bottom:8px;">ID: ${dr.driver_id} · MLP: ${dr.mlp} · ${dr.regional}</div>
+      <div style="display:flex;gap:8px;margin-bottom:10px;">
+        <div style="background:#fee2e2;color:#b91c1c;padding:4px 10px;border-radius:8px;font-size:11px;font-weight:900;">⚠️ ${dr.pend} pendência(s)</div>
+        <div style="background:#dcfce7;color:#15803d;padding:4px 10px;border-radius:8px;font-size:11px;font-weight:900;">✅ ${dr.total-dr.pend} OK</div>
+      </div>
+      <div style="font-size:11px;color:#334155;">Facility: <b>${dr.facility}</b></div>
+      ${pendList?`<ul style="margin:8px 0 0 0;padding-left:20px;font-size:11px;color:#475569;">${pendList}</ul>`:''}
+    </div>`;
+  }).join('')||'<div style="grid-column:1/-1;text-align:center;padding:40px;color:#888;">Nenhum driver encontrado</div>';
+}
+
+function renderTrPendentes(){
+  const grid=document.getElementById('trPendentesGrid');
+  if(!grid)return;
+  const pendentes=treinoFiltered.filter(d=>d.statusNorm==='PENDENTE');
+  grid.innerHTML=pendentes.slice(0,100).map(d=>`
+    <div style="background:white;border-radius:10px;padding:12px 14px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;border-left:4px solid #dc2626;">
+      <div>
+        <div style="font-weight:900;color:#0f172a;">${d.nome}</div>
+        <div style="font-size:11px;color:#64748b;">${d.curso} · ${d.facility} · ${d.regional}</div>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center;">
+        <span style="background:#fef3c7;color:#92400e;padding:3px 10px;border-radius:999px;font-size:11px;font-weight:900;">${d.progress||0}%</span>
+        <span style="background:#fee2e2;color:#b91c1c;padding:3px 10px;border-radius:999px;font-size:11px;font-weight:900;">⏳ PENDENTE</span>
+      </div>
+    </div>
+  `).join('')||'<div style="color:#888;text-align:center;padding:20px;">✅ Sem pendências!</div>';
+  const title=document.getElementById('trPendTitle');
+  if(title)title.innerText=`⏳ Cursos Pendentes (${pendentes.length})`;
+}
+
+function renderTrCursos(){
+  const grid=document.getElementById('trCursosGrid');
+  if(!grid)return;
+  const cursosMap={};
+  treinoFiltered.forEach(d=>{
+    if(!cursosMap[d.curso])cursosMap[d.curso]={curso:d.curso,total:0,pend:0,drivers:new Set()};
+    cursosMap[d.curso].total++;
+    if(d.statusNorm==='PENDENTE')cursosMap[d.curso].pend++;
+    cursosMap[d.curso].drivers.add(d.nome);
+  });
+  const sorted=Object.values(cursosMap).sort((a,b)=>b.pend-a.pend).slice(0,12);
+  grid.innerHTML=sorted.map(c=>`
+    <div style="background:white;border-radius:14px;padding:16px;box-shadow:0 2px 10px rgba(0,0,0,.06);border-top:4px solid ${c.pend>c.total*0.5?'#dc2626':c.pend>0?'#f97316':'#16a34a'};">
+      <div style="font-weight:900;font-size:13px;color:#0f172a;margin-bottom:8px;">📚 ${c.curso}</div>
+      <div style="display:flex;gap:6px;margin-bottom:8px;">
+        <span style="background:#dbeafe;color:#1e40af;padding:3px 8px;border-radius:6px;font-size:10px;font-weight:900;">${c.total} total</span>
+        <span style="background:#fee2e2;color:#b91c1c;padding:3px 8px;border-radius:6px;font-size:10px;font-weight:900;">${c.pend} pend.</span>
+        <span style="background:#dcfce7;color:#15803d;padding:3px 8px;border-radius:6px;font-size:10px;font-weight:900;">${c.total-c.pend} ok</span>
+      </div>
+      <div style="font-size:11px;color:#64748b;">👥 ${c.drivers.size} motoristas</div>
+    </div>
+  `).join('')||'<div style="color:#888;text-align:center;padding:20px;">Nenhum curso</div>';
+}
+
+function renderTrCharts(data){
+  const curCount={};
+  data.filter(d=>d.statusNorm==='PENDENTE').forEach(d=>{curCount[d.curso]=(curCount[d.curso]||0)+1;});
+  const topCur=Object.entries(curCount).sort((a,b)=>b[1]-a[1]).slice(0,10);
+  const ctxC=document.getElementById('trChartCurso');
+  if(ctxC){
+    if(treinoCharts.curso)treinoCharts.curso.destroy();
+    treinoCharts.curso=new Chart(ctxC.getContext('2d'),{
+      type:'bar',
+      data:{labels:topCur.map(c=>c[0]),datasets:[{label:'Pendências',data:topCur.map(c=>c[1]),backgroundColor:'#dc2626',borderRadius:6}]},
+      options:{maintainAspectRatio:false,plugins:{legend:{display:false},datalabels:{display:true,anchor:'end',color:'#0f172a',font:{weight:900,size:11},formatter:v=>v}},scales:{y:{beginAtZero:true,ticks:{precision:0}},x:{ticks:{font:{size:10}}}}}}
+    );
+  }
+  const facCount={};
+  data.filter(d=>d.statusNorm==='PENDENTE').forEach(d=>{facCount[d.facility]=(facCount[d.facility]||0)+1;});
+  const topFac=Object.entries(facCount).sort((a,b)=>b[1]-a[1]).slice(0,10);
+  const ctxF=document.getElementById('trChartSVC');
+  if(ctxF){
+    if(treinoCharts.svc)treinoCharts.svc.destroy();
+    treinoCharts.svc=new Chart(ctxF.getContext('2d'),{
+      type:'bar',
+      data:{labels:topFac.map(c=>c[0]),datasets:[{label:'Pendências',data:topFac.map(c=>c[1]),backgroundColor:'#f97316',borderRadius:6}]},
+      options:{maintainAspectRatio:false,plugins:{legend:{display:false},datalabels:{display:true,anchor:'end',color:'#0f172a',font:{weight:900,size:11},formatter:v=>v}},scales:{y:{beginAtZero:true,ticks:{precision:0}},x:{ticks:{font:{size:10}}}}}}
+    );
+  }
+  const drvCount={};
+  data.filter(d=>d.statusNorm==='PENDENTE').forEach(d=>{drvCount[d.nome]=(drvCount[d.nome]||0)+1;});
+  const topDrv=Object.entries(drvCount).sort((a,b)=>b[1]-a[1]).slice(0,10);
+  const ctxT=document.getElementById('trChartTopPend');
+  if(ctxT){
+    if(treinoCharts.topPend)treinoCharts.topPend.destroy();
+    treinoCharts.topPend=new Chart(ctxT.getContext('2d'),{
+      type:'bar',
+      data:{labels:topDrv.map(c=>c[0]),datasets:[{label:'Pendências',data:topDrv.map(c=>c[1]),backgroundColor:'#dc2626',borderRadius:6}]},
+      options:{indexAxis:'y',maintainAspectRatio:false,plugins:{legend:{display:false},datalabels:{display:true,anchor:'end',color:'#0f172a',font:{weight:900,size:11},formatter:v=>v}},scales:{x:{beginAtZero:true,ticks:{precision:0}},y:{ticks:{font:{size:10}}}}}}
+    );
+  }
+  const facAder={};
+  data.forEach(d=>{
+    if(!facAder[d.facility])facAder[d.facility]={total:0,conc:0};
+    facAder[d.facility].total++;
+    if(d.statusNorm==='CONCLUIDO')facAder[d.facility].conc++;
+  });
+  const facAderData=Object.entries(facAder).map(([f,v])=>({fac:f,taxa:v.total?Math.round((v.conc/v.total)*100):0})).sort((a,b)=>b.taxa-a.taxa).slice(0,10);
+  const ctxA=document.getElementById('trChartAder');
+  if(ctxA){
+    if(treinoCharts.ader)treinoCharts.ader.destroy();
+    treinoCharts.ader=new Chart(ctxA.getContext('2d'),{
+      type:'bar',
+      data:{labels:facAderData.map(c=>c.fac),datasets:[{label:'% Conclusão',data:facAderData.map(c=>c.taxa),backgroundColor:'#16a34a',borderRadius:6}]},
+      options:{maintainAspectRatio:false,plugins:{legend:{display:false},datalabels:{display:true,anchor:'end',color:'#0f172a',font:{weight:900,size:11},formatter:v=>v+'%'}},scales:{y:{beginAtZero:true,max:100},x:{ticks:{font:{size:10}}}}}}
+    );
+  }
+}
+
+function switchTrTab(tab){
+  document.querySelectorAll('.tr-tab-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.tr-tab-pane').forEach(p=>p.classList.remove('active'));
+  const tabs={'tabela':0,'cards':1,'pendentes':2,'cursos':3};
+  const btns=document.querySelectorAll('.tr-tab-btn');
+  if(btns[tabs[tab]])btns[tabs[tab]].classList.add('active');
+  const panes=document.querySelectorAll('.tr-tab-pane');
+  if(panes[tabs[tab]])panes[tabs[tab]].classList.add('active');
+}
+
+function sortTr(key){if(treinoSortK===key)treinoSortD=-treinoSortD;else{treinoSortK=key;treinoSortD=1;}renderTrTabela();}
+
+function clearTrFilters(){
+  document.getElementById('trSearch').value='';
+  document.getElementById('tr-regional').value='TODOS';
+  document.getElementById('trFilterSVC').value='TODOS';
+  document.getElementById('trFilterStatus').value='TODOS';
+  resetMultiSelect('dd-tr-curso');
+  renderTreinamentos();
+}
+
+function trPrintChart(chartId,title,sheetName){
+  const map={'curso':treinoCharts.curso,'svc':treinoCharts.svc,'toppend':treinoCharts.topPend,'ader':treinoCharts.ader};
+  const c=map[chartId.replace('trChart','').toLowerCase()];
+  if(c){
+    const url=c.toBase64Image();
+    const w=window.open('','_blank');
+    w.document.write(`<img src="${url}" style="max-width:100%"><title>${title}</title>`);
+  }
+}
+
+function trExcelChart(chartId,fieldName,sheetName,tabName){
+  const data=treinoFiltered.map(d=>({[fieldName]:d.curso||d.facility||d.nome}));
+  const wb=XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(data),tabName);
+  XLSX.writeFile(wb,`Treinamento_${tabName}_${new Date().toLocaleDateString('pt-BR').replace(/\//g,'-')}.xlsx`);
+}
+
+function trPrintTabela(){
+  const w=window.open('','_blank');
+  const html=`<html><head><title>Treinamentos</title><style>body{font-family:Arial;padding:20px;}table{border-collapse:collapse;width:100%;}th,td{border:1px solid #ddd;padding:6px;font-size:11px;}th{background:#0f5f2b;color:white;}</style></head><body><h2>🎓 Treinamentos Drivers</h2><table><thead><tr><th>DRIVER</th><th>ID</th><th>MLP</th><th>REGIONAL</th><th>CURSO</th><th>FACILITY</th><th>PROGRESS</th><th>STATUS</th></tr></thead><tbody>`+treinoFiltered.map(d=>`<tr><td>${d.nome}</td><td>${d.driver_id}</td><td>${d.mlp}</td><td>${d.regional}</td><td>${d.curso}</td><td>${d.facility}</td><td>${d.progress}%</td><td>${d.statusNorm}</td></tr>`).join('')+`</tbody></table></body></html>`;
+  w.document.write(html);
+  w.document.close();
+  setTimeout(()=>w.print(),300);
+}
+
+function trPrintPendentes(){
+  trPrintTabela();
+}
+
+function exportarTreinoExcel(){
+  const data=treinoFiltered.map(d=>({Driver:d.nome,Driver_ID:d.driver_id,MLP:d.mlp,Regional:d.regional,Curso:d.curso,Facility:d.facility,Progress:d.progress,Primeira_Rota:d.primeira_rota,Ultima_Rota:d.ultima_rota,Status:d.statusNorm}));
+  const wb=XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(data),'Treinamentos');
+  XLSX.writeFile(wb,`Treinamentos_${new Date().toLocaleDateString('pt-BR').replace(/\//g,'-')}.xlsx`);
+}
+
+function resetMultiSelect(id){
+  document.querySelectorAll(`#${id} input[type="checkbox"]`).forEach(i=>i.checked=false);
+  _updateMultiBtn(id);
+}
 
 /* =============================
    UTILITÁRIOS
@@ -10730,6 +11373,703 @@ function acPrintPendentes(){
   });
 })();
 
+</script>
+
+
+<!-- ECO EXPRESS 360º — TRANSPLANTE V64: aba 🎓 TREINAMENTOS DRIVERS final -->
+<style id="tr-executivo-v56-style">
+#abaTreinamentos .tr-header{
+  background:
+    radial-gradient(circle at 8% 0%, rgba(134,239,172,.30) 0, transparent 28%),
+    radial-gradient(circle at 100% 18%, rgba(59,130,246,.22) 0, transparent 30%),
+    linear-gradient(135deg,#06160c 0%,#0b2f18 45%,#14532d 100%) !important;
+  border:1px solid rgba(255,255,255,.12) !important;
+  border-radius:22px !important;
+  padding:26px 30px !important;
+  box-shadow:0 18px 44px rgba(6,22,12,.34) !important;
+}
+#abaTreinamentos .tr-header::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.06),transparent);
+  transform:translateX(-100%);
+  animation:trV56Sheen 8s ease-in-out infinite;
+  pointer-events:none;
+}
+@keyframes trV56Sheen{0%,80%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
+#abaTreinamentos .tr-header h2{
+  font-size:25px !important;
+  letter-spacing:2.4px !important;
+  line-height:1.1 !important;
+  background:linear-gradient(90deg,#fff 0%,#bbf7d0 100%) !important;
+  -webkit-background-clip:text !important;
+  -webkit-text-fill-color:transparent !important;
+  background-clip:text !important;
+}
+#abaTreinamentos .tr-header p{font-size:13px !important;opacity:.82 !important;max-width:760px !important;}
+#abaTreinamentos .tr-header .btn-action{
+  border-radius:999px !important;
+  box-shadow:0 7px 18px rgba(0,0,0,.18) !important;
+  backdrop-filter:blur(8px) !important;
+}
+
+#abaTreinamentos .tr-kpis-row{
+  grid-template-columns:repeat(6,minmax(150px,1fr)) !important;
+  gap:14px !important;
+  margin-bottom:18px !important;
+}
+#abaTreinamentos .tr-kpi{
+  --tr-accent:#2563eb;
+  --tr-soft:#eff6ff;
+  border:1px solid #e5e7eb !important;
+  border-left:6px solid var(--tr-accent) !important;
+  border-top:0 !important;
+  border-radius:18px !important;
+  padding:18px 18px 16px !important;
+  min-height:126px !important;
+  background:
+    radial-gradient(circle at 95% 8%, var(--tr-soft) 0, transparent 34%),
+    linear-gradient(180deg,#ffffff 0%,#fbfcff 100%) !important;
+  box-shadow:0 9px 26px rgba(15,23,42,.09) !important;
+  overflow:hidden !important;
+  position:relative !important;
+}
+#abaTreinamentos .tr-kpi:hover{transform:translateY(-4px) !important;box-shadow:0 14px 34px rgba(15,23,42,.14) !important;}
+#abaTreinamentos .tr-kpi::after{
+  content:'';
+  position:absolute;
+  top:14px;right:14px;
+  width:36px;height:36px;border-radius:14px;
+  background:var(--tr-soft);
+  border:1px solid rgba(15,23,42,.04);
+}
+#abaTreinamentos .tr-kpi.red{--tr-accent:#dc2626;--tr-soft:#fff1f2;}
+#abaTreinamentos .tr-kpi.green{--tr-accent:#16a34a;--tr-soft:#f0fdf4;}
+#abaTreinamentos .tr-kpi.blue{--tr-accent:#2563eb;--tr-soft:#eff6ff;}
+#abaTreinamentos .tr-kpi.teal{--tr-accent:#0891b2;--tr-soft:#ecfeff;}
+#abaTreinamentos .tr-kpi.orange{--tr-accent:#f97316;--tr-soft:#fff7ed;}
+#abaTreinamentos .tr-kpi.crit{--tr-accent:#7f1d1d;--tr-soft:#fef2f2;}
+#abaTreinamentos .tr-kpi-val{
+  color:#0f172a !important;
+  font-size:34px !important;
+  line-height:1 !important;
+  letter-spacing:-1px !important;
+  position:relative !important;
+  z-index:1 !important;
+}
+#abaTreinamentos .tr-kpi-lbl{
+  color:#334155 !important;
+  font-size:11px !important;
+  font-weight:950 !important;
+  letter-spacing:.9px !important;
+  position:relative !important;
+  z-index:1 !important;
+}
+#abaTreinamentos .tr-kpi-sub{
+  color:#64748b !important;
+  font-size:11.5px !important;
+  font-weight:750 !important;
+  position:relative !important;
+  z-index:1 !important;
+}
+#abaTreinamentos .tr-kpi-bar{height:8px !important;background:#e5e7eb !important;margin-top:12px !important;}
+#abaTreinamentos .tr-kpi-bar-fill{background:linear-gradient(90deg,#16a34a,#86efac) !important;}
+
+#abaTreinamentos .tr-resumo-exec{
+  background:
+    radial-gradient(circle at 0% 0%, rgba(34,197,94,.14) 0, transparent 32%),
+    linear-gradient(135deg,#ffffff 0%,#f8fafc 55%,#f0fdf4 100%) !important;
+  border:1px solid #dcfce7 !important;
+  border-left:8px solid #16a34a !important;
+  border-radius:22px !important;
+  box-shadow:0 10px 30px rgba(15,23,42,.10) !important;
+}
+#abaTreinamentos .tr-resumo-exec.tr-v56-warn{border-left-color:#f97316 !important;background:linear-gradient(135deg,#fff 0%,#fff7ed 100%) !important;}
+#abaTreinamentos .tr-resumo-exec.tr-v56-crit{border-left-color:#dc2626 !important;background:linear-gradient(135deg,#fff 0%,#fff1f2 100%) !important;}
+#abaTreinamentos .tr-resumo-title{font-size:21px !important;color:#0f172a !important;}
+#abaTreinamentos .tr-resumo-text b{color:#14532d !important;}
+#abaTreinamentos .tr-mini{border-radius:15px !important;box-shadow:0 5px 16px rgba(15,23,42,.07) !important;}
+
+#abaTreinamentos .tr-chart-box{
+  border:1px solid #e5e7eb !important;
+  border-radius:18px !important;
+  box-shadow:0 9px 26px rgba(15,23,42,.08) !important;
+  background:linear-gradient(180deg,#fff 0%,#fbfdff 100%) !important;
+}
+#abaTreinamentos .tr-chart-box.tr-facility-chart-v56{
+  border-left:7px solid #16a34a !important;
+  background:
+    radial-gradient(circle at 96% 0%, rgba(34,197,94,.10) 0, transparent 32%),
+    linear-gradient(180deg,#fff 0%,#f8fffa 100%) !important;
+}
+#abaTreinamentos .tr-chart-title{
+  color:#0f172a !important;
+  font-size:14px !important;
+  font-weight:950 !important;
+  letter-spacing:.2px !important;
+}
+#abaTreinamentos .tr-click-hint{
+  background:#ecfdf5 !important;
+  color:#166534 !important;
+  border:1px solid #bbf7d0 !important;
+}
+
+#abaTreinamentos #trCardsGrid{
+  grid-template-columns:repeat(auto-fill,minmax(355px,1fr)) !important;
+  gap:18px !important;
+}
+#abaTreinamentos .tr-course-exec-v56{
+  --tr-card-accent:#16a34a;
+  --tr-card-soft:#f0fdf4;
+  background:
+    radial-gradient(circle at 100% 0%, var(--tr-card-soft) 0, transparent 38%),
+    linear-gradient(180deg,#fff 0%,#fbfdff 100%);
+  border:1px solid #e5e7eb;
+  border-left:7px solid var(--tr-card-accent);
+  border-radius:22px;
+  padding:17px;
+  min-height:250px;
+  box-shadow:0 10px 28px rgba(15,23,42,.10);
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  transition:transform .18s ease, box-shadow .18s ease;
+}
+#abaTreinamentos .tr-course-exec-v56:hover{transform:translateY(-4px);box-shadow:0 16px 38px rgba(15,23,42,.15);}
+#abaTreinamentos .tr-course-exec-v56.warn{--tr-card-accent:#f97316;--tr-card-soft:#fff7ed;}
+#abaTreinamentos .tr-course-exec-v56.crit{--tr-card-accent:#dc2626;--tr-card-soft:#fff1f2;}
+#abaTreinamentos .tr-course-exec-head-v56{display:flex;justify-content:space-between;gap:14px;align-items:flex-start;}
+#abaTreinamentos .tr-course-exec-title-v56{font-size:15px;font-weight:950;color:#0f172a;line-height:1.25;}
+#abaTreinamentos .tr-course-exec-sub-v56{font-size:10.5px;font-weight:850;color:#64748b;margin-top:4px;}
+#abaTreinamentos .tr-course-exec-score-v56{
+  min-width:66px;text-align:center;border-radius:18px;padding:8px 10px;
+  background:var(--tr-card-soft);color:var(--tr-card-accent);font-size:15px;font-weight:950;
+  border:1px solid rgba(15,23,42,.05);
+}
+#abaTreinamentos .tr-course-exec-status-v56{font-size:9px;text-transform:uppercase;letter-spacing:.8px;font-weight:950;color:#64748b;margin-top:2px;}
+#abaTreinamentos .tr-course-exec-bar-v56{height:11px;border-radius:999px;background:#e5e7eb;overflow:hidden;}
+#abaTreinamentos .tr-course-exec-bar-v56 span{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--tr-card-accent),#86efac);}
+#abaTreinamentos .tr-course-exec-v56.warn .tr-course-exec-bar-v56 span{background:linear-gradient(90deg,#f97316,#fdba74);}
+#abaTreinamentos .tr-course-exec-v56.crit .tr-course-exec-bar-v56 span{background:linear-gradient(90deg,#dc2626,#fb7185);}
+#abaTreinamentos .tr-course-exec-kpis-v56,
+#abaTreinamentos .tr-course-exec-focus-v56{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
+#abaTreinamentos .tr-course-exec-focus-v56{grid-template-columns:1fr 1fr;margin-top:auto;}
+#abaTreinamentos .tr-course-exec-kpis-v56 div,
+#abaTreinamentos .tr-course-exec-focus-v56 div{
+  background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:9px;min-width:0;
+  box-shadow:0 3px 10px rgba(15,23,42,.045);
+}
+#abaTreinamentos .tr-course-exec-kpis-v56 small,
+#abaTreinamentos .tr-course-exec-focus-v56 small{display:block;color:#94a3b8;font-size:8.5px;font-weight:950;text-transform:uppercase;line-height:1.05;}
+#abaTreinamentos .tr-course-exec-kpis-v56 b{display:block;color:#111827;font-size:14px;font-weight:950;margin-top:4px;}
+#abaTreinamentos .tr-course-exec-focus-v56 b{display:block;color:#334155;font-size:11px;font-weight:950;margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+#abaTreinamentos .tr-course-exec-action-v56{display:flex;justify-content:space-between;align-items:center;gap:10px;}
+#abaTreinamentos .tr-course-exec-action-v56 span{font-size:11px;color:#475569;font-weight:850;}
+#abaTreinamentos .tr-course-exec-action-v56 button{
+  border:0;border-radius:999px;padding:7px 12px;background:#14532d;color:#fff;font-size:10.5px;font-weight:950;cursor:pointer;
+  box-shadow:0 5px 12px rgba(20,83,45,.22);
+}
+#abaTreinamentos .tr-course-exec-action-v56 button:hover{background:#0f3d21;transform:translateY(-1px);}
+
+@media(max-width:1250px){#abaTreinamentos .tr-kpis-row{grid-template-columns:repeat(3,minmax(0,1fr)) !important;}}
+@media(max-width:820px){#abaTreinamentos .tr-kpis-row{grid-template-columns:repeat(2,minmax(0,1fr)) !important;}#abaTreinamentos #trCardsGrid{grid-template-columns:1fr !important;}}
+@media(max-width:620px){#abaTreinamentos .tr-kpis-row{grid-template-columns:1fr !important;}#abaTreinamentos .tr-course-exec-kpis-v56{grid-template-columns:repeat(2,1fr);}#abaTreinamentos .tr-course-exec-focus-v56{grid-template-columns:1fr;}}
+
+
+
+/* V62: CSS horizontal V58 removido para restaurar o padrão original da aba Treinamentos. */
+</style>
+
+<script id="tr-executivo-v56-script">
+(function(){
+  function esc(v){return String(v??'').replace(/[&<>"']/g,function(m){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m];});}
+  function txt(v){return String(v??'').replace(/\s+/g,' ').trim();}
+  function countBy(list,getter){
+    const m={};
+    (list||[]).forEach(function(item){
+      const k=txt(typeof getter==='function'?getter(item):item)||'N/I';
+      m[k]=(m[k]||0)+1;
+    });
+    return Object.entries(m).sort(function(a,b){return b[1]-a[1]||a[0].localeCompare(b[0],'pt-BR');});
+  }
+  function rateBy(list,getter){
+    const m={};
+    (list||[]).forEach(function(d){
+      const k=txt(getter(d))||'N/I';
+      if(!m[k])m[k]={key:k,total:0,ok:0,pend:0};
+      m[k].total++;
+      if(d.statusNorm==='CONCLUIDO')m[k].ok++;
+      if(d.statusNorm==='PENDENTE')m[k].pend++;
+    });
+    return Object.values(m).map(function(x){return {...x,taxa:x.total?Math.round((x.ok/x.total)*100):0};});
+  }
+  function setText(id,v){const el=document.getElementById(id);if(el)el.textContent=v;}
+  function setHTML(id,v){const el=document.getElementById(id);if(el)el.innerHTML=v;}
+  function setKpiTexts(){
+    const labels={
+      'tkpi-pendentes':['⚠️ Pendências','Cursos em aberto'],
+      'tkpi-concluidos':['✅ Concluídos','Cursos finalizados'],
+      'tkpi-drivers':['👥 Drivers','Motoristas monitorados'],
+      'tkpi-conformidade':['🛡️ Aderência Geral','Conclusão dos cursos'],
+      'tkpi-cursos':['📚 Cursos Ativos','Cursos distintos'],
+      'tkpi-criticos':['🔴 Drivers Críticos','3+ pendências']
+    };
+    Object.keys(labels).forEach(function(id){
+      const card=document.getElementById(id)?.closest('.tr-kpi');
+      if(!card)return;
+      const lbl=card.querySelector('.tr-kpi-lbl');
+      const sub=card.querySelector('.tr-kpi-sub');
+      if(lbl)lbl.textContent=labels[id][0];
+      if(sub)sub.textContent=labels[id][1];
+    });
+  }
+  function getCourses(){
+    if(typeof getSelectedValues==='function')return getSelectedValues('dd-tr-curso');
+    return Array.from(document.querySelectorAll('#dd-tr-curso input[type="checkbox"]:checked')).map(function(c){return c.value;});
+  }
+  function setOnlyCourse(course){
+    const current=getCourses();
+    const same=current.length===1&&current[0]===course;
+    document.querySelectorAll('#dd-tr-curso input[type="checkbox"]').forEach(function(ch){ch.checked=same?false:ch.value===course;});
+    if(typeof _updateMultiBtn==='function')_updateMultiBtn('dd-tr-curso');
+    return !same;
+  }
+  function toggleSelect(id,value){
+    const el=document.getElementById(id);
+    if(!el)return false;
+    const same=el.value===value;
+    el.value=same?'TODOS':value;
+    return !same;
+  }
+  function toggleSearch(value){
+    const el=document.getElementById('trSearch');
+    if(!el)return false;
+    const same=(el.value||'').trim()===String(value||'').trim();
+    el.value=same?'':value;
+    return !same;
+  }
+  function destroyChart(key){
+    if(typeof treinoCharts==='undefined')return;
+    if(treinoCharts[key]){try{treinoCharts[key].destroy();}catch(e){} treinoCharts[key]=null;}
+  }
+  function clickOpt(type,labels,opts){
+    opts=opts||{};
+    opts.onClick=function(evt,elements,chart){
+      if(!elements||!elements.length)return;
+      const idx=elements[0].index;
+      const label=(labels&&labels[idx])||chart.data.labels[idx];
+      window.trApplyChartFilterV56(type,label);
+    };
+    opts.onHover=function(evt,elements){if(evt&&evt.native&&evt.native.target)evt.native.target.style.cursor=elements&&elements.length?'pointer':'default';};
+    return opts;
+  }
+  function chartColorByRate(v){return v>=95?'#16a34a':(v>=80?'#f97316':'#dc2626');}
+  function hint(title){
+    if(!title||title.querySelector('.tr-click-hint'))return;
+    const s=document.createElement('span');
+    s.className='tr-click-hint';
+    s.textContent='';
+    title.appendChild(s);
+  }
+  function titleFor(canvasId,text){
+    const canvas=document.getElementById(canvasId);
+    const box=canvas?.closest('.tr-chart-box');
+    const title=box?.querySelector('.tr-chart-title');
+    if(box&&canvasId==='trChartAder')box.classList.add('tr-facility-chart-v56');
+    if(title){
+      for(const node of title.childNodes){
+        if(node.nodeType===3){node.nodeValue=text+' ';break;}
+      }
+      hint(title);
+    }
+  }
+  function adjustStaticTexts(){
+    const head=document.querySelector('#abaTreinamentos .tr-header');
+    if(head){
+      const eyebrow=head.querySelector('div[style*="letter-spacing"]');
+      const h2=head.querySelector('h2');
+      const p=head.querySelector('p');
+      if(eyebrow)eyebrow.textContent='ECO EXPRESS 360º · CAPACITAÇÃO OPERACIONAL';
+      if(h2)h2.innerHTML='🎓 TREINAMENTOS DRIVERS';
+      if(p)p.textContent='Leitura gerencial de aderência por curso, driver, regional e facility · Base: Consolidado treinamentos';
+    }
+    const resumo=document.querySelector('#abaTreinamentos .tr-resumo-eyebrow');
+    if(resumo)resumo.textContent='VISÃO GERENCIAL DE CAPACITAÇÃO';
+    document.querySelectorAll('#abaTreinamentos .tr-tab-btn').forEach(function(btn){
+      if((btn.textContent||'').includes('Cards')||(btn.textContent||'').includes('Aderência'))btn.innerHTML='📚 Aderência dos Cursos';
+    });
+    titleFor('trChartAder','🏅 Aderência por Facility');
+    titleFor('trChartCursoAder','📚 Aderência por Curso');
+    titleFor('trChartRegAder','🌎 Aderência por Regionais');
+    titleFor('trChartCurso','📚 Pendências por Curso');
+    titleFor('trChartSVC','🏢 Pendências por Facility/SVC');
+    titleFor('trChartTopPend','🏆 Top 10 Drivers com Pendências');
+    setKpiTexts();
+  }
+
+  window.trApplyChartFilterV56=function(type,value){
+    value=txt(value);
+    if(!value)return;
+    if(type==='course')setOnlyCourse(value);
+    if(type==='facility')toggleSelect('trFilterSVC',value);
+    if(type==='regional')toggleSelect('tr-regional',value);
+    if(type==='driver')toggleSearch(value);
+    if(typeof renderTreinamentos==='function')renderTreinamentos();
+  };
+  window.trSetCourseFilterV56=function(course){
+    setOnlyCourse(course);
+    if(typeof renderTreinamentos==='function')renderTreinamentos();
+    if(typeof switchTrTab==='function')switchTrTab('cards');
+  };
+
+  window.atualizarResumoTreino=function(data){
+    data=data||[];
+    adjustStaticTexts();
+    const total=data.length;
+    const pend=data.filter(function(d){return d.statusNorm==='PENDENTE';}).length;
+    const ok=data.filter(function(d){return d.statusNorm==='CONCLUIDO';}).length;
+    const taxa=total?Math.round((ok/total)*100):0;
+    const painel=document.getElementById('trResumoExec');
+    if(painel){
+      painel.classList.remove('tr-v56-ok','tr-v56-warn','tr-v56-crit');
+      painel.classList.add(taxa>=95?'tr-v56-ok':(taxa>=80?'tr-v56-warn':'tr-v56-crit'));
+    }
+    if(!total){
+      setText('trResumoTitle','Aguardando dados para montar a leitura executiva.');
+      setHTML('trResumoText','Atualize a base ou ajuste os filtros para visualizar aderência, ofensores e prioridades.');
+      ['trMiniDrvCrit','trMiniCurCrit','trMiniFacCrit','trMiniRegCrit'].forEach(function(id){setText(id,'—');});
+      setText('trMiniTaxa','—');
+      return;
+    }
+    const pendData=data.filter(function(d){return d.statusNorm==='PENDENTE';});
+    const topCurso=countBy(pendData,function(d){return d.curso;})[0];
+    const topFac=countBy(pendData,function(d){return d.facility;})[0];
+    const topReg=countBy(pendData,function(d){return d.regional;})[0];
+    const byDriver={};
+    data.forEach(function(d){
+      const k=d.driver_key||d.driver_id||d.nome;
+      if(!byDriver[k])byDriver[k]={nome:d.nome,id:d.driver_id,pend:0,total:0};
+      byDriver[k].total++;
+      if(d.statusNorm==='PENDENTE')byDriver[k].pend++;
+    });
+    const topDrv=Object.values(byDriver).sort(function(a,b){return b.pend-a.pend||a.nome.localeCompare(b.nome,'pt-BR');})[0];
+    const statusTxt=taxa>=95?'Cenário controlado':(taxa>=80?'Atenção operacional':'Prioridade crítica');
+    setText('trResumoTitle',`${statusTxt}: ${taxa}% de aderência · ${pend} pendência(s) em ${total} registro(s)`);
+    setHTML('trResumoText', pend
+      ? `Priorize o curso <b>${esc(topCurso?.[0]||'—')}</b>, a facility <b>${esc(topFac?.[0]||'—')}</b> e a regional <b>${esc(topReg?.[0]||'—')}</b>. Os gráficos são clicáveis e filtram a visão executiva em tempo real.`
+      : `Todos os cursos filtrados estão concluídos. Use os gráficos para navegar por facility, curso, regional e driver.`
+    );
+    setText('trMiniDrvCrit',topDrv?.nome||'—');
+    setText('trMiniDrvCritSub',topDrv?`ID ${topDrv.id} · ${topDrv.pend} pend.`:'sem dados');
+    setText('trMiniCurCrit',topCurso?topCurso[0]:'—');
+    setText('trMiniCurCritSub',topCurso?topCurso[1]+' pend.':'sem dados');
+    setText('trMiniFacCrit',topFac?topFac[0]:'—');
+    setText('trMiniFacCritSub',topFac?topFac[1]+' pend.':'sem dados');
+    setText('trMiniRegCrit',topReg?topReg[0]:'—');
+    setText('trMiniRegCritSub',topReg?topReg[1]+' pend.':'sem dados');
+    setText('trMiniTaxa',taxa+'%');
+  };
+
+  window.renderTrCards=function(){
+    const grid=document.getElementById('trCardsGrid');
+    if(!grid)return;
+    const cursos={};
+    (treinoFiltered||[]).forEach(function(d){
+      const c=txt(d.curso)||'N/I';
+      if(!cursos[c])cursos[c]={curso:c,total:0,ok:0,pend:0,drivers:new Set(),fac:[],reg:[]};
+      cursos[c].total++;
+      cursos[c].drivers.add(d.driver_key||d.driver_id||d.nome);
+      cursos[c].fac.push(d.facility);
+      cursos[c].reg.push(d.regional);
+      if(d.statusNorm==='CONCLUIDO')cursos[c].ok++;
+      if(d.statusNorm==='PENDENTE')cursos[c].pend++;
+    });
+    const cards=Object.values(cursos).map(function(c){
+      return {...c,taxa:c.total?Math.round((c.ok/c.total)*100):0,topFac:countBy(c.fac)[0],topReg:countBy(c.reg)[0]};
+    }).sort(function(a,b){return a.taxa-b.taxa||b.pend-a.pend||a.curso.localeCompare(b.curso,'pt-BR');});
+    grid.innerHTML=cards.map(function(c){
+      const cls=c.taxa>=95?'':(c.taxa>=80?'warn':'crit');
+      const status=c.taxa>=95?'Controlado':(c.taxa>=80?'Atenção':'Prioridade');
+      return `<div class="tr-course-exec-v56 ${cls}">
+        <div class="tr-course-exec-head-v56">
+          <div>
+            <div class="tr-course-exec-title-v56">📚 ${esc(c.curso)}</div>
+            <div class="tr-course-exec-sub-v56">Aderência consolidada por curso</div>
+          </div>
+          <div class="tr-course-exec-score-v56">${c.taxa}%<div class="tr-course-exec-status-v56">${status}</div></div>
+        </div>
+        <div class="tr-course-exec-bar-v56"><span style="width:${c.taxa}%"></span></div>
+        <div class="tr-course-exec-kpis-v56">
+          <div><small>Total</small><b>${c.total}</b></div>
+          <div><small>Drivers</small><b>${c.drivers.size}</b></div>
+          <div><small>OK</small><b>${c.ok}</b></div>
+          <div><small>Pend.</small><b>${c.pend}</b></div>
+        </div>
+        <div class="tr-course-exec-focus-v56">
+          <div><small>Facility foco</small><b title="${esc(c.topFac?.[0]||'—')}">${esc(c.topFac?.[0]||'—')}</b></div>
+          <div><small>Regional foco</small><b title="${esc(c.topReg?.[0]||'—')}">${esc(c.topReg?.[0]||'—')}</b></div>
+        </div>
+        <div class="tr-course-exec-action-v56">
+          <span>${c.pend?`${c.pend} pendência(s) para atacar`:'Curso em dia'}</span>
+          <button data-course="${esc(c.curso)}" onclick="window.trSetCourseFilterV56(this.dataset.course)">Filtrar curso</button>
+        </div>
+      </div>`;
+    }).join('')||'<div style="grid-column:1/-1;text-align:center;padding:40px;color:#64748b;font-weight:950;">Nenhum curso encontrado para os filtros atuais.</div>';
+  };
+
+  window.renderTrCharts=function(data){
+    if(typeof Chart==='undefined')return;
+    data=data||[];
+    adjustStaticTexts();
+    const pend=data.filter(function(d){return d.statusNorm==='PENDENTE';});
+    const basePlugins={legend:{display:false},datalabels:{display:true,anchor:'end',align:'end',clip:false,color:'#0f172a',font:{weight:900,size:11}}};
+
+    const cursoPend=countBy(pend,function(d){return d.curso;}).slice(0,10);
+    const ctxCurso=document.getElementById('trChartCurso');
+    if(ctxCurso){destroyChart('curso');treinoCharts.curso=new Chart(ctxCurso.getContext('2d'),{type:'bar',data:{labels:cursoPend.map(x=>x[0]),datasets:[{label:'Pendências',data:cursoPend.map(x=>x[1]),backgroundColor:'#dc2626',borderRadius:8}]},options:clickOpt('course',cursoPend.map(x=>x[0]),{maintainAspectRatio:false,plugins:{...basePlugins,datalabels:{...basePlugins.datalabels,formatter:v=>v}},scales:{y:{beginAtZero:true,ticks:{precision:0}},x:{grid:{display:false},ticks:{font:{size:10,weight:'700'}}}}})});}
+
+    const facPend=countBy(pend,function(d){return d.facility;}).slice(0,10);
+    const ctxSVC=document.getElementById('trChartSVC');
+    if(ctxSVC){destroyChart('svc');treinoCharts.svc=new Chart(ctxSVC.getContext('2d'),{type:'bar',data:{labels:facPend.map(x=>x[0]),datasets:[{label:'Pendências',data:facPend.map(x=>x[1]),backgroundColor:'#f97316',borderRadius:8}]},options:clickOpt('facility',facPend.map(x=>x[0]),{maintainAspectRatio:false,plugins:{...basePlugins,datalabels:{...basePlugins.datalabels,formatter:v=>v}},scales:{y:{beginAtZero:true,ticks:{precision:0}},x:{grid:{display:false},ticks:{font:{size:10,weight:'700'}}}}})});}
+
+    const topDrivers=Object.values(pend.reduce(function(acc,d){const k=d.driver_key||d.driver_id||d.nome;if(!acc[k])acc[k]={label:`${d.nome} · ${d.driver_id}`,filter:d.driver_id||d.nome,pend:0};acc[k].pend++;return acc;},{})).sort(function(a,b){return b.pend-a.pend;}).slice(0,10);
+    const ctxTop=document.getElementById('trChartTopPend');
+    if(ctxTop){destroyChart('topPend');treinoCharts.topPend=new Chart(ctxTop.getContext('2d'),{type:'bar',data:{labels:topDrivers.map(x=>x.label),datasets:[{label:'Pendências',data:topDrivers.map(x=>x.pend),backgroundColor:'#dc2626',borderRadius:8}]},options:clickOpt('driver',topDrivers.map(x=>x.filter),{indexAxis:'y',maintainAspectRatio:false,plugins:{...basePlugins,datalabels:{...basePlugins.datalabels,formatter:v=>v}},scales:{x:{beginAtZero:true,ticks:{precision:0}},y:{grid:{display:false},ticks:{font:{size:10,weight:'700'}}}}})});}
+
+    const facAder=rateBy(data,function(d){return d.facility;}).filter(x=>x.key&&x.key!=='N/I').sort(function(a,b){return a.taxa-b.taxa||b.pend-a.pend||b.total-a.total;}).slice(0,15);
+    const ctxA=document.getElementById('trChartAder');
+    if(ctxA){
+      destroyChart('ader');
+      treinoCharts.ader=new Chart(ctxA.getContext('2d'),{
+        type:'bar',
+        data:{
+          labels:facAder.map(x=>x.key),
+          datasets:[{
+            label:'% Aderência',
+            data:facAder.map(x=>x.taxa),
+            backgroundColor:facAder.map(x=>chartColorByRate(x.taxa)),
+            borderRadius:10,
+            barThickness:28,
+            maxBarThickness:36,
+            categoryPercentage:.72,
+            barPercentage:.88
+          }]
+        },
+        options:clickOpt('facility',facAder.map(x=>x.key),{
+          maintainAspectRatio:false,
+          plugins:{
+            legend:{display:false},
+            tooltip:{callbacks:{label:function(ctx){const item=facAder[ctx.dataIndex];return `${ctx.raw}% aderência · ${item.ok} OK · ${item.pend} pend. · ${item.total} total`;}}},
+            datalabels:{display:true,anchor:'end',align:'top',offset:2,clamp:true,color:'#0f172a',font:{weight:950,size:11},formatter:v=>v+'%'}
+          },
+          scales:{
+            y:{beginAtZero:true,max:100,grid:{color:'rgba(15,23,42,.06)'},ticks:{callback:v=>v+'%',font:{size:10,weight:'800'}}},
+            x:{grid:{display:false},ticks:{font:{size:10,weight:'850'},color:'#334155',maxRotation:45,minRotation:0,autoSkip:false}}
+          }
+        })
+      });
+    }
+
+    const cursoAder=rateBy(data,function(d){return d.curso;}).sort(function(a,b){return a.taxa-b.taxa||b.pend-a.pend;}).slice(0,12);
+    const ctxCursoAder=document.getElementById('trChartCursoAder');
+    if(ctxCursoAder){destroyChart('cursoAder');treinoCharts.cursoAder=new Chart(ctxCursoAder.getContext('2d'),{type:'bar',data:{labels:cursoAder.map(x=>x.key),datasets:[{label:'% Aderência',data:cursoAder.map(x=>x.taxa),backgroundColor:cursoAder.map(x=>chartColorByRate(x.taxa)),borderRadius:8}]},options:clickOpt('course',cursoAder.map(x=>x.key),{indexAxis:'y',maintainAspectRatio:false,plugins:{...basePlugins,datalabels:{...basePlugins.datalabels,formatter:v=>v+'%'}},scales:{x:{beginAtZero:true,max:100,ticks:{callback:v=>v+'%'}},y:{grid:{display:false},ticks:{font:{size:10,weight:'700'}}}}})});}
+
+    const regAder=rateBy(data,function(d){return d.regional;}).sort(function(a,b){return a.taxa-b.taxa||b.pend-a.pend;}).slice(0,12);
+    const ctxReg=document.getElementById('trChartRegAder');
+    if(ctxReg){destroyChart('regAder');treinoCharts.regAder=new Chart(ctxReg.getContext('2d'),{type:'bar',data:{labels:regAder.map(x=>x.key),datasets:[{label:'% Aderência',data:regAder.map(x=>x.taxa),backgroundColor:regAder.map(x=>chartColorByRate(x.taxa)),borderRadius:8}]},options:clickOpt('regional',regAder.map(x=>x.key),{maintainAspectRatio:false,plugins:{...basePlugins,datalabels:{...basePlugins.datalabels,formatter:v=>v+'%'}},scales:{y:{beginAtZero:true,max:100,ticks:{callback:v=>v+'%'}},x:{grid:{display:false},ticks:{font:{size:10,weight:'700'}}}}})});}
+  };
+
+  window.trPrintChart=function(chartId,title,sheetName){
+    const keyMap={trChartCurso:'curso',trChartSVC:'svc',trChartTopPend:'topPend',trChartAder:'ader',trChartCursoAder:'cursoAder',trChartRegAder:'regAder'};
+    const c=(typeof treinoCharts!=='undefined')?treinoCharts[keyMap[chartId]]:null;
+    if(c){const url=c.toBase64Image();const w=window.open('','_blank');if(w){w.document.write(`<img src="${url}" style="max-width:100%"><title>${esc(title||'Treinamentos')}</title>`);w.document.close();}}
+  };
+
+  document.addEventListener('DOMContentLoaded',adjustStaticTexts);
+  setTimeout(adjustStaticTexts,500);
+})();
+</script>
+
+<style id="eco-v63-treinamentos-compacto">
+/* Remove somente o visual esticado que sobrou da V58 na aba Treinamentos. */
+#abaTreinamentos .container{
+  max-width:1800px !important;
+  width:auto !important;
+  margin:20px auto !important;
+  padding:0 20px !important;
+}
+
+#abaTreinamentos .tr-header{
+  width:auto !important;
+  display:flex !important;
+  justify-content:space-between !important;
+  align-items:center !important;
+  flex-wrap:wrap !important;
+  gap:16px !important;
+  padding:24px 30px !important;
+}
+#abaTreinamentos .tr-header > div:first-child{
+  width:auto !important;
+  min-width:0 !important;
+  flex:1 1 420px !important;
+}
+#abaTreinamentos .tr-header h2{
+  width:auto !important;
+  max-width:none !important;
+  white-space:normal !important;
+  font-size:22px !important;
+  line-height:1.2 !important;
+  letter-spacing:2px !important;
+  margin:0 !important;
+}
+#abaTreinamentos .tr-header p{
+  max-width:760px !important;
+  width:auto !important;
+  font-size:12px !important;
+  margin-top:6px !important;
+}
+#abaTreinamentos .tr-header > div:nth-child(2){
+  justify-content:flex-end !important;
+  min-width:auto !important;
+  flex:0 1 auto !important;
+}
+
+#abaTreinamentos .tr-kpis-row{
+  display:grid !important;
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr)) !important;
+  gap:16px !important;
+  width:auto !important;
+  margin-bottom:22px !important;
+}
+#abaTreinamentos .tr-kpi{
+  padding:20px 22px !important;
+  min-height:auto !important;
+}
+#abaTreinamentos .tr-kpi-val{
+  font-size:30px !important;
+}
+
+#abaTreinamentos .tr-resumo-exec{
+  width:auto !important;
+  display:grid !important;
+  grid-template-columns:1.15fr 1.85fr !important;
+  align-items:center !important;
+  gap:14px !important;
+  padding:18px 22px !important;
+  margin-bottom:18px !important;
+}
+#abaTreinamentos .tr-resumo-title{
+  font-size:18px !important;
+}
+#abaTreinamentos .tr-resumo-grid{
+  display:grid !important;
+  grid-template-columns:repeat(auto-fit,minmax(135px,1fr)) !important;
+  gap:10px !important;
+}
+#abaTreinamentos .tr-mini{
+  padding:10px 12px !important;
+}
+
+#abaTreinamentos .tr-filters{
+  width:auto !important;
+  display:flex !important;
+  flex-wrap:wrap !important;
+  gap:14px !important;
+  align-items:flex-end !important;
+}
+#abaTreinamentos .tr-filters > div{
+  min-width:180px !important;
+}
+
+#abaTreinamentos .tr-charts,
+#abaTreinamentos .tr-charts3,
+#abaTreinamentos .tr-charts-v52{
+  display:grid !important;
+  grid-template-columns:1fr 1fr !important;
+  gap:18px !important;
+  width:auto !important;
+}
+#abaTreinamentos .tr-chart-box{
+  min-width:0 !important;
+  padding:20px !important;
+}
+#abaTreinamentos .tr-chart-box > div:last-child{
+  min-height:300px !important;
+}
+#abaTreinamentos .tr-chart-box.tr-facility-chart-v56 > div:last-child{
+  height:320px !important;
+}
+
+#abaTreinamentos .tr-tab-row{
+  display:flex !important;
+  flex-wrap:wrap !important;
+  gap:6px !important;
+  width:auto !important;
+}
+#abaTreinamentos .tr-tab-btn{
+  width:auto !important;
+  min-width:auto !important;
+  text-align:center !important;
+  padding:10px 16px !important;
+}
+#abaTreinamentos .tr-tab-pane.active,
+#abaTreinamentos .tr-table-wrap{
+  width:auto !important;
+}
+#abaTreinamentos #trCardsGrid,
+#abaTreinamentos #trCursosGrid,
+#abaTreinamentos .tr-pendentes-grid{
+  width:auto !important;
+  gap:14px !important;
+}
+#abaTreinamentos #trCardsGrid{
+  grid-template-columns:repeat(auto-fill,minmax(320px,1fr)) !important;
+}
+#abaTreinamentos #trCursosGrid{
+  grid-template-columns:repeat(auto-fill,minmax(320px,1fr)) !important;
+}
+#abaTreinamentos .tr-pendentes-grid{
+  display:flex !important;
+  flex-direction:column !important;
+}
+
+@media(max-width:1100px){
+  #abaTreinamentos .tr-resumo-exec,
+  #abaTreinamentos .tr-charts,
+  #abaTreinamentos .tr-charts3,
+  #abaTreinamentos .tr-charts-v52{
+    grid-template-columns:1fr !important;
+  }
+}
+@media(max-width:760px){
+  #abaTreinamentos .tr-kpis-row,
+  #abaTreinamentos .tr-resumo-grid{
+    grid-template-columns:1fr !important;
+  }
+  #abaTreinamentos .tr-header{
+    padding:20px !important;
+  }
+}
+</style>
+
+<style id="eco-v64-treinamentos-sem-hint-graficos">
+#abaTreinamentos .tr-click-hint{
+  display:none !important;
+  visibility:hidden !important;
+  width:0 !important;
+  height:0 !important;
+  padding:0 !important;
+  margin:0 !important;
+  border:0 !important;
+  overflow:hidden !important;
+}
+</style>
+
+<script id="eco-treino-v64-compat-alias">
+window.aplicarFiltrosTreino = window.aplicarFiltrosTreino || function(){
+  if (typeof renderTreinamentos === 'function') renderTreinamentos();
+};
 </script>
 </body>
 </html>
