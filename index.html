@@ -12071,5 +12071,142 @@ window.aplicarFiltrosTreino = window.aplicarFiltrosTreino || function(){
   if (typeof renderTreinamentos === 'function') renderTreinamentos();
 };
 </script>
+
+
+<!-- ECO EXPRESS 360º - FIX FINAL: Excel da aba Treinamentos Drivers -->
+<script id="eco-fix-excel-treinamentos-drivers-v1">
+(function(){
+  function trToast(msg, color){
+    if (typeof showExportToast === 'function') {
+      showExportToast(msg, color || '#1b5e20', true);
+    } else {
+      alert(String(msg || '').replace(/[✅⚠️📥]/g, '').trim());
+    }
+  }
+
+  function trTodayFile(){
+    try { return new Date().toLocaleDateString('pt-BR').replace(/\//g, '-'); }
+    catch(e){ return 'hoje'; }
+  }
+
+  function trSafeFileName(s){
+    return String(s || 'Treinamentos')
+      .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^a-zA-Z0-9_-]+/g, '_')
+      .replace(/^_+|_+$/g, '') || 'Treinamentos';
+  }
+
+  function trGetDadosBase(){
+    if (typeof treinoFiltered !== 'undefined' && Array.isArray(treinoFiltered) && treinoFiltered.length) return treinoFiltered;
+    if (typeof dadosTreinoFiltered !== 'undefined' && Array.isArray(dadosTreinoFiltered) && dadosTreinoFiltered.length) return dadosTreinoFiltered;
+    if (typeof treinoData !== 'undefined' && Array.isArray(treinoData)) return treinoData;
+    if (typeof dadosTreino !== 'undefined' && Array.isArray(dadosTreino)) return dadosTreino;
+    return [];
+  }
+
+  function trNormStatusExport(d){
+    const st = String(d?.statusNorm || d?.status || d?.STATUS || '').toUpperCase();
+    if (st.includes('CONC') || st.includes('OK') || st.includes('SIM')) return 'CONCLUIDO';
+    if (st.includes('PEND') || st.includes('ABER') || st.includes('NAO') || st.includes('NÃO')) return 'PENDENTE';
+    return st || 'N/I';
+  }
+
+  function trGetExportRows(mode){
+    let data = trGetDadosBase().slice();
+    const activePendentes = document.querySelector('#trTabPendentes.tr-tab-pane.active');
+    if (mode === 'pendentes' || activePendentes) {
+      data = data.filter(function(d){ return trNormStatusExport(d) === 'PENDENTE'; });
+    }
+    return data.map(function(d){
+      return {
+        Driver: d.nome || d.motorista || d.driver || d.NOME || '',
+        DRIVER_ID: d.driver_id || d.driverId || d.DRIVER_ID || d.id || '',
+        MLP: d.mlp || d.MLP || '',
+        Regional: d.regional || d.REGIONAL || d.regionais || '',
+        Curso: d.curso || d.course_name || d.COURSE_NAME || d.CURSO || '',
+        Facility_SVC: d.facility || d.svc || d.SVC || d.FACILITY || '',
+        Progresso_Percentual: (d.progress != null ? d.progress : (d.progresso || d.COURSE_PROGRESS || '')),
+        Status: trNormStatusExport(d),
+        Primeira_Rota: d.primeira_rota || d.primeira || d.PRIMEIRA_ROTA || '',
+        Ultima_Rota: d.ultima_rota || d.ultima || d.ULTIMA_ROTA || ''
+      };
+    });
+  }
+
+  function trWriteWorkbook(rows, sheetName, fileName){
+    if (typeof XLSX === 'undefined' || !XLSX.utils) {
+      trToast('⚠️ Biblioteca XLSX não carregou. Atualize a página e tente novamente.', '#f57c00');
+      return;
+    }
+    if (!rows.length) {
+      trToast('⚠️ Nenhum dado para exportar com os filtros atuais.', '#f57c00');
+      return;
+    }
+    const wb = XLSX.utils.book_new();
+    const ws = XLSX.utils.json_to_sheet(rows);
+    XLSX.utils.book_append_sheet(wb, ws, String(sheetName || 'Treinamentos').slice(0, 31));
+    XLSX.writeFile(wb, trSafeFileName(fileName) + '_' + trTodayFile() + '.xlsx');
+    trToast('✅ Excel exportado!', '#1b5e20');
+  }
+
+  window.exportarTreinoExcel = function(mode){
+    const rows = trGetExportRows(mode);
+    const isPendentes = mode === 'pendentes' || document.querySelector('#trTabPendentes.tr-tab-pane.active');
+    trWriteWorkbook(rows, isPendentes ? 'Pendentes' : 'Treinamentos', isPendentes ? 'Treinamentos_Drivers_Pendentes' : 'Treinamentos_Drivers');
+  };
+
+  function trFindChart(chartId){
+    const keyMap = {
+      trChartCurso: 'curso',
+      trChartSVC: 'svc',
+      trChartTopPend: 'topPend',
+      trChartAder: 'ader',
+      trChartCursoAder: 'cursoAder',
+      trChartRegAder: 'regAder'
+    };
+    if (typeof treinoCharts !== 'undefined' && treinoCharts && treinoCharts[keyMap[chartId]]) return treinoCharts[keyMap[chartId]];
+    const canvas = document.getElementById(chartId);
+    if (canvas && typeof Chart !== 'undefined' && typeof Chart.getChart === 'function') return Chart.getChart(canvas) || null;
+    return null;
+  }
+
+  window.trExcelChart = function(chartId, fieldName, sheetName, tabName){
+    const chart = trFindChart(chartId);
+    if (!chart || !chart.data || !chart.data.labels || !chart.data.labels.length) {
+      trToast('⚠️ Carregue os dados antes de exportar este gráfico.', '#f57c00');
+      return;
+    }
+    const labels = chart.data.labels || [];
+    const datasets = chart.data.datasets || [];
+    const rows = labels.map(function(label, idx){
+      const row = {};
+      row[fieldName || 'Indicador'] = label;
+      datasets.forEach(function(ds, dsIndex){
+        const col = ds.label || ('Valor_' + (dsIndex + 1));
+        row[col] = Array.isArray(ds.data) ? ds.data[idx] : '';
+      });
+      return row;
+    });
+    trWriteWorkbook(rows, tabName || sheetName || 'Grafico', sheetName || tabName || 'Treinamento_Grafico');
+  };
+
+  window.excelTreinoTabela = function(){
+    window.exportarTreinoExcel('geral');
+  };
+
+  window.excelGraficoTreino = function(tipo){
+    const map = {
+      curso: ['trChartCurso', 'Curso', 'Treinamento_Curso', 'Por_Curso'],
+      svc: ['trChartSVC', 'Facility', 'Treinamento_SVC', 'Por_SVC'],
+      top: ['trChartTopPend', 'Driver', 'Treinamento_Top_Pendentes', 'Top_Pendentes'],
+      aderencia: ['trChartAder', 'Facility', 'Treinamento_Aderencia_Facility', 'Aderencia_Facility'],
+      cursoAder: ['trChartCursoAder', 'Curso', 'Treinamento_Aderencia_Curso', 'Aderencia_Curso'],
+      regAder: ['trChartRegAder', 'Regional', 'Treinamento_Aderencia_Regional', 'Aderencia_Regional']
+    };
+    const args = map[tipo];
+    if (args) window.trExcelChart.apply(window, args);
+  };
+})();
+</script>
 </body>
 </html>
